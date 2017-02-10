@@ -184,7 +184,7 @@ score       SUBJ_STUDENTS               0.1
 
 header      SUBJ_QUOTA_EXCEEDED         Subject =~ /Mailbox Quota Exceeded/i
 describe    SUBJ_QUOTA_EXCEEDED         Parte de una conocida cabecera SPAM
-score       SUBJ_QUOTA_EXCEEDED         0.2
+score       SUBJ_QUOTA_EXCEEDED         1.2
 
 header      SUBJ_ZIMBRA                 Subject =~ /zimbra/i
 describe    SUBJ_ZIMBRA                 Ni siquiere nosotros nos referimos a zimbra como zimbra
@@ -243,20 +243,262 @@ score       VT_RELLENAR_FORMULARIO_FULL 0.3
 
 ### Los PARA de los correos SPAM
 
-body        VT_ACTUALIZAR_CUENTA        /(upgrade|actualizar)\s(tu|su|la|your)\s(account|cuenta(\sde\scorreo)*|buz(o|ó|.)n|casilla|correo (electr(o|ó|.)nico)*)/i
+body        VT_ACTUALIZAR_CUENTA        /(upgrade|actuali(zar*|ce|zacion|zación))\s(tu|su|la|your)\s(account|cuenta(\sde\scorreo)*|buz(o|ó|.)n|casilla|correo (electr(o|ó|.)nico)*)/i
 describe    VT_ACTUALIZAR_CUENTA        Actualizar su cuenta
 score       VT_ACTUALIZAR_CUENTA        0.2
 
-body        VT_ACTUALIZAR_CUENTA_02     /(upgrade|actualizar)\s(tu|su|la|your)\s(buz(o|ó|.)n|casilla|cuenta)(\sde\scorreo)(\selectr(o|ó|.)nico)*/
+body        VT_ACTUALIZAR_CUENTA_02     /(upgrade|actuali(zar*|ce|zacion|zación))\s(tu|su|la|your)\s(buz(o|ó|.)n|casilla|cuenta)(\sde\scorreo)/
 describe    VT_ACTUALIZAR_CUENTA_02     Actualizar su cuenta de correo electrónico
 score       VT_ACTUALIZAR_CUENTA_02     0.3
 
-body        VT_ACTUALIZAR_CUENTA_FULL   /(upgrade|actualizar)\s(tu|su|la|your)\s(buz(o|ó|.)n|casilla|cuenta)(\sde\scorreo)\s(electr(o|ó|.)nico)/
+body        VT_ACTUALIZAR_CUENTA_FULL   /(upgrade|actuali(zar*|ce|zacion|zación))\s(tu|su|la|your)\s(buz(o|ó|.)n|casilla|cuenta)(\sde\scorreo)\s(electr(o|ó|.)nico)/
 describe    VT_ACTUALIZAR_CUENTA_FULL   Actualizar su cuenta de correo electrónico
 score       VT_ACTUALIZAR_CUENTA_FULL   0.5
 
 ### Fin de los PARA 
 
+### Las SUGERENCIAS en contra de los usuarios
+
+# Pese a su poco contexto, es afortunada la frase 
+body        VT_NECESITA_ACTUALIZAR      /(necesitas*|requiere|considere|debe|tiene\sque)\s((re-)*valid|renov|confirm|verific|actualiz)ar/i
+describe    VT_NECESITA_ACTUALIZAR      Sugiere u Ordena actualizar
+score       VT_NECESITA_ACTUALIZAR      0.3
+
+### Fin de las SUGERENCIAS
+
+### Las AMENAZAS en contra de los usuarios
+
+body        VT_SUSPENSION_CUENTA        /(eliminac|suspen(s|c)|cancelac|eliminac|desconex)i(o|ó|.)n\s(del*|su|tu)\s((su|la)\s)*(cuenta|buz(o|ó|.)n|casilla)/i
+describe    VT_SUSPENSION_CUENTA        Suspensión de su cuenta
+score       VT_SUSPENSION_CUENTA        0.3
+
+body        VT_SUSPENDERAN_CUENTA       /(suspende|perde|cancela|elimina|desconecta)(r(á|a|.+)n*)\s(del*|su|tu)\s((su|la)\s)*(cuenta|buz(o|ó|.)n|casilla)/i
+describe    VT_SUSPENDERAN_CUENTA       Perderán su cuenta
+score       VT_SUSPENDERAN_CUENTA       0.3
+
+body        __VT_BASE_DATOS             /base\sde\sdatos/i
+describe    __VT_BASE_DATOS             Menciona base de datos. 
+
+body        __VT_FALSO_BORRADO          /(desconexi|cancelaci|supensi)(o|ó|&oacute;)n|suspend(ida|er)|(cerra|elimina|clausura|borra|prohibi)d(a|o)/i
+describe    __VT_FALSO_BORRADO          Menciona que su correo será suspenida, cerrada, clausura, borrado
+
+# Este puede ser tanto peligroso en muchos sentidos, aún dentro de un contexto superior
+# Por tanto, VT_USUARIO_CORREO le da un contexto bien definido
+meta        VT_BORRADO_BASE_DATOS       (VT_USUARIO_CORREO && __VT_BASE_DATOS && __VT_FALSO_BORRADO)
+describe    VT_BORRADO_BASE_DATOS       Amenaza con borrar de la base de datos, es decir, del sistema de correos
+score       VT_BORRADO_BASE_DATOS       0.1
+
+# Agrego las formas en que amenazan a los usuarios
+meta        __VT_BORRADO_CUENTA         (VT_SUSPENSION_CUENTA || VT_SUSPENDERAN_CUENTA || VT_BORRADO_BASE_DATOS)
+describe    __VT_BORRADO_CUENTA         Algunas formas de referir la mayor amenaza: Borrado de cuenta
+
+meta        VT_BORRADO_CNTA_PERMANEN    (__VT_BORRADO_CUENTA && __FALSO_PERMANENTE)
+describe    VT_BORRADO_CNTA_PERMANEN    Menciona algo sobre un bloqueo permanente en (cuenta|buzon)
+score       VT_BORRADO_CNTA_PERMANEN    0.2
+
+meta        VT_BORRADO_CNTA_ADMIN       (__VT_BORRADO_CUENTA && AUTORIDAD_CORREO)
+describe    VT_BORRADO_CNTA_ADMIN       Administrador bloquea tal cosa
+score       VT_BORRADO_CNTA_ADMIN       0.2
+
+### Fin de AMENAZAS
+
+### FIRMAS DE CONTENIDO para correos SPAM
+meta        VTE_LIMITE_SIZE             (VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+describe    VTE_LIMITE_SIZE             Conocida firma spammer
+score       VTE_LIMITE_SIZE             1.2
+
+meta        VTE_LIMITE_SIZE_ADV         (VTE_ACCOUNT_LIMIT_ADV && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+describe    VTE_LIMITE_SIZE_ADV         Conocida firma spammer más específica
+score       VTE_LIMITE_SIZE_ADV         1.8
+
+# Es una de las primeras con mayor puntaje. Este debe ser el pivote y ejemplo para más reglas. TODO: Actualizar enlace
+meta        VT_ACTUAL_POR_FORM          (VT_ACTUALIZAR_CUENTA && VT_RELLENAR_FORMULARIO)
+describe    VT_ACTUAL_POR_FORM          Deber actualizar su cuenta rellenando un formulario
+score       VT_ACTUAL_POR_FORM          0.6
+
+meta        VT_ACTUAL_POR_CLICK         (VT_ACTUALIZAR_CUENTA && VT_HACER_CLICK)
+describe    VT_ACTUAL_POR_CLICK         Actualización de cuenta con un click. 
+score       VT_ACTUAL_POR_CLICK         0.2
+
+meta        VT_ACTUAL_POR_CLICK_ADV     (VT_ACTUALIZAR_CUENTA && VT_HACER_CLICK_ENLACE)
+describe    VT_ACTUAL_POR_CLICK_ADV     Actualización de cuenta con un click. 
+score       VT_ACTUAL_POR_CLICK_ADV     0.3
+
+meta        VT_ACTUAL_O_SUSPEN          ((VT_ACTUALIZAR_CUENTA|| VT_VALIDAR_CUENTA) && __VT_BORRADO_CUENTA)
+describe    VT_ACTUAL_O_SUSPEN          Actualizar cuenta, de lo contrario suspensión o bloqueo
+score       VT_ACTUAL_O_SUSPEN          0.4
+
+meta        VT_ACTUAL_O_SUSPEN_ADV      (VT_ACTUAL_O_SUSPEN && __FALSO_INMEDIATEZ)
+describe    VT_ACTUAL_O_SUSPEN_ADV      Actualizar cuenta, de lo contrario suspensión o bloqueo
+score       VT_ACTUAL_O_SUSPEN_ADV      0.4
+
+body        __VT_LIMITE_CUOTA           /(l(.*)mite|buzones)(\sdel*)*(\sla)*\s(establecido|almacenamiento|storage|repositorio|(q|c)uota)/i
+describe    __VT_LIMITE_CUOTA           Límite de la cuota
+
+body        __VT_LIMITE_ESPACIO_DEF     /([0-9]+(\s|\.|\,)*)+(\s*(k|m|g)b)*(\sde)*\s(cuota|buzones|definidos)/i
+describe    __VT_LIMITE_ESPACIO_DEF     456 buzones definidos
+
+meta        VT_LIMITE_CUOTA             (__VT_LIMITE_CUOTA || __VT_LIMITE_ESPACIO_DEF)
+describe    VT_LIMITE_CUOTA             Se refiere a su limite de cuota
+score       VT_LIMITE_CUOTA             0.3
+
+meta        VT_LIMIT_CUOT_VALIDAR       (VT_LIMITE_CUOTA && VT_VALIDAR_CUENTA)
+describe    VT_LIMIT_CUOT_VALIDAR       Es necesario (re-)validar la cuenta por haber alcanzado limite cuota
+score       VT_LIMIT_CUOT_VALIDAR       0.5
+
+# TODO: Esta bien así, revisar todas aquellas reglas donde aparezca
+meta        AUTORIDAD_CORREO            (__FALSO_WEBMASTER || __FALSO_ADMINISTRADOR )
+describe    AUTORIDAD_CORREO            Se menciona a si mismo como una especie de autoridad respecto al servicio de correo
+score       AUTORIDAD_CORREO            0.1
+
+meta        LIMIT_CUOT_VALIDAR_ADMIN    (VT_LIMIT_CUOT_VALIDAR && AUTORIDAD_CORREO)
+describe    LIMIT_CUOT_VALIDAR_ADMIN    Es necesario (re-)validar la cuenta por haber alcanzado limite cuota, dice Autoridad
+score       LIMIT_CUOT_VALIDAR_ADMIN    0.4
+
+# Poco contexto
+body        VT_CORREO_ELECTRONICO       /(correo|mensaje)\selectr(o|ó|.)nic(a|o)/i
+describe    VT_CORREO_ELECTRONICO       Correo electrónico
+score       VT_CORREO_ELECTRONICO       0.1
+
+# Tienen poco contexto en realidad
+body        VT_DIRECCION_CORREO         /((direcci|buz)(o|ó|.)n|cuenta|casilla)\sde\scorreo/i
+describe    VT_DIRECCION_CORREO         Dirección de correo
+score       VT_DIRECCION_CORREO         0.1
+
+# Tienen poco contexto en realidad
+body        VT_DIRECCION_ELECTRONICA    /((direcci|buz)(o|ó|.)n|cuenta|casilla)\selectr(o|ó|.)nica/i
+describe    VT_DIRECCION_ELECTRONICA    Dirección electrónica
+score       VT_DIRECCION_ELECTRONICA    0.1
+
+# Tienen poco contexto en realidad
+body        VT_DIRECCION_CORREO_ELECTR  /((direcci|buz)(o|ó|.)n|cuenta|casilla)\sde\scorreo\selectr(o|ó|.)nica/i
+describe    VT_DIRECCION_CORREO_ELECTR  Dirección electrónica
+score       VT_DIRECCION_CORREO_ELECTR  0.2
+
+# Tienen poco contexto en realidad
+body        VT_CORREO_BASURA            /(spam|(correo|mensaje)\sbasura)/i
+describe    VT_CORREO_BASURA            Correo basura
+score       VT_CORREO_BASURA            0.1
+
+# Contexto poco inofensivo por si mismo.
+body        VT_BANDEJA_DE_SPAM          /(carpeta|bandeja)s*(\sde)*\s(spam|(correo\s)*basura)/i
+describe    VT_BANDEJA_DE_SPAM          Bandeja de spam
+score       VT_BANDEJA_DE_SPAM          0.2
+
+# Contexto poco inofensivo por si mismo
+body        VT_BANDEJA_DE_ENTRADA       /(carpeta|bandeja)s*(\sde)*\s(entrada|correo|principal)/i
+describe    VT_BANDEJA_DE_ENTRADA       Bandeja de entrada
+score       VT_BANDEJA_DE_ENTRADA       0.2
+
+body        __VT_MOVER                  /(mu(e|é|.+)valo|mover)/
+describe    __VT_MOVER                  Mover
+
+# Es increíble lo mucho que esta frase empieza a significar. TODO: Crear reglas avanzadas con contenido avanzado
+body        VT_VALIDAR_CUENTA           /((re-)*valid|renov|activ|verific|confirm)ar\s(su|el|la)\s((direcci|buz)(o|ó|.+)n|cuenta|casilla|correo)/i
+describe    VT_VALIDAR_CUENTA           Validar cuenta
+score       VT_VALIDAR_CUENTA           0.4
+
+body        VTE_VALIDAR_CUENTA          /((re-)*validate|verify|)\syour\saccount/i
+describe    VTE_VALIDAR_CUENTA          Validar cuenta
+score       VTE_VALIDAR_CUENTA          0.8
+
+meta        VT_SPAM_A_BANDEJA           (VT_CORREO_ELECTRONICO && VT_BANDEJA_DE_SPAM && VT_BANDEJA_DE_ENTRADA)
+describe    VT_SPAM_A_BANDEJA           Podría sugerir mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA           0.3
+
+meta        VT_SPAM_A_BANDEJA_ADV       (VT_SPAM_A_BANDEJA && __VT_MOVER)
+describe    VT_SPAM_A_BANDEJA_ADV       Sugiere mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA_ADV       0.3
+
+meta        VT_ACTUALIZAR_FORM          (VT_RELLENAR_FORMULARIO && VT_ACTUALIZAR_CUENTA)
+describe    VT_ACTUALIZAR_FORM          Sugiere usar un formulario para actualizar cuenta
+score       VT_ACTUALIZAR_FORM          0.5
+
+meta        VT_ACTUALIZAR_FORM_FULL     (VT_RELLENAR_FORMULARIO_FULL && VT_ACTUALIZAR_CUENTA_02)
+describe    VT_ACTUALIZAR_FORM_FULL     Sugiere usar un formulario para actualizar cuenta. Firma de contenido conocido SPAM
+score       VT_ACTUALIZAR_FORM_FULL     0.9
+
+body        VT_PLAZO_DE_HORAS           /((plazo|dentro)\sde|en)\s(24|36|48)\s*(horas|hours)/i
+describe    VT_PLAZO_DE_HORAS           Tal plazo a vencer
+score       VT_PLAZO_DE_HORAS           0.3
+
+body        VT_PLAZO_DE_DIAS            /((plazo|dentro)\sde|en)\s*(un|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\sd(i|í|.)as*/i
+describe    VT_PLAZO_DE_DIAS            Tal plazo a vencer
+score       VT_PLAZO_DE_DIAS            0.3
+
+# Poco contexto por si mismo
+body        __VT_CLICK                  /\sclick*\s/i
+describe    __VT_CLICK                  Click, en sus formas más precisas
+
+# Poco contexto por si mismo
+body        VT_HACER_CLICK              /ha(ga|cer)\sclick*\s/i
+describe    VT_HACER_CLICK              Haga click
+score       VT_HACER_CLICK              0.1
+
+# Poco contexto por si mismo
+body        VT_HACER_CLICK_ENLACE       /ha(ga|cer)\sclick*\s(aqu(i|í|.+)|(en\s)*((el|la)\s)*(siguiente\s)*)(enlace|URL|link)/i
+describe    VT_HACER_CLICK_ENLACE       Haga click en el siguiente enlace
+score       VT_HACER_CLICK_ENLACE       0.2
+
+# Excepto en Inglés, en inglé si lo tiene
+
+body        __VTE_HACER_CLICK_ENLACE_01    /please\sclick*\:/i
+describe    __VTE_HACER_CLICK_ENLACE_01    Porfavor, clic
+
+body        __VTE_HACER_CLICK_ENLACE_02      /click*(\s(on|in))*(\sthe)*\s(link|URL)/i
+describe    __VTE_HACER_CLICK_ENLACE_02      click on the link
+
+meta        VTE_HACER_CLICK_ENLACE      (__VTE_HACER_CLICK_ENLACE_01 || __VTE_HACER_CLICK_ENLACE_02)
+describe    VTE_HACER_CLICK_ENLACE      Sugiere hacer click
+score       VTE_HACER_CLICK_ENLACE      0.9
+
+body        __VT_USUARIO_CORREO_01      /(\scuenta)(\sde)*\s(usuarios*|correo)/
+describe    __VT_USUARIO_CORREO_01      Cuenta de usuario
+
+body        __VT_USUARIO_CORREO_02      /usuarios*(\sde)*\s(correo|webmail|servidor|Zimbra)/
+describe    __VT_USUARIO_CORREO_02      Usuarios de correo
+
+meta        VT_USUARIO_CORREO           (__VT_USUARIO_CORREO_01 || __VT_USUARIO_CORREO_02)
+describe    VT_USUARIO_CORREO           Se dirige a él como usuario de correo
+score       VT_USUARIO_CORREO           0.1
+
+### Fin de FIRMAS DE CONTENIDO
+
+### FIRMAS COMPORTAMENTALES para correos SPAM
+
+meta        VT_ACT_FORM_FULL_MINSAL     (VT_ACTUALIZAR_FORM_FULL && FROM_MINSAL_INVALIDO)
+describe    VT_ACT_FORM_FULL_MINSAL     Sugiere un formulario para actualizar cuenta, se hace pasar por Minsal. Firma comportamental para conocido SPAM
+score       VT_ACT_FORM_FULL_MINSAL     2.0
+
+### Fin de FIRMAS COMPORTAMENTALES 
+
+### Las RAZONES que se le dan al usuario
+body        __VT_SUPERA                /ha\s(excedido|superado|alcanzado)/
+describe    __VT_SUPERA                Ha superado
+
+body        VT_SUPERA_ADV               /(ha\s)*(excedido|excedido|(super|alcanz)(ado|(.+)))(\sel)*\s(repositorio|l(.+)mite)/i 
+describe    VT_SUPERA_ADV               Ha superado el límite
+score       VT_SUPERA_ADV               0.2
+
+body        VTE_ACCOUNT_SIZE            /(account|quota|mailbox)\s(size|limit)/i
+describe    VTE_ACCOUNT_SIZE            Account size
+score       VTE_ACCOUNT_SIZE            0.9
+
+body        __VTE_ACCOUNT_LIMIT_01      /has\sexceeded(\sit)*\squota/i
+describe    __VTE_ACCOUNT_LIMIT_01      Excedido cuota
+
+body        __VTE_ACCOUNT_LIMIT_02      /has\s(reached|exceeded)\s([0-9]+(,|\.|\s)*)+/i
+describe    __VTE_ACCOUNT_LIMIT_02      Excedido cuota
+
+meta        VTE_ACCOUNT_LIMIT           (__VTE_ACCOUNT_LIMIT_01 || __VTE_ACCOUNT_LIMIT_02)
+describe    VTE_ACCOUNT_LIMIT           Limite alcanzado por la cuenta
+score       VTE_ACCOUNT_LIMIT           0.9
+
+body        VTE_ACCOUNT_LIMIT_ADV       /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
+describe    VTE_ACCOUNT_LIMIT_ADV       Limite alcanzado por la cuenta en unidad de medida
+score       VTE_ACCOUNT_LIMIT_ADV       0.9 
+
+### Fin de las RAZONES
 body        __FALSO_REVISAR             /revisar|consultar|consulte/i
 describe    __FALSO_REVISAR             Menciona revisar el fichero adjunto
 
@@ -277,9 +519,6 @@ describe    __FALSO_INMEDIATEZ          Urge a actualizar cuenta
 
 body        __FALSO_DISCULPA            /disculpa|disculpamos/i
 describe    __FALSO_DISCULPA            Se disculpa por la pérfida intención
-
-body        __FALSO_ACTUALIZACION       /actualizar|upgrade|update|actualizaci(o|ó)n/i
-describe    __FALSO_ACTUALIZACION       Ordena actulizar los datos de su cuenta
 
 body        __FALSO_ADJUNTO             /adjunto/i
 describe    __FALSO_ADJUNTO             Menciona un fichero que ha traído adjunto
@@ -305,37 +544,10 @@ describe    __FALSO_AMANTE              "Amante que sueña"
 body        __FALSO_SONADOR             /so(ña|na|\w+)dor/i
 describe    __FALSO_SONADOR             Parte de "Soñador que ama"
 
-body        __FALSO_BASE                /base/i
-describe    __FALSO_BASE                Para conjugar con base de datos
-
-body        __FALSO_DATOS               /datos/i
-describe    __FALSO_DATOS               Para conjugar con base de datos
-
-body        __FALSO_SPAM                /basura|spam/i
-describe    __FALSO_SPAM                Menciona su carpeta de Spam o Correo basura
-
-body        __FALSO_BANDEJA             /bandeja|carpeta|carpetas/i
-describe    __FALSO_BANDEJA             Menciona a la bandeja de entrada
-
-body        __FALSO_ENTRADA             /entrada|principal/i
-describe    __FALSO_ENTRADA             Menciona a la bandeja de entrada
-
 body        __FALSO_EVITAR              /avoid|evitar/i
 describe    __FALSO_EVITAR              Le sugiere "evitar" tal o tal cosa
 
-body        __FALSO_ACCION              /hacer|haga|haciendo|completar|verify|llene|rellene/i
-describe    __FALSO_ACCION              Sugiere que una acción debe ser realizada
-
-body        __FALSO_VERIFICAR           /activar|verificar|confirmar/i
-describe    __FALSO_VERIFICAR           Sugiere precisamente verificar la cuenta
-
-body        __FALSO_NECESITA            /necesitas|necesita|considerada|considere|must/i
-describe    __FALSO_NECESITA            Sugiere que una acción debe ser hecha
-
-body        __FALSO_STORAGE             /storage|almacenamiento/i
-describe    __FALSO_STORAGE             Habla sobre su almacenamiento
-
-body        __FALSO_PERMANENTE          /permanente|permanentemente|indefinido/i
+body        __FALSO_PERMANENTE          /permanente|permanentemente|indefinido|definitivo/i
 describe    __FALSO_PERMANENTE          Menciona permanentemente, permanente, indefinido respecto al bloqueo de una cuenta
 
 body        __FALSO_NOMBRE              /nombre|apellidos/i
@@ -371,9 +583,6 @@ describe    __FALSO_LOTERIA             Lotería, a esta altura de la vida
 body        __FALSO_GANADOR             /ganador|laur.at|winners/i
 describe    __FALSO_GANADOR             Le nombra como ganador de algo
 
-body        __FALSO_CLICK               /click|clic/i
-describe    __FALSO_CLICK               Posiblemente ordena o sugiere al usuario hacer click en algún enlace
-
 body        __FALSO_SERVICIOS           /servicios|servicio|service/i
 describe    __FALSO_SERVICIOS           Menciona algo como Servicios de correo
 
@@ -396,26 +605,11 @@ describe    __FALSO_ZIMBRA              Alguien menciona a zimbra con posible in
 body        __FALSO_MANTENIMIENTO       /mantenimiento/i
 describe    __FALSO_MANTENIMIENTO       Usado como motivo para un correo en particular
 
-body        __FALSO_TAMANIO             /size|tamaño/i
-describe    __FALSO_TAMANIO             Quieren hablar sobre tamaño de buzón
-
-body        __FALSO_LIMITE              /l(i|i|.)mite|superado|has exceeded|limit/i
-describe    __FALSO_LIMITE              Le habla sobre alcanzar limite
-
-body        __FALSO_CUOTA               /cuota|quota/i
-describe    __FALSO_CUOTA               Quiere hablar sobre la cuota del buzón
-
 body        __FALSO_ACTIVIDAD           /actividad|activity/i
 describe    __FALSO_ACTIVIDAD           Quiere decir "actividad sospechosa"
 
 body        __FALSO_SOSPECHA            /irregular|sospechosa/i
 describe    __FALSO_SOSPECHA            Quiere decir "actividad sospechosa"
-
-body        __FALSO_DIRECCION           /direcci(ó|o)n/i
-describe    __FALSO_DIRECCION           Menciona dirección en sentido de dirección electrónica
-
-body        __FALSO_ELECTRONICA         /electr(o|ó)nic(a|o)/i
-describe    __FALSO_ELECTRONICA         Menciona dirección en sentido de dirección electrónica
 
 body        __FALSO_CUENTA              /cuenta|casilla|cuentas|account/i
 describe    __FALSO_CUENTA              Se refiere a <<cuenta>> en sentido de buzón electrónico
@@ -423,23 +617,8 @@ describe    __FALSO_CUENTA              Se refiere a <<cuenta>> en sentido de bu
 body        __FALSO_BUZON               /buzon|buzón|buzones/i
 describe    __FALSO_BUZON               Alguien le habla sobre su buzon
 
-body        __FALSO_SUSPENSION          /be able|acceso limitado|desconexi(o|ó)n|perder|cancelaci(o|ó|&oacute;)n|suspensi(o|ó)n|suspendida|suspender|cerrad(a|o)|eliminad(a|o)|clausura|borrad(a|o)/i
-describe    __FALSO_SUSPENSION          Menciona que su correo será suspenida, cerrada, clausura, borrado
-
-body        __FALSO_INACTIVO            /inactivo|inactiva|inactivas|inactivos/i
-describe    __FALSO_INACTIVO            Se refiere a cuenta inactiva
-
-body        __FALSO_BLOQUEO             /bloqueo|bloqueado|suspendid(o|a)|bloqueada|desconexi.n|prohibida/
-describe    __FALSO_BLOQUEO             Menciona una acción falsa tomada por un administrador falso
-
 body        __FALSO_USUARIO             /usuario|usuarios|username/i
 describe    __FALSO_USUARIO             Alguien le habla como si a un usuario se tratase
-
-body        __FALSO_VALIDACION          /\bvalidar\b|re-validate|validate/i
-describe    __FALSO_VALIDACION          Le sugiere validar
-
-body        __FALSO_FORMULARIO          /\b(formulario|form)\b/i
-describe    __FALSO_FORMULARIO          Justo para decir "(Re)llene formulario
 
 body        __FALSO_FINANCIERA          /financiera/i
 describe    __FALSO_FINANCIERA          A punto de referirse a "Institucion Financiera" 
@@ -456,12 +635,6 @@ describe    __FALSO_ANTIVIRUS           Como si el antivirus ha sido verificado
 body        __FALSO_SOPHOS              /sophos/i
 describe    __FALSO_SOPHOS              Quiere involucrar a sophos en esto para darme mayor legitimidad
 
-body        __FALSO_CONTEO_LIMITE       /\b(uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b|(24|36|48)/i
-describe    __FALSO_CONTEO_LIMITE       Le da un plazo en forma de un par de días
-
-body        __FALSO_PLAZO               /plazo|dentro de/i
-describe    __FALSO_PLAZO               Le menciona que un plazo esta a punto de vencer
-
 body        __FALSO_VERSION             /versi(o|ó)n/i
 describe    __FALSO_VERSION             Menciona algo como la versión de nuestros servicios
 
@@ -473,19 +646,10 @@ describe    __FALSO_DURADERO            Menciona una nueva versión como más du
 
 body        __FALSO_CORREO              /correo/i
 describe    __FALSO_CORREO              Menciona al usuario su cuenta de correo electrónico
-score       __FALSO_CORREO              0.1
 
 meta        FROM_SIGNOS_TOO_SHORT           (FROM_SIGNOS && FROM_TOO_SHORT_SENDER)
 describe    FROM_SIGNOS_TOO_SHORT           En menos de tres caracteres, hay un signo especial
 score       FROM_SIGNOS_TOO_SHORT           0.9
-
-meta        VERIFICAR_CUENTA                (__FALSO_VERIFICAR && (__FALSO_CUENTA || __FALSO_BUZON))
-describe    VERIFICAR_CUENTA                Pide que se verifique (Cuenta|buzon)
-score       VERIFICAR_CUENTA                0.2
-
-meta        VERIFICAR_CUENTA_SERVICIO       (VERIFICAR_CUENTA && SERVICIO_CORREO)
-describe    VERIFICAR_CUENTA_SERVICIO       Verificar cuenta de correo de su servicio de correo
-score       VERIFICAR_CUENTA_SERVICIO       0.4
 
 meta        VERIFICADO_SOPHOS               (__FALSO_VERIFICADO && __FALSO_SOPHOS)
 describe    VERIFICADO_SOPHOS               Nos hace suponer que sophos ha verificado este correo
@@ -495,77 +659,17 @@ meta        VERIFICADO_ANTIVIRUS            (__FALSO_VERIFICADO && __FALSO_ANTIV
 describe    VERIFICADO_ANTIVIRUS            Nos hace suponer que un antivirus ha verificado este antivirus
 score       VERIFICADO_ANTIVIRUS            0.2
 
-meta        CUENTA_ALMACENAMIENTO           ((__FALSO_CUENTA || __FALSO_BUZON) && __FALSO_STORAGE)
-describe    CUENTA_ALMACENAMIENTO           Habla sobre el almacenamiento que su (cuenta|buzon) tiene
-score       CUENTA_ALMACENAMIENTO           0.2
-
-meta        AUTORIDAD_SUSPENDE_CUENTA       (AUTORIDAD_CORREO && CUENTA_SUSPENDIDA)
-describe    AUTORIDAD_SUSPENDE_CUENTA       Una autoridad del correo amenaza con cerrar la cuenta
-score       AUTORIDAD_SUSPENDE_CUENTA       0.4
-
 meta        ENVIADO_MENSAJE                 (__FALSO_ENVIO && __FALSO_MENSAJE)
 describe    ENVIADO_MENSAJE                 Provee de soltura a ciertos mensajes spam 
 score       ENVIADO_MENSAJE                 0.2
 
-meta        AUTORIDAD_CORREO                (__FALSO_WEBMASTER || __FALSO_ADMINISTRADOR )
-describe    AUTORIDAD_CORREO                Se menciona a si mismo como una especie de autoridad respecto al servicio de correo
-score       AUTORIDAD_CORREO                0.1
-
-meta        MEJOR_VERSION                   (__FALSO_VERSION && (__FALSO_SEGURA || __FALSO_DURADERO))
-describe    MEJOR_VERSION                   Específica que la nueva versión del correo es más segura de alguna forma
-score       MEJOR_VERSION                   0.2
-
-meta        MEJOR_VERSION_CORREO            (MEJOR_VERSION && (__FALSO_BUZON || __FALSO_CUENTA))
-describe    MEJOR_VERSION_CORREO            Especifica una nueva versión del correo
-score       MEJOR_VERSION_CORREO            0.2
-
-meta        LLENE_FORMULARIO                (__FALSO_ACCION && __FALSO_FORMULARIO)
-describe    LLENE_FORMULARIO                Le pide (re)llenar un formulario
-score       LLENE_FORMULARIO                0.2
-
-meta        FORMULARIO_ADJUNTO              (__FALSO_FORMULARIO && (__FALSO_ENLACE || __FALSO_ADJUNTO))
-describe    FORMULARIO_ADJUNTO              Existe un formulario asociado a este correo
-score       FORMULARIO_ADJUNTO              0.2
-
-meta        LLENE_FORMULARIO_ADJUNTO        (LLENE_FORMULARIO && (__FALSO_ENLACE || __FALSO_ADJUNTO))
-describe    LLENE_FORMULARIO_ADJUNTO        Le pide (re)llenar un formulario adjunto
-score       LLENE_FORMULARIO_ADJUNTO        0.2
-
-meta        REALIZAR_ACTUALIZACION          (__FALSO_ACCION && __FALSO_ACTUALIZACION)
-describe    REALIZAR_ACTUALIZACION          Insta a realizar actualizacion
-score       REALIZAR_ACTUALIZACION          0.2
-
-meta        ACTUALIZAR_BUZON                (__FALSO_ACTUALIZACION && (__FALSO_BUZON || __FALSO_CUENTA))
-describe    ACTUALIZAR_BUZON                Actualizacion de buzón o cuenta
-score       ACTUALIZAR_BUZON                0.2
-
-meta        ACTUALIZAR_BUZON_CLICK          (ACTUALIZAR_BUZON && __FALSO_CLICK)
-describe    ACTUALIZAR_BUZON_CLICK          Actualización de cuenta con un click. 
-score       ACTUALIZAR_BUZON_CLICK          0.3
-
-meta        ACTUALIZAR_BUZON_FORMULARIO     (ACTUALIZAR_BUZON && LLENE_FORMULARIO)
-describe    ACTUALIZAR_BUZON_FORMULARIO     Le pide llenar un formulario para actualizar la cuenta
-score       ACTUALIZAR_BUZON_FORMULARIO     0.4
-
-meta        ACTUALIZAR_CONTRA_SUSPENSION    (__FALSO_ACTUALIZACION && (__FALSO_BLOQUEO || __FALSO_SUSPENSION || __FALSO_INACTIVO))
-describe    ACTUALIZAR_CONTRA_SUSPENSION    Actualizar cuenta, de lo contrario suspensión o bloqueo
-score       ACTUALIZAR_CONTRA_SUSPENSION    0.2
-
-meta        ACTUALIZAR_CONTRA_SUSPEN_INM    (ACTUALIZAR_CONTRA_SUSPENSION && __FALSO_INMEDIATEZ)
-describe    ACTUALIZAR_CONTRA_SUSPEN_INM    Actualizar cuenta, de lo contrario suspensión o bloqueo
-score       ACTUALIZAR_CONTRA_SUSPEN_INM    0.3
-
-meta        ACTUALIZAR_BUZON_CONTR_SUSPE    (ACTUALIZAR_BUZON && (__FALSO_BLOQUEO || __FALSO_SUSPENSION || __FALSO_INACTIVO))
-describe    ACTUALIZAR_BUZON_CONTR_SUSPE    Actualizar cuenta, de lo contrario suspensión o bloqueo
-score       ACTUALIZAR_BUZON_CONTR_SUSPE    0.3
+meta        VERIFICAR_CUENTA_SERVICIO       (VT_VALIDAR_CUENTA && SERVICIO_CORREO)
+describe    VERIFICAR_CUENTA_SERVICIO       Verificar cuenta de correo de su servicio de correo
+score       VERIFICAR_CUENTA_SERVICIO       0.4
 
 meta        ESTIMADO_USUARIO_CORREO         (SUBJ_ESTIMADO_USUARIO && SUBJ_CORREO_ELECTRONICO)
 describe    ESTIMADO_USUARIO_CORREO         Conocida cabecera antispam
 score       ESTIMADO_USUARIO_CORREO         0.9
-
-meta        TAMANIO_CUENTA                  ((__FALSO_CUENTA || __FALSO_BUZON) && __FALSO_TAMANIO)
-describe    TAMANIO_CUENTA                  Ha dicho "Tamaño de la cuenta"
-score       TAMANIO_CUENTA                  0.2
 
 meta        ACTIVIDAD_SOSPECHOSA            (__FALSO_ACTIVIDAD && __FALSO_SOSPECHA)
 describe    ACTIVIDAD_SOSPECHOSA            Ha dicho "actividad sospechosa"
@@ -575,29 +679,9 @@ meta        ACTIVIDAD_SOSPECHOSA_BAYES_50   (ACTIVIDAD_SOSPECHOSA && BAYES_50)
 describe    ACTIVIDAD_SOSPECHOSA_BAYES_50   Ha dicho "actividad sospechosa en un correo con sospecha de ser spam
 score       ACTIVIDAD_SOSPECHOSA_BAYES_50   0.6
 
-meta        LIMITE_CUOTA                    (__FALSO_LIMITE && (__FALSO_CUOTA|| __FALSO_STORAGE))
-describe    LIMITE_CUOTA                    Esta a punto de referirse a limite de la cuenta
-score       LIMITE_CUOTA                    0.2
-
-meta        EVITAR_BLOQUEO                  (__FALSO_EVITAR && __FALSO_BLOQUEO)
+meta        EVITAR_BLOQUEO                  (__FALSO_EVITAR && __VT_FALSO_BORRADO)
 describe    EVITAR_BLOQUEO                  Dice "Evitar Bloqueo"
 score       EVITAR_BLOQUEO                  0.2
-
-meta        LIMITE_CUOTA_BUZON              (LIMITE_CUOTA && (__FALSO_BUZON || __FALSO_CUENTA))
-describe    LIMITE_CUOTA_BUZON              Esta a punto de referirse a limite de la cuenta
-score       LIMITE_CUOTA_BUZON              0.2
-
-meta        LIMITE_CUOTA_VALIDACION         (LIMITE_CUOTA && VALIDACION_CUENTA)
-describe    LIMITE_CUOTA_VALIDACION         Es necesario (re-)validar la cuenta por haber alcanzado limite cuota
-score       LIMITE_CUOTA_VALIDACION         0.4
-
-meta        LIMITE_CUOTA_VALIDACION_ADMIN   (LIMITE_CUOTA_VALIDACION && AUTORIDAD_CORREO)
-describe    LIMITE_CUOTA_VALIDACION_ADMIN   Es necesario (re-)validar la cuenta por haber alcanzado limite cuota, dice Autoridad
-score       LIMITE_CUOTA_VALIDACION_ADMIN   0.4
-
-meta        VALIDACION_CUENTA               (__FALSO_VALIDACION && (__FALSO_CUENTA || __FALSO_BUZON))
-describe    VALIDACION_CUENTA               Es necesario (re-)validar la cuenta o buzon
-score       VALIDACION_CUENTA               0.2
 
 meta        WEBMAIL_ZIMBRA                  (__FALSO_WEBMAIL && __FALSO_ZIMBRA)
 describe    WEBMAIL_ZIMBRA                  Habla sobre un webmail zimbra. Ni siquiera nosotros nos referimos así a ellos
@@ -649,7 +733,6 @@ meta        SOLICITUD_DATOS_UP              (__FALSO_ENVIO && __DATOS_UP)
 describe    SOLICITUD_DATOS_UP              Pide al usuario enviar Usuario, Password 
 score       SOLICITUD_DATOS_UP              0.2
 
-# TODO. Este estuvo a 2.5 por mucho tiempo, no es tan mala idea
 meta        PETICION_DATOS                  (AUTORIDAD_CORREO && __FALSO_PASSWD && __FALSO_CUENTA)
 describe    PETICION_DATOS                  Con toda seguridad, alguien le esta pidiendo los datos
 score       PETICION_DATOS                  0.6 
@@ -686,25 +769,13 @@ meta        INICIO_SESION_IP                (INICIO_SESION && __FALSO_IP)
 describe    INICIO_SESION_IP                Menciona Inicio de sesión desde IP específica
 score       INICIO_SESION_IP                0.2
 
-meta        INICIO_SESION_BLOQUEO           (INICIO_SESION &&__FALSO_BLOQUEO)
+meta        INICIO_SESION_BLOQUEO           (INICIO_SESION &&__VT_FALSO_BORRADO)
 describe    INICIO_SESION_BLOQUEO           Menciona bloqueo inicio de sesion
 score       INICIO_SESION_BLOQUEO           0.3
 
-meta        INICIO_SESION_BLOQUEO_ADMIN     (INICIO_SESION && __FALSO_BLOQUEO && AUTORIDAD_CORREO)
+meta        INICIO_SESION_BLOQUEO_ADMIN     (INICIO_SESION && __VT_FALSO_BORRADO && AUTORIDAD_CORREO)
 describe    INICIO_SESION_BLOQUEO_ADMIN     Administrador bloquea inicio de sesión
 score       INICIO_SESION_BLOQUEO_ADMIN     0.4
-
-meta        BLOQUEO_PERMANENTE              ((BASE_DATOS_BORRADO || __FALSO_BLOQUEO) && __FALSO_PERMANENTE)
-describe    BLOQUEO_PERMANENTE              Menciona algo sobre un bloquedo permanente en la cuenta
-score       BLOQUEO_PERMANENTE              0.2
-
-meta        BLOQUEO_PERMANENTE_CUENTA       (BLOQUEO_PERMANENTE && (__FALSO_BUZON || __FALSO_CUENTA))
-describe    BLOQUEO_PERMANENTE_CUENTA       Menciona algo sobre un bloqueo permanente en (cuenta|buzon)
-score       BLOQUEO_PERMANENTE_CUENTA       0.3
-
-meta        BLOQUEADO_ADMINISTRADOR         (AUTORIDAD_CORREO && __FALSO_BLOQUEO)
-describe    BLOQUEADO_ADMINISTRADOR         Administrador bloquea tal cosa
-score       BLOQUEADO_ADMINISTRADOR         0.3
 
 meta        LOTERIA_INTERNET                (__FALSO_LOTERIA && __FALSO_INTERNET)
 describe    LOTERIA_INTERNET                Menciona algo así como Lotería de Internet
@@ -738,45 +809,6 @@ meta        GANADOR_LOTERIA_FELICITACIONES  (GANADOR_LOTERIA && __FALSO_FELICITA
 describe    GANADOR_LOTERIA_FELICITACIONES  Se refiere al usuario como un afortunado ganador de la lotería
 score       GANADOR_LOTERIA_FELICITACIONES  0.3
 
-meta        PLAZO_LIMITE                    (__FALSO_CONTEO_LIMITE && __FALSO_PLAZO)
-describe    PLAZO_LIMITE                    En tal número de días
-score       PLAZO_LIMITE                    0.2
-
-meta        __BASE_DATOS                    (__FALSO_BASE && __FALSO_DATOS)
-describe    __BASE_DATOS                    Menciona base de datos. 
-
-meta        BASE_DATOS_BORRADO              (__BASE_DATOS && __FALSO_SUSPENSION)
-describe    BASE_DATOS_BORRADO              Amenaza con borrar de la base de datos, es decir, del sistema de correos
-score       BASE_DATOS_BORRADO              0.2
-
-meta        CUENTA_SUSPENDIDA               ((__FALSO_CUENTA || __FALSO_BUZON) && __FALSO_SUSPENSION)
-describe    CUENTA_SUSPENDIDA               Su cuenta o buzón será suspendida
-score       CUENTA_SUSPENDIDA               0.2
-
-meta        CUENTA_INACTIVA                 ((__FALSO_CUENTA || __FALSO_BUZON) && __FALSO_INACTIVO)
-describe    CUENTA_INACTIVA                 Buzon o Cuenta inactiva
-score       CUENTA_INACTIVA                 0.2
-
-meta        USUARIO_CORREO                  (__FALSO_USUARIO && __FALSO_CORREO)
-describe    USUARIO_CORREO                  Le refiere como "Usuario de correo"
-score       USUARIO_CORREO                  0.2
-
-meta        BANDEJA_ENTRADA                 (__FALSO_BANDEJA && __FALSO_ENTRADA)
-describe    BANDEJA_ENTRADA                 Menciona de forma tajante Bandeja de Entrada
-score       BANDEJA_ENTRADA                 0.2
-
-meta        BANDEJA_SPAM                    (__FALSO_BANDEJA && __FALSO_SPAM)
-describe    BANDEJA_SPAM                    Menciona de forma tajante Bandeja de Entrada
-score       BANDEJA_SPAM                    0.2
-
-meta        CARPETA_CUENTA                  (__FALSO_BANDEJA && __FALSO_CUENTA)
-describe    CARPETA_CUENTA                  Menciona carpetas de su cuenta
-score       CARPETA_CUENTA                  0.2
-
-meta        CORREO_BASURA                   (__FALSO_CORREO && __FALSO_SPAM)
-describe    CORREO_BASURA                   Menciona de forma tajante Correo basura
-score       CORREO_BASURA                   0.2
-
 meta        ORDEN_ADMINISTRADOR             (AUTORIDAD_CORREO && __FALSO_CLICK && __FALSO_CORREO)
 describe    ORDEN_ADMINISTRADOR             Un administrador da la orden de hacer click en nombre de su correo
 score       ORDEN_ADMINISTRADOR             0.3
@@ -785,29 +817,9 @@ meta        SERVICIO_CORREO                 (__FALSO_SERVICIOS && __FALSO_CORREO
 describe    SERVICIO_CORREO                 Menciona con casi seguridad "servicios de correo"
 score       SERVICIO_CORREO                 0.2
 
-meta        CLICK_ENLACE                    (__FALSO_CLICK && __FALSO_ENLACE)
-describe    CLICK_ENLACE                    Pide que haga click en un enlace
-score       CLICK_ENLACE                    0.2
-
-meta        HACER_CLICK                     (__FALSO_ACCION && __FALSO_CLICK)
-describe    HACER_CLICK                     Pide al usuario hacer click en un enlace
-score       HACER_CLICK                     0.2
-
-meta        HACER_CLICK_ENLACE              (HACER_CLICK && __FALSO_ENLACE)
-describe    HACER_CLICK_ENLACE              Pide al usuario hacer click en un enlace
-score       HACER_CLICK_ENLACE              0.3
-
-meta        HACER_CLICK_ENL_HACKER          (HACER_CLICK_ENLACE && __FALSO_HACKER)
+meta        HACER_CLICK_ENL_HACKER          (VT_HACER_CLICK_ENLACE && __FALSO_HACKER)
 describe    HACER_CLICK_ENL_HACKER          Ha mencionado hacer click y hacker
 score       HACER_CLICK_ENL_HACKER          0.3
-
-meta        CONSIDERE_ACTUALIZAR            (__FALSO_NECESITA && __FALSO_ACTUALIZACION )
-describe    CONSIDERE_ACTUALIZAR            (Considere|necesita) actualizar
-score       CONSIDERE_ACTUALIZAR            0.2
-
-meta        CONSIDERE_HACER_CLICK           (__FALSO_NECESITA && HACER_CLICK) 
-describe    CONSIDERE_HACER_CLICK           Considere hacer clic
-score       CONSIDERE_HACER_CLICK           0.3
 
 meta        INSTITUCION_FINACIERA           (__FALSO_FINANCIERA && __FALSO_INSTITUCION)
 describe    INSTITUCION_FINACIERA           Con toda seguridad, alguien le esta pidiendo los datos
@@ -825,51 +837,39 @@ meta        ADMINISTRADOR_ZIMBRA            (__FALSO_ZIMBRA && AUTORIDAD_CORREO)
 describe    ADMINISTRADOR_ZIMBRA            Alguien menciona ser administrador de un sistema zimbra
 score       ADMINISTRADOR_ZIMBRA            0.2
 
-meta        DIRECCION_ELECTRONICA           ((__FALSO_DIRECCION || __FALSO_CUENTA) && __FALSO_ELECTRONICA)
-describe    DIRECCION_ELECTRONICA           Menciona (direccion|cuenta) electrónica 
-score       DIRECCION_ELECTRONICA           0.2
-
-meta        DIRECCION_CORREO_ELECTRONICA    (DIRECCION_ELECTRONICA &&  __FALSO_CORREO)
-describe    DIRECCION_CORREO_ELECTRONICA    Menciona (direccion|cuenta) de correo electrónica
-score       DIRECCION_CORREO_ELECTRONICA    0.3
-
-meta        MSJ_ACTUALIZ_INMEDIA            (ENVIADO_MENSAJE && ACTUALIZAR_BUZON_CONTR_SUSPE && __FALSO_INMEDIATEZ)
+meta        MSJ_ACTUALIZ_INMEDIA            (ENVIADO_MENSAJE && VT_ACTUAL_O_SUSPEN_ADV)
 describe    MSJ_ACTUALIZ_INMEDIA            Se ha "enviado un mensaje" en orden de "actualizar buzón" de "inmediato" contra suspensión. Conocida firma spam
 score       MSJ_ACTUALIZ_INMEDIA            0.5
 
-meta        ACTU_BUZON_CONFIR               (__FALSO_ACTUALIZACION && (__FALSO_BUZON || __FALSO_CUENTA) && __FALSO_CONFIRMACION)
+meta        ACTU_BUZON_CONFIR               (VT_ACTUALIZAR_CUENTA && __FALSO_CONFIRMACION)
 describe    ACTU_BUZON_CONFIR               Confirmar la actualización de cuenta
-score       ACTU_BUZON_CONFIR               0.3
+score       ACTU_BUZON_CONFIR               0.2
 
 # Firma compuesta de __FALSOS y Metas, vale 0.5 por defecto
 # Firma con HIT, FRASES, SUBJ valen 1.0 por defecto
 # HIT valen 0.2. METAS 0.2. FRASES 0.3. SUBJ 0.3. Redondear al multiplo de tres superior
 # Tener un número asociado le da 0.3
-meta        FIRMA_ACTU_AMENAZA_ADMIN        (AUTORIDAD_CORREO && __FALSO_SUSPENSION && (__FALSO_BUZON || __FALSO_CUENTA) && __FALSO_ACTUALIZACION && __FALSO_INMEDIATEZ)
+meta        FIRMA_ACTU_AMENAZA_ADMIN        (AUTORIDAD_CORREO && VT_ACTUAL_O_SUSPEN_ADV)
 describe    FIRMA_ACTU_AMENAZA_ADMIN        Se hace pasar por Autoridad, amenaza con suspender cuenta si no actualiza de inmediato
-score       FIRMA_ACTU_AMENAZA_ADMIN        1.2
+score       FIRMA_ACTU_AMENAZA_ADMIN        0.9
 
-meta        FIRMA_SUB_ADV_SUSPENSION        (SUBJ_ADVERTENCIA && __FALSO_SUSPENSION && (__FALSO_BUZON || __FALSO_CUENTA))
+meta        FIRMA_SUB_ADV_SUSPENSION        (SUBJ_ADVERTENCIA && VT_ACTUAL_O_SUSPEN)
 describe    FIRMA_SUB_ADV_SUSPENSION        Advierte (en Subject) que va a suspender la cuenta
 score       FIRMA_SUB_ADV_SUSPENSION        1.0
 
-meta        FIRMA_EXCUSA_MANTENIMIENTO      (__FALSO_MANTENIMIENTO && __FALSO_SUSPENSION && __FALSO_DISCULPA && __FALSO_ACTUALIZACION)
-describe    FIRMA_EXCUSA_MANTENIMIENTO      Estamos en mantenimiento. Actualización de datos o suspensión de cuentas.
+meta        FIRMA_EXCUSA_MANTENIMIENTO      (__FALSO_MANTENIMIENTO && __FALSO_DISCULPA && VT_ACTUAL_O_SUSPEN)
+describe    FIRMA_EXCUSA_MANTENIMIENTO      Estamos en mantenimiento. Actualización de datos o suspensión de cuentas. \#6
 score       FIRMA_EXCUSA_MANTENIMIENTO      0.9
 
-meta        FIRMA_ACTU_BUZON_CONFIR_CLICK   (ACTU_BUZON_CONFIR && __FALSO_CLICK)
+meta        FIRMA_ACTU_BUZON_CONFIR_CLICK   (ACTU_BUZON_CONFIR && VT_HACER_CLICK)
 describe    FIRMA_ACTU_BUZON_CONFIR_CLICK   Confirmar la actualización de cuenta con un click. Firma de un conocido SPAM
 score       FIRMA_ACTU_BUZON_CONFIR_CLICK   0.9
-
-meta        FIRMA_ON_ACCESS_BANK_ACCO       (__FALSO_CUENTA && __FALSO_ENLACE && __FALSO_IP && __FALSO_PASSWD && __FALSO_WEBMAIL && MISSING_HEADERS && __FALSO_SERVICIOS)
-describe    FIRMA_ON_ACCESS_BANK_ACCO       Firma de una conocida firma spam     
-score       FIRMA_ON_ACCESS_BANK_ACCO       1.5
 
 meta        FIRMA_CORREO_VERIFICADO         (__FALSO_MENSAJE && VERIFICADO_SOPHOS && VERIFICADO_ANTIVIRUS)
 describe    FIRMA_CORREO_VERIFICADO         Nos hace suponer un correo muy seguro. Conocida firma de spam
 score       FIRMA_CORREO_VERIFICADO         0.9
 
-meta        FIRMA_MSJ_ACTUALIZACION         (ENVIADO_MENSAJE && ACTUALIZAR_BUZON_CONTR_SUSPE)
+meta        FIRMA_MSJ_ACTUALIZACION         (ENVIADO_MENSAJE && VT_ACTUAL_O_SUSPEN)
 describe    FIRMA_MSJ_ACTUALIZACION         Se ha "enviado un mensaje" en orden de "actualizar buzón" contra suspensión. Conocida firma spam
 score       FIRMA_MSJ_ACTUALIZACION         0.9
 
@@ -877,17 +877,13 @@ meta        FIRMA_CUENTA_ADVERTEN_FINAL     (MSJ_ACTUALIZ_INMEDIA && SUBJ_CUENTA
 describe    FIRMA_CUENTA_ADVERTEN_FINAL     Firma de un conocido spam. \#18
 score       FIRMA_CUENTA_ADVERTEN_FINAL     1.8
 
-meta        FIRMA_DISCU_SERV_CORREO_ELEC    (__FALSO_DISCULPA && SERVICIO_CORREO && __FALSO_ELECTRONICA)
+meta        FIRMA_DISCU_SERV_CORREO_ELEC    (__FALSO_DISCULPA && SERVICIO_CORREO && VT_CORREO_ELECTRONICO)
 describe    FIRMA_DISCU_SERV_CORREO_ELEC    Se disculpa en nombre de un servicio de correo electrónico. Conocida firma spam
-score       FIRMA_DISCU_SERV_CORREO_ELEC    0.9
+score       FIRMA_DISCU_SERV_CORREO_ELEC    0.6
 
-meta        FIRMA_CLK_OVER_QUOTA            (CLICK_ENLACE && WEBMAIL_ZIMBRA && __FALSO_EVITAR) 
+meta        FIRMA_CLK_OVER_QUOTA            (VT_HACER_CLICK_ENLACE && WEBMAIL_ZIMBRA && __FALSO_EVITAR) 
 describe    FIRMA_CLK_OVER_QUOTA            Es la firma de un conocido spam
 score       FIRMA_CLK_OVER_QUOTA            1.2
-
-meta        FIRMA_CLK_OVER_QUOTA_ACCOUNT    (CLICK_ENLACE && WEBMAIL_ZIMBRA && __FALSO_EVITAR && __FALSO_CUENTA)
-describe    FIRMA_CLK_OVER_QUOTA_ACCOUNT    Es la firma de un conocido spam
-score       FIRMA_CLK_OVER_QUOTA_ACCOUNT    1.2
 
 meta        FIRMA_CLK_ENL_HACKER_SERV       (HACER_CLICK_ENL_HACKER && __FALSO_SERVICIOS)
 describe    FIRMA_CLK_ENL_HACKER_SERV       Ha mencionado hacer click y hacker. Conocida firma spammer
