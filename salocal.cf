@@ -57,10 +57,10 @@ score   RCVD_IN_SBL         1.500
 score   RCVD_IN_SORBS_SPAM  0.750
 score   RAZOR2_CHECK        3.250
 score   PYZOR_CHECK         3.250
-score   BAYES_999           2.250
-score   BAYES_99            1.750
-score   BAYES_60            1.500
-score   BAYES_50            1.250
+score   BAYES_999           1.650
+score   BAYES_99            1.350
+score   BAYES_60            1.150
+score   BAYES_50            1.050
 score   BAYES_00            -0.5
 score   RDNS_NONE           1.5
 score   RP_MATCHES_RCVD     -1.8
