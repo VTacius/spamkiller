@@ -210,6 +210,10 @@ score       HIT_HTK4S                   1.2
 
 ### Los MEDIANTE de los correos SPAM
 
+body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
+describe    VTE_LOGIN_ACTIVATING        Login for activation
+score       VTE_LOGIN_ACTIVATING        0.9
+
 # Carecen de contexto especifico por si mismo
 body        VT_RELLENAR_FORMULARIO      /(complet(e|a)|(re-*)*llen(a|e|o))r*(\sel)*\sformulario/
 describe    VT_RELLENAR_FORMULARIO      Rellene formulario
@@ -228,9 +232,12 @@ score       VT_HACER_CLICK              0.1
 # Carecen de contexto especifico por si mismo
 body        VT_HACER_CLICK_ENLACE       /ha(ga|cer)\sclick*\s(aqu(i|í|.+)|(en\s)*((el|la)\s)*(siguiente\s)*)(enlace|URL|link)/i
 describe    VT_HACER_CLICK_ENLACE       Haga click en el siguiente enlace
-score       VT_HACER_CLICK_ENLACE       0.2
+score       VT_HACER_CLICK_ENLACE       0.3
 
 # Meta Grupos
+
+meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_LOGIN_ACTIVATING)
+describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 meta        __VT_META_MEDIANTES         (VT_HACER_CLICK || VT_RELLENAR_FORMULARIO)
 describe    __VT_META_MEDIANTES         Formas básicas de MEDIANTES
@@ -374,11 +381,23 @@ meta        VT_INCAPACIDAD_CORREO       (__VT_INCAPAC_CORREO_01 || __VT_INCAPAC_
 describe    VT_INCAPACIDAD_CORREO       No podrá enviar o recibir
 score       VT_INCAPACIDAD_CORREO       0.4
 
-body        VTE_SUSPENDERAN_CORREO      /(e*mail|mail|mailbox|account|password)\swill\s(expire|close)/i
-describe    VTE_SUSPENDERAN_CORREO      Password will expire
-score       VTE_SUSPENDERAN_CORREO      0.4
+body        __VTE_SUSP_CORREO_01        /(inactive|expire|close)\syour\s(email|account|mailbox)/i
+describe    __VTE_SUSP_CORREO_01        Inactive your account
 
-body        VTE_SUSPENDERAN_CORREO_ADV  /(e*mail|mail|mailbox|account|password)(\s(account|password))\swill\s(expire|close)/i
+body        __VTE_SUSP_CORREO_02        /(e*mail|mail|mailbox|account|password)\swill\s(inactive|expire|close)/i
+describe    __VTE_SUSP_CORREO_02        Password will expire
+
+meta        VTE_SUSPENDERAN_CORREO      (__VTE_SUSP_CORREO_01 || __VTE_SUSP_CORREO_02)
+describe    VTE_SUSPENDERAN_CORREO      Password will expire
+score       VTE_SUSPENDERAN_CORREO      0.5
+
+body        __VTE_SUSP_CORREO_ADV_01    /(e*mail|mail|mailbox|account|password)(\s(account|password))\swill\s(expire|close)/i
+describe    __VTE_SUSP_CORREO_ADV_01    Password account will expire
+
+body        __VTE_SUSP_CORREO_ADV_02    /result\sin\s(inactive|close)\syour\s(email|account|mailbox)/i
+describe    __VTE_SUSP_CORREO_ADV_02    Result in inactive your email
+
+meta        VTE_SUSPENDERAN_CORREO_ADV  (__VTE_SUSP_CORREO_ADV_01 || __VTE_SUSP_CORREO_ADV_02)
 describe    VTE_SUSPENDERAN_CORREO_ADV  Password account will expire
 score       VTE_SUSPENDERAN_CORREO_ADV  0.9
 
@@ -412,11 +431,11 @@ score       VT_BAJA_SISTEMA_ADMIN       0.2
 
 body        VT_AUMENTAR_CUOTA           /(incrementar|aumentar|subir)(\s(su|tu))*\s(cuota|mailbox|account|quota|l(i|í|.+)mite)/i
 describe    VT_AUMENTAR_CUOTA           El usuario aumenta su cuota si obedece
-score       VT_AUMENTAR_CUOTA           0.2
+score       VT_AUMENTAR_CUOTA           0.3
 
-# Para usar con otras reglas
-meta        __VT_RECOMPENSA_FALSA       (VT_AUMENTAR_CUOTA || VT_VALIDAR_CUENTA)
-describe    __VT_RECOMPENSA_FALSA       Ofrece algún beneficio para su cuenta
+body        VTE_AUMENTAR_CUOTA          /space\s(added)(\sto)*\syour\s(inbox|mailbox)/i
+describe    VTE_AUMENTAR_CUOTA          space added to your inbox
+score       VTE_AUMENTAR_CUOTA          0.9
 
 # Suponen un contexto dentro de phishin debido a (cuenta) 
 body        VT_VALIDAR_CUENTA           /((re-)*valid|renov|activ|verific|confirm)ar\s(su|el|la)\s((direcci|buz)(o|ó|.+)n|cuenta|casilla|correo)/i
@@ -448,6 +467,13 @@ meta        VTE_VALIDAR_CUENTA          (VTE_VALID_CNTA || VTE_VALID_CNTA_ADV)
 describe    VTE_VALIDAR_CUENTA          Distintas formas de hablar sobre validación de cuenta
 score       VTE_VALIDAR_CUENTA          0.5
 
+# Para usar con otras reglas
+meta        __VT_RECOMPENSA_FALSA       (VT_AUMENTAR_CUOTA || VT_VALIDAR_CUENTA)
+describe    __VT_RECOMPENSA_FALSA       Ofrece algún beneficio para su cuenta
+
+meta        __VTE_RECOMPENSA_FALSA      (VTE_AUMENTAR_CUOTA || VTE_VALID_CNTA || VTE_VALIDAR_CUENTA)
+describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, en Inglés
+
 # Para calificar si le ofrece ambas recompensas
 meta        VT_RECOMP_FALSA             (VT_AUMENTAR_CUOTA && VT_VALIDAR_CUENTA)
 describe    VT_RECOMP_FALSA             Ofrece varios beneficios para su cuenta
@@ -455,12 +481,16 @@ score       VT_RECOMP_FALSA             0.2
 
 # Le ofrece recompensa a cambio de click o rellenar formulario
 meta        VT_RECOMP_POR_ACCION        (__VT_RECOMPENSA_FALSA && __VT_META_MEDIANTES)
-describe    VT_RECOMP_POR_ACCION        Ofrece beneficios para su cuenta a cambio de un click
-score       VT_RECOMP_POR_ACCION        0.4
+describe    VT_RECOMP_POR_ACCION        Ofrece beneficios para su cuenta a cambio de una acción
+score       VT_RECOMP_POR_ACCION        0.6
+
+meta        VTE_RECOMP_POR_ACCION       (__VTE_RECOMPENSA_FALSA && __VTE_META_MEDIANTES)
+describe    VTE_RECOMP_POR_ACCION       Ofrece beneficios para su cuenta a cambio de una acción
+score       VTE_RECOMP_POR_ACCION       1.2
 
 # Le ofrece recompensa a cambio de click en enlace o rellenar formulario adjunto
 meta        VT_RECOMP_POR_ACCION_ADV    (VT_RECOMP_FALSA && __VT_META_MEDIANTES_ADV)
-describe    VT_RECOMP_POR_ACCION_ADV    Ofrece beneficios para su cuenta a cambio de un click en en enlace
+describe    VT_RECOMP_POR_ACCION_ADV    Ofrece beneficios para su cuenta a cambio de una acción específica
 score       VT_RECOMP_POR_ACCION_ADV    0.9
 
 ###
@@ -807,13 +837,22 @@ body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
 describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
 score       VTE_ACTIVIDAD_SOSPECHOSA    0.4
 
-body        VTE_UPDATE_SYSTEM           /(system|webmail)\shas\sbeen\s(update|improve)d*/i
-describe    VTE_UPDATE_SYSTEM           System has been update
-score       VTE_UPDATE_SYSTEM           0.6
+body        VTE_UPDATE_SYSTEM_01        /(system|webmail)\shas\sbeen\s(update|improve)d*/i
+describe    VTE_UPDATE_SYSTEM_01        System has been update
+score       VTE_UPDATE_SYSTEM_01        0.6
+
+# Este debe ir en RAZONES más bien
+body        VTE_UPDATE_SYSTEM_02        /(upgrading|updating)\sy*our\slogin\spage/i
+describe    VTE_UPDATE_SYSTEM_02        Upgrading our login page
+score       VTE_UPDATE_SYSTEM_02        0.7
 
 body        VTE_UPDATE_ZIMBRA           /zimbra.{0,3}\sha(s|ve)(\sbeen)*\s(update|upgrade)d/
 describe    VTE_UPDATE_ZIMBRA           Zimbra has been update
 score       VTE_UPDATE_ZIMBRA           1.2
+
+body        VTE_UPDATE_ZIMBRA_VERSION   /(update|upgrade)(\sthe)*(\sversion)(\sof)*\szimbra/i
+describe    VTE_UPDATE_ZIMBRA_VERSION   Update the version of zimbra
+score       VTE_UPDATE_ZIMBRA_VERSION   1.2
 
 body        VTE_MAINTENANCE             /((e-*)*mail|system)\smaintenance/i
 describe    VTE_MAINTENANCE             System maintenance
@@ -837,7 +876,14 @@ meta        VTE_ACCOUNT_LIMIT           (__VTE_ACCOUNT_LIMIT_01 || __VTE_ACCOUNT
 describe    VTE_ACCOUNT_LIMIT           Limite alcanzado por la cuenta
 score       VTE_ACCOUNT_LIMIT           0.9
 
-body        VTE_ACCOUNT_LIMIT_ADV       /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
+body        __VTE_ACCOUNT_LIMIT_ADV_01  /(account|mailbox)\sis\s(above|over)\s([0-9]{1,}\.*)+\s*(k|m|g)b/i
+describe    __VTE_ACCOUNT_LIMIT_ADV_01  Mailbox is over 10 Gb
+
+body        __VTE_ACCOUNT_LIMIT_ADV_02  /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
+describe    __VTE_ACCOUNT_LIMIT_ADV_02  Has reached 10 Gb
+score       __VTE_ACCOUNT_LIMIT_ADV_02  0.9 
+
+meta        VTE_ACCOUNT_LIMIT_ADV       (__VTE_ACCOUNT_LIMIT_ADV_01 || __VTE_ACCOUNT_LIMIT_ADV_02)
 describe    VTE_ACCOUNT_LIMIT_ADV       Limite alcanzado por la cuenta en unidad de medida
 score       VTE_ACCOUNT_LIMIT_ADV       0.9 
 
