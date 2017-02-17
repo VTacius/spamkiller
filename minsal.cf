@@ -318,7 +318,7 @@ score       VT_NECESITA_ACTUALIZAR      0.4
 
 ### Las AMENAZAS en contra de los usuarios
 
-body        VT_SUSPENSION_CUENTA        /(eliminac|suspen(s|c)|cancelac|eliminac|desconex)i(o|ó|.)n\s(del*|su|tu)\s((su|la)\s)*(cuenta|buz(o|ó|.)n|casilla)/i
+body        VT_SUSPENSION_CUENTA        /(?:eliminac|suspen(?:s|c)|cancelac|eliminac|desconex|desactivac)i(?:o|ó|.)n\s(?:del*|su|tu)\s(?:(?:su|la)\s)*(?:cuenta|buz(o|ó|.)n|casilla|correo electr(?:o|ó|.)nico)/i
 describe    VT_SUSPENSION_CUENTA        Suspensión de su cuenta
 score       VT_SUSPENSION_CUENTA        0.4
 
@@ -377,7 +377,11 @@ describe    __VT_INCAPAC_CORREO_02      No podrá enviar o recibir
 body        __VT_INCAPAC_CORREO_03      /(se\spus((ó|o|.)|ieron)|est(a|á|.)n)\sen\sespera/i
 describe    __VT_INCAPAC_CORREO_03      Se pusieron en espera
 
-meta        VT_INCAPACIDAD_CORREO       (__VT_INCAPAC_CORREO_01 || __VT_INCAPAC_CORREO_02 || __VT_INCAPAC_CORREO_03)
+body        VT_INCAPAC_CORREO_SDV       /p(?:uede|odría)(?:\sque)*(?:\sno)*\sse(?:a|r)\scapaz\sde\s(?:recibir|enviar)(?:\s(?:al|nin)gún)*\scorreo/i
+describe    VT_INCAPAC_CORREO_SDV       Podría no ser capaz de recibir o enviar correo
+score       VT_INCAPAC_CORREO_SDV       0.3
+
+meta        VT_INCAPACIDAD_CORREO       (__VT_INCAPAC_CORREO_01 || __VT_INCAPAC_CORREO_02 || __VT_INCAPAC_CORREO_03 || VT_INCAPAC_CORREO_SDV)
 describe    VT_INCAPACIDAD_CORREO       No podrá enviar o recibir
 score       VT_INCAPACIDAD_CORREO       0.4
 
@@ -415,7 +419,7 @@ describe    __VT_META_AMENAZA           Algunas formas de referir la mayor amena
 
 meta        VT_BAJA_SISTEMA             (__VT_META_AMENAZA && __FALSO_PERMANENTE)
 describe    VT_BAJA_SISTEMA             Amenaza dar de baja su cuenta, en forma permanente 
-score       VT_BAJA_SISTEMA             0.2
+score       VT_BAJA_SISTEMA             0.5
 
 meta        VT_BAJA_SISTEMA_ADV         (__VT_META_AMENAZA && VT_ADMIN_SISTEMA)
 describe    VT_BAJA_SISTEMA_ADV         Administrador bloquea tal cosa
@@ -438,7 +442,7 @@ describe    VTE_AUMENTAR_CUOTA          space added to your inbox
 score       VTE_AUMENTAR_CUOTA          0.9
 
 # Suponen un contexto dentro de phishin debido a (cuenta) 
-body        VT_VALIDAR_CUENTA           /((re-)*valid|renov|activ|verific|confirm)ar\s(su|el|la)\s((direcci|buz)(o|ó|.+)n|cuenta|casilla|correo)/i
+body        VT_VALIDAR_CUENTA           /(?:(?:re-)*valid|ren(?:o|ue)v|activ|veri(?:fic|qu)|confirm)(?:ar|e)\s(?:su|el|la)\s(?:(?:direcci|buz)(o|ó|.+)n|cuenta|casilla|correo)/i
 describe    VT_VALIDAR_CUENTA           Validar cuenta
 score       VT_VALIDAR_CUENTA           0.4
 
@@ -543,10 +547,7 @@ describe    __VT_ADMIN_SISTEMA_01       Administrador del sistema
 body        __VT_ADMIN_SISTEMA_02       /(servidor|webmail|sistema|correo)(\s)(administra(d|t)or(es)*|t(e|é|.+)cnicos*|admin)/i
 describe    __VT_ADMIN_SISTEMA_02       Administrador del sistema
 
-body        __VT_ADMIN_SISTEMA_03       /(servidor|webmail|sistema|correo)(\s)(administra(d|t)or(es)*|t(e|é|.+)cnicos*|admin)/i
-describe    __VT_ADMIN_SISTEMA_03       Administrador del sistema
-
-meta        VT_ADMIN_SISTEMA            (__VT_ADMIN_SISTEMA_01 || __VT_ADMIN_SISTEMA_02 || __VT_ADMIN_SISTEMA_03)
+meta        VT_ADMIN_SISTEMA            (__VT_ADMIN_SISTEMA_01 || __VT_ADMIN_SISTEMA_02)
 describe    VT_ADMIN_SISTEMA            Todas las formas posibles, administrador de correo
 score       VT_ADMIN_SISTEMA            0.6
 
@@ -742,15 +743,18 @@ score       VTE_PLAZO_DE_DIAS           0.4
 body        __VT_CLICK                  /\sclick*\s/i
 describe    __VT_CLICK                  Click, en sus formas más precisas
 
-body        __VT_USUARIO_CORREO_01      /(\scuenta)(\sde)*\s(usuarios*|correo)/
+body        __VT_USUARIO_CORREO_01      /cuenta(?:\sde)*\s(?:usuarios*|correo)/
 describe    __VT_USUARIO_CORREO_01      Cuenta de usuario
 
 body        __VT_USUARIO_CORREO_02      /usuarios*(\sde)*\s(correo|webmail|servidor|Zimbra)/
 describe    __VT_USUARIO_CORREO_02      Usuarios de correo
 
-meta        VT_USUARIO_CORREO           (__VT_USUARIO_CORREO_01 || __VT_USUARIO_CORREO_02)
+body        __VT_USUARIO_CORREO_03      /(?:usuario|titular|due.o|propietario)(?:\sde)*\s(cuenta|buzón|correo)/i
+describe    __VT_USUARIO_CORREO_03
+
+meta        VT_USUARIO_CORREO           (__VT_USUARIO_CORREO_01 || __VT_USUARIO_CORREO_02 || __VT_USUARIO_CORREO_03)
 describe    VT_USUARIO_CORREO           Se dirige a él como usuario de correo
-score       VT_USUARIO_CORREO           0.1
+score       VT_USUARIO_CORREO           0.2
 
 body        __FALSO_BUZON               /buzon|buzón|buzones/i
 describe    __FALSO_BUZON               Alguien le habla sobre su buzon
@@ -817,21 +821,57 @@ score       VT_ACTIVID_SOSPECHOSAS      0.3
 body        __VT_SUPERA                 /ha\s(excedido|superado|alcanzado)/
 describe    __VT_SUPERA                 Ha superado
 
-meta        __VT_META_RAZONES           (VT_ACCESO_LIMITADO || VT_ENVIARON_SPAM || VT_ACTIVID_SOSPECHOSAS || VT_NUEVA_POLITICA || VT_MANTENIMIENTO_ACTUAL || VT_SUPERA_ADV )
-describe    __VT_META_RAZONES           Razones que suelen exponerse en los spam
-
-# Que aparte de su escaso contexto, puede ser contraproducente
-body        VT_NUEVA_POLITICA           /parte\sde\slas*\s((ú|u|.)ltimas|nuevas*)\spol(í|i|.)ticas*/i
-describe    VT_NUEVA_POLITICA           "Nuevas políticas"
-score       VT_NUEVA_POLITICA           0.1
+body        VT_SUPERA_ADV               /(ha\s)*(excedido|excedido|(super|alcanz)(ado|(.+)))(\sel)*\s(repositorio|l(.+)mite)/i 
+describe    VT_SUPERA_ADV               Ha superado el límite
+score       VT_SUPERA_ADV               0.2
 
 body        VT_MANTENIMIENTO_ACTUAL     /manteni(endo|miento)\sy\sactualiza(ndo|ci(ó|o|.)n)/i
 describe    VT_MANTENIMIENTO_ACTUAL     Mantenimiento y actualización
 score       VT_MANTENIMIENTO_ACTUAL     0.3
 
-body        VT_SUPERA_ADV               /(ha\s)*(excedido|excedido|(super|alcanz)(ado|(.+)))(\sel)*\s(repositorio|l(.+)mite)/i 
-describe    VT_SUPERA_ADV               Ha superado el límite
-score       VT_SUPERA_ADV               0.2
+meta        VT_FIRMA_CONT_02            (VT_MANTENIMIENTO_ACTUAL && VT_INCAPACIDAD_CORREO && __FALSO_PERMANENTE)
+describe    VT_FIRMA_CONT_02            Manteniemiento de correo. No podrá enviar correo hasta
+score       VT_FIRMA_CONT_02            1.2 
+
+meta        __VT_META_RAZONES           (VT_ACCESO_LIMITADO || VT_ENVIARON_SPAM || VT_ACTIVID_SOSPECHOSAS || VT_NUEVA_POLITICA_S || VT_MANTENIMIENTO_ACTUAL || VT_SUPERA_ADV || VT_RAZON_SDV || VT_RAZONES_ADV)
+describe    __VT_META_RAZONES           Razones que suelen exponerse en los spam
+
+# Que aparte de su escaso contexto, puede ser contraproducente
+body        VT_NUEVA_POLITICA_S         /parte\sde\slas*\s((ú|u|.)ltimas|nuevas*)\spol(í|i|.)ticas*/i
+describe    VT_NUEVA_POLITICA_S         "Nuevas políticas"
+score       VT_NUEVA_POLITICA_S         0.1
+
+body        VT_POLITICAS_SEGURIDAD_S    /(?:pol(i|í|.)ticas|medidas|disposiciones)\sde\sseguridad/i
+describe    VT_POLITICAS_SEGURIDAD_S    Medidas de seguridad
+score       VT_POLITICAS_SEGURIDAD_S    0.1
+
+body        VT_ACTUALIZAMOS_REGULAR_S   /actualiza(?:r|mos)\s(?:regular|peri(?:ó|o|.)dica)mente/i
+describe    VT_ACTUALIZAMOS_REGULAR_S   Actualizamos regularmente
+score       VT_ACTUALIZAMOS_REGULAR_S   0.1
+
+meta        VT_RAZON_SDV                (VT_POLITICAS_SEGURIDAD_S && VT_ACTUALIZAMOS_REGULAR_S)
+describe    VT_RAZON_SDV                Debido a politicas, actualizamos regularmente
+score       VT_RAZON_SDV                0.5
+
+body        VT_ORDEN_SDV_01             /v(?:(?:alid)(?:e|ar)|eri(?:ficar|que))\sy\sa(?:ctuali(?:zar|ce)|segurar)/i
+describe    VT_ORDEN_SDV_01             Validar y actualizar
+score       VT_ORDEN_SDV_01             0.5
+
+body        VT_ORDEN_SDV_02             /v(?:(?:alid)(?:e|ar)|eri(?:ficar|que))\sy\sactuali(?:zar|ce)\s(?:su|tu|el)\s(?:cuenta|buz(o|ó|.)n|casilla|correo electr(?:o|ó|.)nico)/i
+describe    VT_ORDEN_SDV_02             Validar y actualizar
+score       VT_ORDEN_SDV_02             0.4
+
+body        VT_ORDEN_CLICK_SDV          /ha(?:cer|ga)\sclick*\s(?:aqu(?:í|í|.)|a\scontinuaci.|en\sel\ssiguiente\s(?:enlace|link|url))(?:\spara)*\s(?:verific|valid|actualiz)ar/i
+describe    VT_ORDEN_CLICK_SDV          Haga click aquí para actualizar
+score       VT_ORDEN_CLICK_SDV          1.2
+
+body        VT_SUSPENSION_CUENTA_SDV    /evitar(?:\sla)*\s(?:eliminac|suspen(?:s|c)|cancelac|eliminac|desconex|desactivac)i(?:o|ó|.)n\s(?:del*|su|tu)\s(?:(?:su|la)\s)*(?:cuenta|buz(o|ó|.)n|casilla|correo electr(?:o|ó|.)nico)/i
+describe    VT_SUSPENSION_CUENTA_SDV    Suspensión de su cuenta
+score       VT_SUSPENSION_CUENTA_SDV    0.9
+
+meta        VT_FIRMA_CONT_01            (VT_POLITICAS_SEGURIDAD_S  && VT_ACTUALIZAMOS_REGULAR_S && VT_ORDEN_SDV_02 && VT_SUSPENSION_CUENTA_SDV && VT_ORDEN_CLICK_SDV)
+describe    VT_FIRMA_CONT_01            Firma para un correo específico
+score       VT_FIRMA_CONT_01            2.1
 
 body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
 describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
