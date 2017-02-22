@@ -13,7 +13,7 @@ header      FROM_TOO_SHORT_SENDER       eval:check_for_from_too_short_sender()
 describe    FROM_TOO_SHORT_SENDER       El valor de sender es demasiado corto para ser un nombre de usuario o username real
 score       FROM_TOO_SHORT_SENDER       0.4
 
-header      FROM_SIGNOS                 From =~ /1|\!|\?/
+header      FROM_SIGNOS                 From =~ /1|\!|\?|\+/
 describe    FROM_SIGNOS                 Signos en From: siempre son sospechosos de ser de parte de spammer
 score       FROM_SIGNOS                 0.2
 
@@ -229,6 +229,10 @@ body        VT_HACER_CLICK              /ha(ga|cer)\sclick*\s/i
 describe    VT_HACER_CLICK              Haga click
 score       VT_HACER_CLICK              0.1
 
+body        VT_UPDATE_AQUI              /(?:actualizar|update)\s(?:here|a(?:c(?:a|á|.)|qu(?:i|í|.)))/i
+describe    VT_UPDATE_AQUI              Update aquí
+score       VT_UPDATE_AQUI              0.6
+
 # Carecen de contexto especifico por si mismo
 body        VT_HACER_CLICK_ENLACE       /ha(ga|cer)\sclick*\s(aqu(i|í|.+)|(en\s)*((el|la)\s)*(siguiente\s)*)(enlace|URL|link)/i
 describe    VT_HACER_CLICK_ENLACE       Haga click en el siguiente enlace
@@ -239,7 +243,7 @@ score       VT_HACER_CLICK_ENLACE       0.3
 meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_LOGIN_ACTIVATING)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
-meta        __VT_META_MEDIANTES         (VT_HACER_CLICK || VT_RELLENAR_FORMULARIO)
+meta        __VT_META_MEDIANTES         (VT_HACER_CLICK || VT_RELLENAR_FORMULARIO || VT_UPDATE_AQUI)
 describe    __VT_META_MEDIANTES         Formas básicas de MEDIANTES
 
 meta        __VT_META_MEDIANTES_ADV     (VT_HACER_CLICK_ENLACE || VT_RELLENAR_FORMULARIO_FULL)
@@ -334,12 +338,24 @@ body        VT_SUSPENDIDO_CUENTA_02     /(cuenta|buz(o|ó|.)n|casilla|correo(\se
 describe    VT_SUSPENDIDO_CUENTA_02     Su cuenta ha sido suspendida
 score       VT_SUSPENDIDO_CUENTA_02     0.4
 
-meta        __VT_SUSPENSIONES           (VT_SUSPENSION_CUENTA || VT_SUSPENSION_CUENTA || VT_SUSPENDIDO_CUENTA_01 || VT_SUSPENDIDO_CUENTA_02 )
+body        VT_SUSPENDIDO_CUENTA_03     /las\s(cuentas|buzones|mailbox)(\s\w+){0,3}\sse\scerrar(á|a|.)n/i
+describe    VT_SUSPENDIDO_CUENTA_03     Su cuenta ha sido suspendida
+score       VT_SUSPENDIDO_CUENTA_03     0.4
+
+meta        __VT_SUSPENSIONES           (VT_SUSPENSION_CUENTA || VT_SUSPENDERAN_CUENTA || VT_SUSPENDIDO_CUENTA_01 || VT_SUSPENDIDO_CUENTA_02 || VT_SUSPENDIDO_CUENTA_03)
 describe    __VT_SUSPENSIONES           Diferentes aproximaciones a "Suspender cuenta"
 
-body        VT_EJECUTARAN_CUENTA        /(suspende|perde|cancela|cerra|elimina|desconecta)remos\s(del*|su|tu|esta)\s((su|la)\s)*(cuenta|buz(o|ó|.)n|casilla)/
-describe    VT_EJECUTARAN_CUENTA        Cerraremos su cuenta
-score       VT_EJECUTARAN_CUENTA        0.4
+body        VT_EJECUTARAN_CUENTA_01     /(?:suspende|perde|cancela|cerra|elimina|desconecta)remos\s(?:del*|su|tu|esta)\s(?:(?:su|la)\s)*(?:cuenta|buz(?:o|ó|.)n|casilla)/
+describe    VT_EJECUTARAN_CUENTA_01     Cerraremos su cuenta
+score       VT_EJECUTARAN_CUENTA_01     0.2
+
+body        VT_EJECUTARAN_CUENTA_02     /(?:vam|irem)os(?:\sa)*\s(?:suspender|(?:cerr|clausur|elimin|desconect)ar)\s(?:tu|su|esta)\s(?:cuenta|buz(?:o|ó|.)n|casilla)/i
+describe    VT_EJECUTARAN_CUENTA_02     Vamos a cerrar su cuenta
+score       VT_EJECUTARAN_CUENTA_02     0.5
+
+meta        VT_EJECUTARAN_CUENTA        (VT_EJECUTARAN_CUENTA_01 || VT_EJECUTARAN_CUENTA_02)
+describe    VT_EJECUTARAN_CUENTA        Distintos tipos de amenaza sobre cerrar cuenta
+score       VT_EJECUTARAN_CUENTA        0.2
 
 body        VT_NO_INICIO_SESION         /no\spodr(í|i|á|a|.)a*\siniciar\sses{1,2}i(o|ó|.)n/i
 describe    VT_NO_INICIO_SESION         No podrá iniciar sesión
@@ -414,7 +430,7 @@ describe    VT_AMENAZA_ADV              Perder información y Acceso limitado
 score       VT_AMENAZA_ADV              0.4
 
 # Agrego las formas en que amenazan a los usuarios
-meta        __VT_META_AMENAZA           ( __VT_SUSPENSIONES || VT_BORRADO_BASE_DATOS || VT_PERDER_INFORMACION || VT_ACCESO_LIMITADO || VT_INCAPACIDAD_CORREO)
+meta        __VT_META_AMENAZA           ( __VT_SUSPENSIONES || VT_BORRADO_BASE_DATOS || VT_PERDER_INFORMACION || VT_ACCESO_LIMITADO || VT_INCAPACIDAD_CORREO || VT_EJECUTARAN_CUENTA)
 describe    __VT_META_AMENAZA           Algunas formas de referir la mayor amenaza: Borrado de cuenta
 
 meta        VT_BAJA_SISTEMA             (__VT_META_AMENAZA && __FALSO_PERMANENTE)
@@ -463,6 +479,10 @@ describe    __VTE_VALID_CNTA_ADV_02     Validar dominio.com cuenta
 body        __VTE_VALID_CNTA_ADV_03     /(re-*)*(activate|validate|verify|restore)\s\w+@(\w+\.*)+\saccount/i
 describe    __VTE_VALID_CNTA_ADV_03     Validar usuario@dominio.com cuenta
 
+body        VT_EVITAR_CIERRE            /evitar(?:\sel)*\sc(?:ierre|lausura)/i
+describe    VT_EVITAR_CIERRE            Evitar cierre
+score       VT_EVITAR_CIERRE            0.3
+
 meta        VTE_VALID_CNTA_ADV          (__VTE_VALID_CNTA_ADV_01 || __VTE_VALID_CNTA_ADV_02 || __VTE_VALID_CNTA_ADV_03)
 describe    VTE_VALID_CNTA_ADV          Distintos tipos avanzados para referirse a activación de cuenta
 score       VTE_VALID_CNTA_ADV          0.9
@@ -472,7 +492,7 @@ describe    VTE_VALIDAR_CUENTA          Distintas formas de hablar sobre validac
 score       VTE_VALIDAR_CUENTA          0.5
 
 # Para usar con otras reglas
-meta        __VT_RECOMPENSA_FALSA       (VT_AUMENTAR_CUOTA || VT_VALIDAR_CUENTA)
+meta        __VT_RECOMPENSA_FALSA       (VT_AUMENTAR_CUOTA || VT_VALIDAR_CUENTA || VT_EVITAR_CIERRE)
 describe    __VT_RECOMPENSA_FALSA       Ofrece algún beneficio para su cuenta
 
 meta        __VTE_RECOMPENSA_FALSA      (VTE_AUMENTAR_CUOTA || VTE_VALID_CNTA || VTE_VALIDAR_CUENTA)
@@ -506,9 +526,9 @@ describe    VTE_ACCESO_REMOTO           Remote access
 score       VTE_ACCESO_REMOTO           0.4
 
 # Tiene poco contexto, será útil para formar algunas firmas
-body        VT_HEMOS_ENVIADO            /he(mos)*\senviado\suna*\s((e-*)*mail|correo|carta|aviso)/i 
+body        VT_HEMOS_ENVIADO            /he(?:mos)*\senviado(?:\s(?:una|vari(?:a|o)s))*\s(?:(?:e-*)*mail|correo|carta|aviso)s*/i 
 describe    VT_HEMOS_ENVIADO            Hemos enviado una correo
-score       VT_HEMOS_ENVIADO            0.1
+score       VT_HEMOS_ENVIADO            0.2
 
 body        __VT_FALSO_ZIMBRA           /zimbra/i
 describe    __VT_FALSO_ZIMBRA           Alguien menciona a zimbra con posible intención de hacerse pasar por administrador
@@ -562,7 +582,7 @@ meta        VT_AUTORIDAD_CORREO         (VT_ADMIN_SISTEMA || __VT_FALSO_ADMINIST
 describe    VT_AUTORIDAD_CORREO         Se menciona a si mismo como una especie de autoridad respecto al servicio de correo
 score       VT_AUTORIDAD_CORREO         0.1
 
-body        __VT_CORTESIA               /gracias|disculpas/i
+body        __VT_CORTESIA               /gracias|disculpas|sentimos|por\sfavor/i
 describe    __VT_CORTESIA               Da las gracias u ofrece disculpas
 
 meta        VT_CORTESIA_ADMIN           (__VT_CORTESIA && VT_AUTORIDAD_CORREO)
@@ -626,7 +646,7 @@ meta        VT_FIRMA_03                 ((__VT_META_OBJETIVOS || __VT_META_OBJET
 describe    VT_FIRMA_03                 Un administrador de correo le ordena realizar actividades relacionadas con su cuenta
 score       VT_FIRMA_03                 0.9
 
-meta        VT_FIRMA_04                 (__VT_META_RAZONES || __VT_META_AMENAZA)
+meta        VT_FIRMA_04                 (__VT_META_RAZONES && __VT_META_AMENAZA)
 describe    VT_FIRMA_04                 Suspensión de cuenta de acuerdo a ciertos motivos
 score       VT_FIRMA_04                 0.9
 
@@ -656,8 +676,7 @@ score       VT_CORREO_ELECTRONICO       0.1
 # Tienen poco contexto en realidad
 body        VT_DIRECCION_CORREO         /((direcci|buz)(o|ó|.)n|cuenta|casilla)\sde\scorreo/i
 describe    VT_DIRECCION_CORREO         Dirección de correo
-score       VT_DIRECCION_CORREO         0.1
-
+score       VT_DIRECCION_CORREO         0.1 
 # Tienen poco contexto en realidad
 body        VT_DIRECCION_ELECTRONICA    /((direcci|buz)(o|ó|.)n|cuenta|casilla)\selectr(o|ó|.)nica/i
 describe    VT_DIRECCION_ELECTRONICA    Dirección electrónica
@@ -719,7 +738,7 @@ meta        VT_SPAM_A_BANDEJA_ADV       (VT_SPAM_A_BANDEJA && __VT_MOVER)
 describe    VT_SPAM_A_BANDEJA_ADV       Sugiere mover el mensaje de Spam a Bandeja de Entrada        
 score       VT_SPAM_A_BANDEJA_ADV       0.3
 
-body        VT_PLAZO_DE_HORAS           /((plazo|dentro)\sde|en)\s(24|36|48)\s*(horas|hours)/i
+body        VT_PLAZO_DE_HORAS           /(?:(?:plazo|dentro)\sde|en)(?:\sl(?:a|o)s)*\s(?:24|36|48)\s*(?:horas|hours)/i
 describe    VT_PLAZO_DE_HORAS           Tal plazo de horas a vencer
 score       VT_PLAZO_DE_HORAS           0.3
 
@@ -833,7 +852,11 @@ meta        VT_FIRMA_CONT_02            (VT_MANTENIMIENTO_ACTUAL && VT_INCAPACID
 describe    VT_FIRMA_CONT_02            Manteniemiento de correo. No podrá enviar correo hasta
 score       VT_FIRMA_CONT_02            1.2 
 
-meta        __VT_META_RAZONES           (VT_ACCESO_LIMITADO || VT_ENVIARON_SPAM || VT_ACTIVID_SOSPECHOSAS || VT_NUEVA_POLITICA_S || VT_MANTENIMIENTO_ACTUAL || VT_SUPERA_ADV || VT_RAZON_SDV || VT_RAZONES_ADV)
+body        VT_CUENTA_NO_USADA          /cuentas*\sno\su(?:tiliz|s)adas*/s
+describe    VT_CUENTA_NO_USADA          Cuentas no utilizadas
+score       VT_CUENTA_NO_USADA          0.5
+
+meta        __VT_META_RAZONES           (VT_ACCESO_LIMITADO || VT_ENVIARON_SPAM || VT_ACTIVID_SOSPECHOSAS || VT_NUEVA_POLITICA_S || VT_MANTENIMIENTO_ACTUAL || VT_SUPERA_ADV || VT_RAZON_SDV || VT_RAZONES_ADV || VT_CUENTA_NO_USADA)
 describe    __VT_META_RAZONES           Razones que suelen exponerse en los spam
 
 # Que aparte de su escaso contexto, puede ser contraproducente
@@ -847,7 +870,7 @@ score       VT_POLITICAS_SEGURIDAD_S    0.1
 
 body        VT_ACTUALIZAMOS_REGULAR_S   /actualiza(?:r|mos)\s(?:regular|peri(?:ó|o|.)dica)mente/i
 describe    VT_ACTUALIZAMOS_REGULAR_S   Actualizamos regularmente
-score       VT_ACTUALIZAMOS_REGULAR_S   0.1
+score       VT_ACTUALIZAMOS_REGULAR_S   0.2
 
 meta        VT_RAZON_SDV                (VT_POLITICAS_SEGURIDAD_S && VT_ACTUALIZAMOS_REGULAR_S)
 describe    VT_RAZON_SDV                Debido a politicas, actualizamos regularmente
