@@ -589,6 +589,9 @@ meta        ZT_AMOR_BIBLICO_02      (__ZT_OBJETIVOS && __ZT_RESTRIC_CUENTA)
 describe    ZT_AMOR_BIBLICO_02      Actualice su cuenta, o tendrá restricciones sobre su cuenta
 score       ZT_AMOR_BIBLICO_02      0.9
 
+meta        __ZT_AMOR_BIBLICO       (ZT_AMOR_BIBLICO_01 || ZT_AMOR_BIBLICO_02 || ZT_AMOR_BIBLICO_ADV)
+describe    __ZT_AMOR_BIBLICO       Distintas formas de incitar a un objetivo por medio de algún tipo de amenaza
+
 meta        ZT_CASTIGO_BIBLICO_02   (__ZT_RAZONES && __ZT_RESTRIC_CUENTA)
 describe    ZT_CASTIGO_BIBLICO_02   Por tal razón, tendrá restricciones sobre su cuenta
 score       ZT_CASTIGO_BIBLICO_02   0.9
@@ -596,6 +599,9 @@ score       ZT_CASTIGO_BIBLICO_02   0.9
 meta        ZT_CASTIGO_BIBLICO_03   (__ZT_SENDO_RECHAZADOS && ZT_VERSION_VIEJA)
 describe    ZT_CASTIGO_BIBLICO_03   Sus correos serán rechazados por la versión de su cuenta
 score       ZT_CASTIGO_BIBLICO_03   0.9
+
+meta        __ZT_CASTIGO_BIBLICO    (ZT_CASTIGO_BIBLICO_01 || ZT_CASTIGO_BIBLICO_02 || ZT_CASTIGO_BIBLICO_03)
+score       __ZT_CASTIGO_BIBLICO    Distintas formas de explicar la razón del castigo
 
 meta        ZT_PROMESA_PARAISO_01   (__ZT_RAZONES && __ZT_OBJETIVOS)
 describe    ZT_PROMESA_PARAISO_01   Tal razón, le premia con tal cosa
@@ -622,5 +628,13 @@ score       ZT_PREFIRMA_01          0.6
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORM_ADV && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
 score       ZT_FIRMA_01             0.9
+
+# Esta es una de mis mejores ideas, sin duda
+# Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno
+meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO))
+describe    ZT_COMPORTAMENTAL_01    Agravantes sobre su From: en conjunto a cierto conocido spammer
+score       ZT_COMPORTAMENTAL_01    7.0
+
 # Fin de COMPORTAMENTALES
+
 

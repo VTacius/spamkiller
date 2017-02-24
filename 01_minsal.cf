@@ -8,7 +8,7 @@ score       FROM_NOT_REPLYTO            2.0
 loadplugin  FromMinsalInvalido          plugins/FromMinsalInvalido.pm
 header      FROM_MINSAL_INVALIDO        eval:check_for_from_minsal_invalido()
 describe    FROM_MINSAL_INVALIDO        Se pretende ser MINSAL o Zimbra, pero no con una cuenta de nuestro dominio
-score       FROM_MINSAL_INVALIDO        6.0
+score       FROM_MINSAL_INVALIDO        1.2
 
 loadplugin  FromTooShortSender          plugins/FromTooShortSender.pm
 header      FROM_TOO_SHORT_SENDER       eval:check_for_from_too_short_sender()
@@ -27,7 +27,7 @@ score       TEST_PRUEBA_02              3.8
 
 # Esta es una de las pruebas más insignificantes que podrían hacerse, pero creánme, vale la pena
 body        __FALSO_ENLACE              /enlace|link|URL/i
-describe    __FALSO_ENLACE Menciona enlace, link o URL para dar cuenta de él en forma consciente
+describe    __FALSO_ENLACE              Menciona enlace, link o URL para dar cuenta de él en forma consciente
 
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
@@ -128,11 +128,12 @@ score       FREEMAIL_MISSING_HEADERS    0.9
 
 endif
 
+# Ciertas reglas sobre ciertos comportamientos
 header      FROM_SIGNOS                 From =~ /1|\!|\?|\+/
 describe    FROM_SIGNOS                 Signos en From: siempre son sospechosos de ser de parte de spammer
 score       FROM_SIGNOS                 0.2
 
 meta        FROM_SIGNOS_TOO_SHORT       (FROM_SIGNOS && FROM_TOO_SHORT_SENDER)
 describe    FROM_SIGNOS_TOO_SHORT       En menos de tres caracteres, hay un signo especial
-score       FROM_SIGNOS_TOO_SHORT       0.9
+score       FROM_SIGNOS_TOO_SHORT       1.2
 

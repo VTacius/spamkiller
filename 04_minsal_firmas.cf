@@ -18,9 +18,13 @@ header      HITSUB_DES_MESSAGE          Subject =~ /message\shas\sbeen\sdisinfec
 describe    HITSUB_DES_MESSAGE          Un servidor de correo normal no debería mostrar un mensaje así
 score       HITSUB_DES_MESSAGE          1.2
 
-header      HITSUB_MILLENIUM_LOTTERY    Subject =~ /millennium\s(?:lottery|commission)\sproject\s201[0-9]/i
-describe    HITSUB_MILLENIUM_LOTTERY    Conocida cabecera de SPAM sobre ganador de lotería
-score       HITSUB_MILLENIUM_LOTTERY    1.2
+header      HITSUB_MILLENIUM_LOTT_01    Subject =~ /millennium\s(?:lottery|commission)\sproject\s201[0-9]/i
+describe    HITSUB_MILLENIUM_LOTT_01    Conocida cabecera de SPAM sobre ganador de lotería
+score       HITSUB_MILLENIUM_LOTT_01    1.5
+
+header      HITSUB_MILLENIUM_LOTT_02    Subject =~ /millennium\sproject\s201[0-9]/i
+describe    HITSUB_MILLENIUM_LOTT_02    Conocida cabecera de SPAM sobre ganador de lotería
+score       HITSUB_MILLENIUM_LOTT_02    1.2
 
 header      HITSUB_MINISTRY_OF_HEALTH   Subject =~ /special\swarning\sfor\sministry\sof\shealth/i
 describe    HITSUB_MINISTRY_OF_HEALTH   Parte de una conocida cabecera SPAM
