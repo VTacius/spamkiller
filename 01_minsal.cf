@@ -1,0 +1,138 @@
+# Carga de plugins personalizados
+
+loadplugin  FromNotReplyTo              plugins/FromNotReplyTo.pm 
+header      FROM_NOT_REPLYTO            eval:check_for_from_not_reply_to()
+describe    FROM_NOT_REPLYTO            From: no coincide con Reply-To:
+score       FROM_NOT_REPLYTO            2.0
+
+loadplugin  FromMinsalInvalido          plugins/FromMinsalInvalido.pm
+header      FROM_MINSAL_INVALIDO        eval:check_for_from_minsal_invalido()
+describe    FROM_MINSAL_INVALIDO        Se pretende ser MINSAL o Zimbra, pero no con una cuenta de nuestro dominio
+score       FROM_MINSAL_INVALIDO        6.0
+
+loadplugin  FromTooShortSender          plugins/FromTooShortSender.pm
+header      FROM_TOO_SHORT_SENDER       eval:check_for_from_too_short_sender()
+describe    FROM_TOO_SHORT_SENDER       El valor de sender es demasiado corto para ser un nombre de usuario o username real
+score       FROM_TOO_SHORT_SENDER       0.4
+
+# Ciertas reglas de pruebas. En algún momento podría ser necesario forzar la calificación de spam, así que usamos estos
+
+body        TEST_PRUEBA_01              /fitzcarrald\w/
+describe    TEST_PRUEBA_01              Prueba para marcación de spam. No creo posible que alguien lo use
+score       TEST_PRUEBA_01              3.8
+
+body        TEST_PRUEBA_02              /heterofenomenologico/
+describe    TEST_PRUEBA_02              Prueba para marcación de spam. No creo posible que alguien lo use
+score       TEST_PRUEBA_02              3.8
+
+# Esta es una de las pruebas más insignificantes que podrían hacerse, pero creánme, vale la pena
+body        __FALSO_ENLACE              /enlace|link|URL/i
+describe    __FALSO_ENLACE Menciona enlace, link o URL para dar cuenta de él en forma consciente
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+header      RCVD_IN_ANONMAILS           eval:check_rbl('anonmails-lastexternal', 'spam.dnsbl.anonmails.de.')
+describe    RCVD_IN_ANONMAILS           Relay is listed in spam.dnsbl.anonmails.de
+tflags      RCVD_IN_ANONMAILS           net
+score       RCVD_IN_ANONMAILS           3.0
+
+meta        __VT_URL_PERNICIOSAS        (URIBL_SBL || URIBL_DBL_SPAM || URIBL_BLACK || URIBL_JP_SURBL || URIBL_ABUSE_SURBL || URI_WP_HACKED || URI_WP_DIRINDEX || URI_WP_HACKED_2)
+describe    __VT_URL_PERNICIOSAS        Formas conocidas por las cuales un URL es catalogada como malévola
+
+meta        ENLACES_SPAMMERS            ( __VT_URL_PERNICIOSAS && __FALSO_ENLACE )
+describe    ENLACES_SPAMMERS            Contenido no calificado como spam, pero con grandes posibilidades de serlo debido a enlaces en listas negras
+score       ENLACES_SPAMMERS            2.0
+
+meta        HTML_AND_PLAIN_TEXT         (HTML_MESSAGE && !MIME_HTML_ONLY)
+describe    HTML_AND_PLAIN_TEXT         Contiene HTML and texto plano. 
+score       HTML_AND_PLAIN_TEXT         0.2
+
+meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID)
+describe    __CORREO_BAJA_CALIDAD       Iré colocando test que verifiquen que a nivel de SMTP sea probablemente spammer
+
+meta        CORREO_BAJA_CALIDAD         (__CORREO_BAJA_CALIDAD && (HTML_MESSAGE || T_REMOTE_IMAGE || HTML_FONT_LOW_CONTRAST))
+describe    CORREO_BAJA_CALIDAD         Ciertos problemas entre configuración DNS del servidor remitente y de contenido de parte del cliente del remitente
+score       CORREO_BAJA_CALIDAD         0.5
+
+meta        ENLACES_SPAMMERS_NO_RDNS    (__VT_URL_PERNICIOSAS && RDNS_NONE)
+describe    ENLACES_SPAMMERS_NO_RDNS    URL calificadas como spam de parte de servidores con errores en la reversa, es común que sea usada por spammers
+score       ENLACES_SPAMMERS_NO_RDNS    0.6
+
+meta        ENLACES_SPAMMERS_LISTADOS   (URIBL_JP_SURBL && URIBL_ABUSE_SURBL)
+describe    ENLACES_SPAMMERS_LISTADOS   URIBL_JP_SURBL && URIBL_ABUSE_SURBL son bastante confiables hasta ahora y suelen aparecer juntos
+score       ENLACES_SPAMMERS_LISTADOS   2.1
+
+meta        ENLACES_SPAMMERS_BAYES_50   (__VT_URL_PERNICIOSAS && BAYES_50)
+describe    ENLACES_SPAMMERS_BAYES_50   Contenido 40 a 60% SPAM, URL calificadas como SPAM
+score       ENLACES_SPAMMERS_BAYES_50   0.6
+
+meta        ENLACES_SPAMMERS_BAYES_60   (__VT_URL_PERNICIOSAS && BAYES_60)
+describe    ENLACES_SPAMMERS_BAYES_60   Contenido 60 a 80% SPAM, URL calificadas como SPAM
+score       ENLACES_SPAMMERS_BAYES_60   1.0
+
+meta        ENLACES_SPAMMERS_BAYES_95   (__VT_URL_PERNICIOSAS && BAYES_95)
+describe    ENLACES_SPAMMERS_BAYES_95   Contenido 95 a 99% SPAM y con URL contenidas también así consideradas
+score       ENLACES_SPAMMERS_BAYES_95   1.75
+
+meta        ENLACES_SPAMMERS_BAYES_99   (__VT_URL_PERNICIOSAS && BAYES_99)
+describe    ENLACES_SPAMMERS_BAYES_99   Contenido 99% SPAM y con URL contenidas también así consideradas
+score       ENLACES_SPAMMERS_BAYES_99   2.1
+
+meta        ENLACES_SPAMMERS_BAYES_999  (__VT_URL_PERNICIOSAS && BAYES_999)
+describe    ENLACES_SPAMMERS_BAYES_999  Contenido 99.9% SPAM y con URL contenidas también así consideradas
+score       ENLACES_SPAMMERS_BAYES_999  4.2
+
+meta        ENLACES_SPAMMERS_PYZOR      (__VT_URL_PERNICIOSAS && PYZOR_CHECK)
+describe    ENLACES_SPAMMERS_PYZOR      Contenido con hash considerado SPAM por PYZOR_CHECK y URL consideradas spammer
+score       ENLACES_SPAMMERS_PYZOR      2.1
+
+meta        ENLACES_SPAMMERS_RAZOR2     (__VT_URL_PERNICIOSAS && RAZOR2_CHECK )
+describe    ENLACES_SPAMMERS_RAZOR2     Contenido con hash considerado SPAM por RAZOR2_CHECK y URL consideradas spammer
+score       ENLACES_SPAMMERS_RAZOR2     6.0
+
+meta        BAYESIANO_ALTO              (BAYES_99 && BAYES_999)
+describe    BAYESIANO_ALTO              Estos dos puntajes de Bayes suelen indicar spam que son variaciones mínimas de spam anteriores
+score       BAYESIANO_ALTO              1.0
+
+meta        MISSING_HEADERS_BAYES_50    (MISSING_HEADERS && BAYES_50)
+describe    MISSING_HEADERS_BAYES_50    Correo de baja calidad con alguna medida de sospecha de spam
+score       MISSING_HEADERS_BAYES_50    0.6
+
+meta        MISSING_HEADERS_BAYES_60    (MISSING_HEADERS && BAYES_60)
+describe    MISSING_HEADERS_BAYES_60    Correo de baja calidad con alguna medida de sospecha de spam
+score       MISSING_HEADERS_BAYES_60    1.2
+
+meta        TRUCOS_REPLY                (FREEMAIL_REPLYTO || FROM_NOT_REPLYTO || FREEMAIL_FORGED_REPLYTO)
+describe    TRUCOS_REPLY                Conocidos trucos con Reply-to que suelen ser usados por Spammers
+score       TRUCOS_REPLY                0.5
+
+meta        TRUCOS_REPLY_SPAMMERS       (TRUCOS_REPLY && (RAZOR2_CHECK || PYZOR_CHECK || BAYESIANO_ALTO))
+describe    TRUCOS_REPLY_SPAMMERS       Conocidos trucos Reply-to con contenido calificado altamente como Spammer
+score       TRUCOS_REPLY_SPAMMERS       2.1
+
+meta        DKIM_ALTAMENTE_VALIDO       (DKIM_SIGNED && DKIM_VALID && DKIM_VALID_AU)
+describe    DKIM_ALTAMENTE_VALIDO       Firmado DKIM y válido. *_AU siempre aparece en nuestros mensajes dentro del mismo dominio
+score       DKIM_ALTAMENTE_VALIDO       -0.6
+
+meta        BAYESIANO_CONFIABLE         (BAYES_00 && ALL_TRUSTED)
+describe    BAYESIANO_CONFIABLE         BAYES_00 Indica que no es spam. Bueno, si viene desde servidores SMTP válidos pues alguna razón habrá que darle
+score       BAYESIANO_CONFIABLE         -0.3
+
+meta        BAYESIANO_DKIMEADO          (DKIM_ALTAMENTE_VALIDO && BAYESIANO_CONFIABLE )
+describe    BAYESIANO_DKIMEADO          A menos que se compruebe lo contrario, este se aplicaría con todos los correos cuyo emisor y receptor estén dentro de nuestro dominio
+score       BAYESIANO_DKIMEADO          -1.2
+
+meta        FREEMAIL_MISSING_HEADERS    (FREEMAIL_FROM && MISSING_HEADERS)
+describe    FREEMAIL_MISSING_HEADERS    El que le falte To: en un correo de servicio gratuito sugiere que están usando mal un cliente 
+score       FREEMAIL_MISSING_HEADERS    0.9
+
+endif
+
+header      FROM_SIGNOS                 From =~ /1|\!|\?|\+/
+describe    FROM_SIGNOS                 Signos en From: siempre son sospechosos de ser de parte de spammer
+score       FROM_SIGNOS                 0.2
+
+meta        FROM_SIGNOS_TOO_SHORT       (FROM_SIGNOS && FROM_TOO_SHORT_SENDER)
+describe    FROM_SIGNOS_TOO_SHORT       En menos de tres caracteres, hay un signo especial
+score       FROM_SIGNOS_TOO_SHORT       0.9
+

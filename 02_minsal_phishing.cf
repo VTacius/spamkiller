@@ -8,6 +8,10 @@ header      ZT_SUB_CORREO           subject =~ /correo|cuenta/i
 describe    ZT_SUB_CORREO           Estimada cuenta de usuario
 score       ZT_SUB_CORREO           0.1
 
+header      ZT_SUB_MAILBOX          subject =~ /mailbox/i
+describe    ZT_SUB_MAILBOX          Mailbox
+score       ZT_SUB_MAILBOX          1.2
+
 header      ZT_SUB_CUOTA            subject =~ /cuota|l.mite/i
 describe    ZT_SUB_CUOTA            Estimada cuenta de usuario
 score       ZT_SUB_CUOTA            0.1
@@ -41,27 +45,27 @@ header      ZT_SUB_FECHA            subject =~ /[0-9]+(?:\s?(?:de|\/|-))?\s?(?:e
 describe    ZT_SUB_FECHA            02 de enero
 score       ZT_SUB_FECHA            0.2
 
-meta        ZT_SUB_ESTIMADO_CORREO  (ZT_SUB_ESTIMADA_CUENTA && (ZT_SUB_CORREO || ZT_SUB_CORREO_ELECTRO))
+meta        ZT_SUB_ESTIMADO_CORREO  (ZT_SUB_ESTIMADA_CUENTA && (ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_CORREO_ELECTRO))
 describe    ZT_SUB_ESTIMADO_CORREO  Estimado usuario de correo electrónico
 score       ZT_SUB_ESTIMADO_CORREO  0.5
 
-meta        ZT_SUB_ACTUALIZANDO     (ZT_SUB_ACTUALIZACION &&(ZT_SUB_CORREO_ELECTRO || ZT_SUB_CORREO || ZT_SUB_ADMIN))
+meta        ZT_SUB_ACTUALIZANDO     (ZT_SUB_ACTUALIZACION &&(ZT_SUB_CORREO_ELECTRO || ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_ADMIN))
 describe    ZT_SUB_ACTUALIZANDO     Actualizar correo, actualización administrador
 score       ZT_SUB_ACTUALIZANDO     0.3
 
-meta        ZT_SUB_ADVIRTIENDO      (ZT_SUB_ADVERTENCIA && (ZT_SUB_CORREO || ZT_SUB_CORREO_ELECTRO || ZT_SUB_ADMIN || ZT_SUB_FECHA))
+meta        ZT_SUB_ADVIRTIENDO      (ZT_SUB_ADVERTENCIA && (ZT_SUB_CORREO || ZT_SUB_CORREO_ELECTRO || ZT_SUB_MAILBOX || ZT_SUB_ADMIN || ZT_SUB_FECHA))
 describe    ZT_SUB_ADVIRTIENDO      Esta es una forma certera de llamar la atención
 score       ZT_SUB_ADVIRTIENDO      0.5
 
-meta        ZT_SUB_CUOTA_CORREO     (ZT_SUB_CUOTA && (ZT_SUB_CUOTA_CORREO || ZT_SUB_CORREO))
+meta        ZT_SUB_CUOTA_CORREO     (ZT_SUB_CUOTA && (ZT_SUB_CUOTA || ZT_SUB_CORREO || ZT_SUB_MAILBOX))
 describe    ZT_SUB_CUOTA_CORREO     Cuota de correo
 score       ZT_SUB_CUOTA_CORREO     0.4
 
-meta        ZT_SUB_ZIMBRA_ADV       (ZT_SUB_ZIMBRA && (ZT_SUB_ADVERTENCIA || ZT_SUB_CORREO || ZT_SUB_CUOTA || ZT_SUB_SEGURIDAD))
+meta        ZT_SUB_ZIMBRA_ADV       (ZT_SUB_ZIMBRA && (ZT_SUB_ADVERTENCIA || ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_CUOTA || ZT_SUB_SEGURIDAD))
 describe    ZT_SUB_ZIMBRA_ADV       Las más dedicadas formas de atribular
 score       ZT_SUB_ZIMBRA_ADV       0.4
 
-meta        __ZT_SUB                (ZT_SUB_ESTIMADO_CORREO || ZT_SUB_ACTUALIZANDO || ZT_SUB_ADVIRTIENDO || ZT_SUB_CUOTA_CORREO || ZT_SUB_ZIMBRA_ADV)
+meta        __ZT_SUB                (ZT_SUB_ESTIMADO_CORREO || ZT_SUB_ACTUALIZANDO || ZT_SUB_ADVIRTIENDO || ZT_SUB_CUOTA || ZT_SUB_ZIMBRA_ADV)
 describe    __ZT_SUB                Distintas formas de subject que no están nada bien
 
 # Fin de HEADERS
@@ -401,6 +405,30 @@ body        ZT_AGRADECE_USO         /gracias\spor\sus(?:o|a)r?(?:\s\w+){0,2}\s(?
 describe    ZT_AGRADECE_USO         Gracias por el uso de nuestra plataforma
 score       ZT_AGRADECE_USO         0.3
 
+# Un par de HELPERS que describen "Mover un correo spam a la bandeja de entrada"
+body        __VT_MOVER                /(mu(e|é|.+)valo|mover)/
+describe    __VT_MOVER                Mover
+
+body        __VT_CORREO_ELECTRONICO   /(correo|mensaje)\selectr(o|ó|.)nic(a|o)/i
+describe    __VT_CORREO_ELECTRONICO   Correo electrónico
+score       __VT_CORREO_ELECTRONICO   0.1
+
+body        __VT_BANDEJA_DE_ENTRADA   /(carpeta|bandeja)s*(\sde)*\s(entrada|correo|principal)/i
+describe    __VT_BANDEJA_DE_ENTRADA   Bandeja de entrada
+score       __VT_BANDEJA_DE_ENTRADA   0.2
+
+body        __VT_BANDEJA_DE_SPAM      /(carpeta|bandeja)s*(\sde)*\s(spam|(correo\s)*basura)/i
+describe    __VT_BANDEJA_DE_SPAM      Bandeja de spam
+score       __VT_BANDEJA_DE_SPAM      0.2
+
+meta        VT_SPAM_A_BANDEJA       (__VT_CORREO_ELECTRONICO && __VT_BANDEJA_DE_SPAM && __VT_BANDEJA_DE_ENTRADA)
+describe    VT_SPAM_A_BANDEJA       Podría sugerir mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA       0.3
+
+meta        VT_SPAM_A_BANDEJA_ADV   (VT_SPAM_A_BANDEJA && __VT_MOVER)
+describe    VT_SPAM_A_BANDEJA_ADV   Sugiere mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA_ADV   0.3
+
 # Helpers que ayudan a las amenazas
 
 body        ZT_NEGARSE_01           /(n(?:iegan|egarse)|rechaza(r|ndo))(?:\s(?:a|la))*\sactualiza(?:r|ci(?:ó|o|.)n)/i
@@ -478,11 +506,14 @@ score       ZTE_NEGA_ACTUALIZAR_03_ADV  0.9
 # Fin de CONTENIDO
 
 # MEDIANTES
-
-# TODO: Hace falta una versión _ADV
 body        ZT_HAGA_CLIC            /ha(?:ga|cer)\sclick*\s(?:aqu(?:í|i|.)|en|(?:el|a)|y)/i
 describe    ZT_HAGA_CLIC            Nos hace suponer una orden
 score       ZT_HAGA_CLIC            0.1
+
+# Carecen de contexto especifico por si mismo
+body        ZT_HAGA_CLICK_ADV       /ha(ga|cer)\sclick*\s(aqu(i|í|.)|(en\s)*((el|la)\s)*(siguiente\s)*)(enlace|URL|link)/i
+describe    ZT_HAGA_CLICK_ADV       Haga click en el siguiente enlace
+score       ZT_HAGA_CLICK_ADV       0.3
 
 body        ZT_UPDATE_AQUI          /(?:actualizar|update)\s(?:here|a(?:c(?:a|á|.)|qu(?:i|í|.)))/i
 describe    ZT_UPDATE_AQUI          Update aquí

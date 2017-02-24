@@ -1,0 +1,209 @@
+# Razones
+body        VTE_ACCESO_REMOTO           /(online|remote)\saccess/i
+describe    VTE_ACCESO_REMOTO           Remote access
+score       VTE_ACCESO_REMOTO           0.4
+
+body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
+describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
+score       VTE_ACTIVIDAD_SOSPECHOSA    0.4
+
+body        VTE_UPDATE_SYSTEM_01        /(system|webmail)\shas\sbeen\s(update|improve)d*/i
+describe    VTE_UPDATE_SYSTEM_01        System has been update
+score       VTE_UPDATE_SYSTEM_01        0.6
+
+# Este debe ir en RAZONES más bien
+body        VTE_UPDATE_SYSTEM_02        /(upgrading|updating)\sy*our\slogin\spage/i
+describe    VTE_UPDATE_SYSTEM_02        Upgrading our login page
+score       VTE_UPDATE_SYSTEM_02        0.7
+
+body        VTE_UPDATE_ZIMBRA           /zimbra.{0,3}\sha(s|ve)(\sbeen)*\s(update|upgrade)d/
+describe    VTE_UPDATE_ZIMBRA           Zimbra has been update
+score       VTE_UPDATE_ZIMBRA           1.2
+
+body        VTE_UPDATE_ZIMBRA_VERSION   /(update|upgrade)(\sthe)*(\sversion)(\sof)*\szimbra/i
+describe    VTE_UPDATE_ZIMBRA_VERSION   Update the version of zimbra
+score       VTE_UPDATE_ZIMBRA_VERSION   1.2
+
+body        VTE_MAINTENANCE             /((e-*)*mail|system)\smaintenance/i
+describe    VTE_MAINTENANCE             System maintenance
+score       VTE_MAINTENANCE             0.4
+
+body        VTE_MAINTENANCE_ADV         /scheduled*\s((e-*)*mail|system)\smaintenance/i
+describe    VTE_MAINTENANCE_ADV         Scheduled mail maintenance
+score       VTE_MAINTENANCE_ADV         0.6
+
+body        VTE_ACCOUNT_SIZE            /(account|quota|mailbox)\s(size|limit)/i
+describe    VTE_ACCOUNT_SIZE            Account size
+score       VTE_ACCOUNT_SIZE            0.9
+
+body        __VTE_ACCOUNT_LIMIT_01      /has\sexceeded(\sit)*\squota/i
+describe    __VTE_ACCOUNT_LIMIT_01      Excedido cuota
+
+body        __VTE_ACCOUNT_LIMIT_02      /has\s(reached|exceeded)\s([0-9]+(,|\.|\s)*)+/i
+describe    __VTE_ACCOUNT_LIMIT_02      Excedido cuota
+
+meta        VTE_ACCOUNT_LIMIT           (__VTE_ACCOUNT_LIMIT_01 || __VTE_ACCOUNT_LIMIT_02)
+describe    VTE_ACCOUNT_LIMIT           Limite alcanzado por la cuenta
+score       VTE_ACCOUNT_LIMIT           0.9
+
+body        __VTE_ACCOUNT_LIMIT_ADV_01  /(account|mailbox)\sis\s(above|over)\s([0-9]{1,}\.*)+\s*(k|m|g)b/i
+describe    __VTE_ACCOUNT_LIMIT_ADV_01  Mailbox is over 10 Gb
+
+body        __VTE_ACCOUNT_LIMIT_ADV_02  /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
+describe    __VTE_ACCOUNT_LIMIT_ADV_02  Has reached 10 Gb
+score       __VTE_ACCOUNT_LIMIT_ADV_02  0.9 
+
+meta        VTE_ACCOUNT_LIMIT_ADV       (__VTE_ACCOUNT_LIMIT_ADV_01 || __VTE_ACCOUNT_LIMIT_ADV_02)
+describe    VTE_ACCOUNT_LIMIT_ADV       Limite alcanzado por la cuenta en unidad de medida
+score       VTE_ACCOUNT_LIMIT_ADV       0.9 
+
+meta        VTE_LIMITE_SIZE             (VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+describe    VTE_LIMITE_SIZE             Conocida firma spammer
+score       VTE_LIMITE_SIZE             1.2
+
+meta        VTE_LIMITE_SIZE_ADV         (VTE_ACCOUNT_LIMIT_ADV && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+describe    VTE_LIMITE_SIZE_ADV         Conocida firma spammer más específica
+score       VTE_LIMITE_SIZE_ADV         1.8
+
+# Fin de RAZONES
+
+# HELPERS
+
+body        VTE_ACCOUNT                 /\w+@(\w+\.*)+\s(account|mailbox)/i
+describe    VTE_ACCOUNT                 usuario@dominio.com cuenta
+score       VTE_ACCOUNT                 0.3
+
+body        VTE_ACCOUNT_ADV             /your\s\w+@(\w+\.*)+\s(account|mailbox)/i
+describe    VTE_ACCOUNT_ADV             Your usuario@dominio.com cuenta
+score       VTE_ACCOUNT_ADV             0.4
+
+body        VTE_CONSTRAINT_ACCOUNT_ADV  /(restriction|constraint)s*(\splaced)*(\s(in|on))\syour\saccount/i
+describe    VTE_CONSTRAINT_ACCOUNT_ADV  Restrictions on your account
+score       VTE_CONSTRAINT_ACCOUNT_ADV  0.9
+
+body        VTE_AFTER_VALIDATION        /(after|upon)\s(verifica|valida)tion/i
+describe    VTE_AFTER_VALIDATION        After verification
+score       VTE_AFTER_VALIDATION        0.4
+
+body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
+describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
+score       VTE_FOLLOW_INSTRUCC         0.3
+
+body        VTE_PLAZO_DE_HORAS          /((with)*in)(\sthe)*(\snext)*\s(24|36|48)(ho*u*rs*)/i
+describe    VTE_PLAZO_DE_HORAS          Tal plazo de horas
+score       VTE_PLAZO_DE_HORAS          0.4
+
+body        VTE_PLAZO_DE_HORAS_ADV      /((with)*in)(\sthe)*\snext\s(24|36|48)(ho*u*rs*)/i
+describe    VTE_PLAZO_DE_HORAS_ADV      Tal plazo de horas
+score       VTE_PLAZO_DE_HORAS_ADV      0.6
+
+body        VTE_PLAZO_DE_DIAS           /(in|within)\s([0-9]+|un|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\s*days*/i
+describe    VTE_PLAZO_DE_DIAS           Tal plazo de días
+score       VTE_PLAZO_DE_DIAS           0.4
+
+# Fin de HELPERS
+
+# MEDIANTES
+body        __VTE_HCER_CLIC_ENLAC_01    /please\sclick*\:/i
+describe    __VTE_HCER_CLIC_ENLAC_01    Por favor, clic
+
+body        __VTE_HCER_CLIC_ENLAC_02    /(click|use)*(\s(on|in))*(\sthe)*\s(link|URL|here)/i
+describe    __VTE_HCER_CLIC_ENLAC_02    click on the link
+
+body        __VTE_HCER_CLIK_ENLAC_03    /(via|through)\s(link|url)/
+describe    __VTE_HCER_CLIK_ENLAC_03    via link
+
+meta        VTE_HACER_CLICK_ENLACE      (__VTE_HCER_CLIC_ENLAC_01 || __VTE_HCER_CLIC_ENLAC_02 || __VTE_HCER_CLIK_ENLAC_03)
+describe    VTE_HACER_CLICK_ENLACE      Sugiere hacer click
+score       VTE_HACER_CLICK_ENLACE      0.9
+
+body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
+describe    VTE_LOGIN_ACTIVATING        Login for activation
+score       VTE_LOGIN_ACTIVATING        0.9
+
+meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_LOGIN_ACTIVATING)
+describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
+
+body        VTE_BUZON_ZIMBRA            /zimbra\s(account|mailbox)/i
+describe    VTE_BUZON_ZIMBRA            Buzón Zimbra
+score       VTE_BUZON_ZIMBRA            1.2
+
+# Fin MEDIANTES
+
+# OBJETIVOS
+body        __VTE_ACTUALIZAR_CUENTA_01  /(complete|follow)(\syour)*(\swith)*\s(update|upgrade|actualization)/i
+describe    __VTE_ACTUALIZAR_CUENTA_01  Completar la actualización
+
+body        __VTE_ACTUALIZAR_CUENTA_02  /(upgrade|update)\syour\s((email|system|mailbox)\s)*(account|mailbox)/i
+describe    __VTE_ACTUALIZAR_CUENTA_02  Update your account
+
+body        VTE_VALID_CNTA              /(re-*)*(activate|validate|verify|restore)\syour\saccount/i
+describe    VTE_VALID_CNTA              Validar cuenta
+score       VTE_VALID_CNTA              0.3
+
+body        VTE_VERIFY_FORM_ADV         /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
+describe    VTE_VERIFY_FORM_ADV         Download the attached form
+score       VTE_VERIFY_FORM_ADV         0.9
+
+body        __VTE_VALID_CNTA_ADV_01     /(re-*)*(activate|validate|verify|restore)\syour(\s(\w+\.*)+)*\saccount/i
+describe    __VTE_VALID_CNTA_ADV_01     Validar dominio.com cuenta
+
+body        __VTE_VALID_CNTA_ADV_02     /(must|has\sto)\s(re-*)*(activate|validate|verify|restore)\syour\saccount/i
+describe    __VTE_VALID_CNTA_ADV_02     Validar dominio.com cuenta
+
+body        __VTE_VALID_CNTA_ADV_03     /(re-*)*(activate|validate|verify|restore)\s\w+@(\w+\.*)+\saccount/i
+describe    __VTE_VALID_CNTA_ADV_03     Validar usuario@dominio.com cuenta
+
+body        VTE_ACTUALIZAR_CUENTA_ADV   /(upgrade|update)\syour\s((e-*)*mail|system|mailbox)\s(account|mailbox)/i
+describe    VTE_ACTUALIZAR_CUENTA_ADV   Upgrade your email account
+score       VTE_ACTUALIZAR_CUENTA_ADV   0.6
+
+body        VTE_AUMENTAR_CUOTA          /space\s(added)(\sto)*\syour\s(inbox|mailbox)/i
+describe    VTE_AUMENTAR_CUOTA          space added to your inbox
+score       VTE_AUMENTAR_CUOTA          0.9
+
+meta        __VTE_RECOMPENSA_FALSA      (VTE_AUMENTAR_CUOTA || VTE_VALID_CNTA || VTE_VALIDAR_CUENTA)
+describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, en Inglés
+
+meta        VTE_VALID_CNTA_ADV          (__VTE_VALID_CNTA_ADV_01 || __VTE_VALID_CNTA_ADV_02 || __VTE_VALID_CNTA_ADV_03)
+describe    VTE_VALID_CNTA_ADV          Distintos tipos avanzados para referirse a activación de cuenta
+score       VTE_VALID_CNTA_ADV          0.9
+
+meta        VTE_VALIDAR_CUENTA          (VTE_VALID_CNTA || VTE_VALID_CNTA_ADV)
+describe    VTE_VALIDAR_CUENTA          Distintas formas de hablar sobre validación de cuenta
+score       VTE_VALIDAR_CUENTA          0.5
+
+meta        VTE_ACTUALIZAR_CUENTA       (__VTE_ACTUALIZAR_CUENTA_01 || __VTE_ACTUALIZAR_CUENTA_02)
+describe    VTE_ACTUALIZAR_CUENTA       Diferentes formas de referirse a la actualización de cuenta
+score       VTE_ACTUALIZAR_CUENTA       0.6
+
+# Fin OBJETIVOS
+
+# AMENAZA
+
+body        __VTE_SUSP_CORREO_01        /(inactive|expire|close)\syour\s(email|account|mailbox)/i
+describe    __VTE_SUSP_CORREO_01        Inactive your account
+
+body        __VTE_SUSP_CORREO_02        /(e*mail|mail|mailbox|account|password)\swill\s(inactive|expire|close)/i
+describe    __VTE_SUSP_CORREO_02        Password will expire
+
+meta        VTE_SUSPENDERAN_CORREO      (__VTE_SUSP_CORREO_01 || __VTE_SUSP_CORREO_02)
+describe    VTE_SUSPENDERAN_CORREO      Password will expire
+score       VTE_SUSPENDERAN_CORREO      0.5
+
+body        __VTE_SUSP_CORREO_ADV_01    /(e*mail|mail|mailbox|account|password)(\s(account|password))\swill\s(expire|close)/i
+describe    __VTE_SUSP_CORREO_ADV_01    Password account will expire
+
+body        __VTE_SUSP_CORREO_ADV_02    /result\sin\s(inactive|close)\syour\s(email|account|mailbox)/i
+describe    __VTE_SUSP_CORREO_ADV_02    Result in inactive your email
+
+meta        VTE_SUSPENDERAN_CORREO_ADV  (__VTE_SUSP_CORREO_ADV_01 || __VTE_SUSP_CORREO_ADV_02)
+describe    VTE_SUSPENDERAN_CORREO_ADV  Password account will expire
+score       VTE_SUSPENDERAN_CORREO_ADV  0.9
+
+body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i
+describe    VTE_INCAPACIDAD_CORREO      Don't able to send o receive 
+score       VTE_INCAPACIDAD_CORREO      0.9
+
+
+# Fin de AMENAZA
