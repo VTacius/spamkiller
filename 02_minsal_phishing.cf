@@ -207,6 +207,10 @@ body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec)(?:e|i|a)(?:do)*
 describe    ZT_CONFIGURADO_ADMIN    Definido por administrador
 score       ZT_CONFIGURADO_ADMIN    0.1
 
+body        ZT_ESTABLECIDO_ADMIN    /l(?:í|i|.)mite(?:\s[\w\,]+){0,3}\s(?:establec|configur|defin)(?:[aeiou])(?:do)?(?:\spor)?(?:\sel)?\sadministrador/i
+describe    ZT_ESTABLECIDO_ADMIN    Límite definido por el administrador
+score       ZT_ESTABLECIDO_ADMIN    0.5
+
 body        ZT_ROL_CONFIGURADO      /repositorio(?:\s(?:\w+)\s*){1}(?:\s*de)*\s(?:web|internet|navegaci(?:ó|o|.)n)/i
 describe    ZT_ROL_CONFIGURADO      Repositorio de Servicio web
 score       ZT_ROL_CONFIGURADO      0.2
@@ -553,7 +557,7 @@ score       ZT_RESPONDER_ACCION     0.3
 # Fin de MEDIANTES
 #
 # COMPORTAMENTALES
-meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || __ZT_BUZON_DEFINIDO))
+meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN))
 describe    ZT_RAZON_LIMITE         Límite, tal como lo ha configurado admin
 score       ZT_RAZON_LIMITE         0.3
 
@@ -601,7 +605,7 @@ describe    ZT_CASTIGO_BIBLICO_03   Sus correos serán rechazados por la versió
 score       ZT_CASTIGO_BIBLICO_03   0.9
 
 meta        __ZT_CASTIGO_BIBLICO    (ZT_CASTIGO_BIBLICO_01 || ZT_CASTIGO_BIBLICO_02 || ZT_CASTIGO_BIBLICO_03)
-score       __ZT_CASTIGO_BIBLICO    Distintas formas de explicar la razón del castigo
+describe    __ZT_CASTIGO_BIBLICO    Distintas formas de explicar la razón del castigo
 
 meta        ZT_PROMESA_PARAISO_01   (__ZT_RAZONES && __ZT_OBJETIVOS)
 describe    ZT_PROMESA_PARAISO_01   Tal razón, le premia con tal cosa

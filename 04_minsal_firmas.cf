@@ -26,6 +26,9 @@ header      HITSUB_MILLENIUM_LOTT_02    Subject =~ /millennium\sproject\s201[0-9
 describe    HITSUB_MILLENIUM_LOTT_02    Conocida cabecera de SPAM sobre ganador de lotería
 score       HITSUB_MILLENIUM_LOTT_02    1.2
 
+meta        __HITSUB_MILLENIUM_LOTT    (HITSUB_MILLENIUM_LOTT_01 || HITSUB_MILLENIUM_LOTT_02)
+describe    __HITSUB_MILLENIUM_LOTT    Distintas formas conocidas sobre la cabecera Millenium Lottery
+
 header      HITSUB_MINISTRY_OF_HEALTH   Subject =~ /special\swarning\sfor\sministry\sof\shealth/i
 describe    HITSUB_MINISTRY_OF_HEALTH   Parte de una conocida cabecera SPAM
 score       HITSUB_MINISTRY_OF_HEALTH   1.2
@@ -131,7 +134,7 @@ meta        FIRMA_ESTIM_USUA_HTK4S          (ZT_SUB_ESTIMADA_CUENTA && HIT_HTK4S
 describe    FIRMA_ESTIM_USUA_HTK4S          Estimado Usuario, de HTK4S, conocida firma de spam
 score       FIRMA_ESTIM_USUA_HTK4S          1.5
 
-meta        FIRMA_MILLENNIUM_LOTTERY        (HITSUB_MILLENIUM_LOTTERY && LOTERIA_INTERNET && GANADOR_LOTERIA_FELICITACIONES && __REVISAR_ADJNT_CONFIRMAR )
+meta        FIRMA_MILLENNIUM_LOTTERY        (__HITSUB_MILLENIUM_LOTT && LOTERIA_INTERNET && GANADOR_LOTERIA_FELICITACIONES && __REVISAR_ADJNT_CONFIRMAR )
 describe    FIRMA_MILLENNIUM_LOTTERY        Cierto spam de lotería. \#21 y \#26
 score       FIRMA_MILLENNIUM_LOTTERY        2.1
 
