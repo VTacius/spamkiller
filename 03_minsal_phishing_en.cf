@@ -1,17 +1,8 @@
 # Razones
-body        VTE_ACCESO_REMOTO           /(online|remote)\saccess/i
-describe    VTE_ACCESO_REMOTO           Remote access
-score       VTE_ACCESO_REMOTO           0.4
-
-body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
-describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
-score       VTE_ACTIVIDAD_SOSPECHOSA    0.4
-
 body        VTE_UPDATE_SYSTEM_01        /(system|webmail)\shas\sbeen\s(update|improve)d*/i
 describe    VTE_UPDATE_SYSTEM_01        System has been update
 score       VTE_UPDATE_SYSTEM_01        0.6
 
-# Este debe ir en RAZONES más bien
 body        VTE_UPDATE_SYSTEM_02        /(upgrading|updating)\sy*our\slogin\spage/i
 describe    VTE_UPDATE_SYSTEM_02        Upgrading our login page
 score       VTE_UPDATE_SYSTEM_02        0.7
@@ -23,6 +14,21 @@ score       VTE_UPDATE_ZIMBRA           1.2
 body        VTE_UPDATE_ZIMBRA_VERSION   /(update|upgrade)(\sthe)*(\sversion)(\sof)*\szimbra/i
 describe    VTE_UPDATE_ZIMBRA_VERSION   Update the version of zimbra
 score       VTE_UPDATE_ZIMBRA_VERSION   1.2
+
+body        VTE_NO_AUTO_UPGRADED        /not\sbe\sautomatically\sup(?:dat|grad)ed/i
+describe    VTE_NO_AUTO_UPGRADED        Not be automatically upgraded
+score       VTE_NO_AUTO_UPGRADED        2.1
+
+meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
+describe    __VTE_UPDATE                Distintas maneras de dar a actualización como razón
+
+body        VTE_ACCESO_REMOTO           /(online|remote)\saccess/i
+describe    VTE_ACCESO_REMOTO           Remote access
+score       VTE_ACCESO_REMOTO           0.4
+
+body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
+describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
+score       VTE_ACTIVIDAD_SOSPECHOSA    0.4
 
 body        VTE_MAINTENANCE             /((e-*)*mail|system)\smaintenance/i
 describe    VTE_MAINTENANCE             System maintenance
@@ -65,6 +71,12 @@ meta        VTE_LIMITE_SIZE_ADV         (VTE_ACCOUNT_LIMIT_ADV && VTE_ACCOUNT_SI
 describe    VTE_LIMITE_SIZE_ADV         Conocida firma spammer más específica
 score       VTE_LIMITE_SIZE_ADV         1.8
 
+meta        __VTE_LIMITES               (VTE_ACCOUNT_LIMIT || VTE_ACCOUNT_LIMIT_ADV || VTE_LIMITE_SIZE || VTE_LIMITE_SIZE_ADV)
+describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
+
+meta        __VTE_RAZONES               (__VTE_UPDATE || VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || __VTE_LIMITES)
+describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
+
 # Fin de RAZONES
 
 # HELPERS
@@ -101,6 +113,10 @@ body        VTE_PLAZO_DE_DIAS           /(in|within)\s([0-9]+|un|uno|dos|tres|cu
 describe    VTE_PLAZO_DE_DIAS           Tal plazo de días
 score       VTE_PLAZO_DE_DIAS           0.4
 
+body        VTE_BUZON_ZIMBRA            /zimbra\s(account|mailbox)/i
+describe    VTE_BUZON_ZIMBRA            Buzón Zimbra
+score       VTE_BUZON_ZIMBRA            1.2
+
 # Fin de HELPERS
 
 # MEDIANTES
@@ -113,7 +129,10 @@ describe    __VTE_HCER_CLIC_ENLAC_02    click on the link
 body        __VTE_HCER_CLIK_ENLAC_03    /(via|through)\s(link|url)/
 describe    __VTE_HCER_CLIK_ENLAC_03    via link
 
-meta        VTE_HACER_CLICK_ENLACE      (__VTE_HCER_CLIC_ENLAC_01 || __VTE_HCER_CLIC_ENLAC_02 || __VTE_HCER_CLIK_ENLAC_03)
+body        __VTE_HCER_CLIC_ENLAC_04    /click?\sor?\scopy\sthe\s(?:link|url)/i
+describe    __VTE_HCER_CLIC_ENLAC_04    click or copy the link
+
+meta        VTE_HACER_CLICK_ENLACE      (__VTE_HCER_CLIC_ENLAC_01 || __VTE_HCER_CLIC_ENLAC_02 || __VTE_HCER_CLIK_ENLAC_03 || __VTE_HCER_CLIC_ENLAC_04)
 describe    VTE_HACER_CLICK_ENLACE      Sugiere hacer click
 score       VTE_HACER_CLICK_ENLACE      0.9
 
@@ -123,10 +142,6 @@ score       VTE_LOGIN_ACTIVATING        0.9
 
 meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_LOGIN_ACTIVATING)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
-
-body        VTE_BUZON_ZIMBRA            /zimbra\s(account|mailbox)/i
-describe    VTE_BUZON_ZIMBRA            Buzón Zimbra
-score       VTE_BUZON_ZIMBRA            1.2
 
 # Fin MEDIANTES
 
@@ -205,5 +220,25 @@ body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|com
 describe    VTE_INCAPACIDAD_CORREO      Don't able to send o receive 
 score       VTE_INCAPACIDAD_CORREO      0.9
 
-
 # Fin de AMENAZA
+
+# OBJETIVOS
+
+body        VTE_TO_UPDATED              /(?:to|for)\supdated?\smanual(?:ly)?/i
+describe    VTE_TO_UPDATED              To updated manually
+score       VTE_TO_UPDATED              0.9
+
+# Fin de Objetivos
+
+# COMPORTAMENTALES
+
+meta        VTE_MOTIVA_ACCION           (__VTE_RAZONES && __VTE_META_MEDIANTES)
+describe    VTE_MOTIVA_ACCION           Ha dado una razón para que se realice una acción
+score       VTE_MOTIVA_ACCION           1.2
+
+# Fin de COMPORTAMENTALES
+
+# TODO: VTE_COMPORTAMENTAL_02 debe parecerse a ZT_COMPORTAMENTAL_01
+meta        VTE_COMPORTAMENTAL_01       (VTE_MOTIVA_ACCION && FROM_MINSAL_INVALIDO)
+describe    VTE_COMPORTAMENTAL_01       En inglés tendrá que bastar la motivación para que algo así suceda
+score       VTE_COMPORTAMENTAL_01       4.0

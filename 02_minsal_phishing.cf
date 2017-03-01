@@ -148,7 +148,7 @@ body        ZT_USADO_SPAMMER        /(?:empleado|utilizado|usado)\s(?:para|por)\
 describe    ZT_USADO_SPAMMER        Usado para envío de spam
 score       ZT_USADO_SPAMMER        0.3
 
-body        ZT_CUENTA_INACTIVA      /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)s*\s(?:no\s(usada|utilizada|requerida)|inactiva)s*/i
+body        ZT_CUENTA_INACTIVA      /(?:cuenta|correo|usuario|buz(?:ó|o|.)n|(?:e-*)*mail)s*\s(?:no\s(usada|utilizada|requerida)|inactiv(?:a|o))s*/i
 describe    ZT_CUENTA_INACTIVA      Cuenta no usada
 score       ZT_CUENTA_INACTIVA      0.2
 
@@ -230,6 +230,11 @@ body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\s
 describe    ZT_VERIFICAMOS_REGULAR  Verficamos regularmente [nuestras cuentas]
 score       ZT_VERIFICAMOS_REGULAR  0.2
 
+# Es un poco controversial que sea DETALLE y no razón, pero por ahora tendrá que funcionar
+body        ZT_RECIBIDO_SPAM        /(?:correo|mensaje)s?(?:\sde)?\s(?:basura|spam)\srecibidos?/i
+describe    ZT_RECIBIDO_SPAM        Mensajes de SPAM Recibidos
+score       ZT_RECIBIDO_SPAM        0.4
+
 # TODO: ¿En serio revisamos esto como DETALLE?
 body        ZT_POLITICAS_WHY        /pol(?:í|i|.)ticas*\spara\s(?:asegurar|proteger)(?:\sy\s(?:proteger|asegurar))*\s(?:s|t)u\s(?:cuenta|mailbox|correo|informaci(?:ó|o|.)n)/i
 describe    ZT_POLITICAS_WHY        Políticas para asegurar tu cuenta
@@ -256,6 +261,10 @@ body        ZT_ACTUALIZAR_03        /(?:para|y)\s(?:(?:re-*)*valid|renov|actuali
 describe    ZT_ACTUALIZAR_03        En algún momento, se habla sobre actualizar cuenta de algo
 score       ZT_ACTUALIZAR_03        0.1
 
+body        ZT_ACTUALIZAR_04        /para\s(?:recibir|obtener|tener)(\s\w+)?\s(?:actualiza|verifica)ci(?:ó|o|.)n/i
+describe    ZT_ACTUALIZAR_04        Para recibir actualización
+score       ZT_ACTUALIZAR_04        0.4
+
 # TODO: Verificar si esto no es algo diferente a un objetivo, por el contexto en que sucede
 body        ZT_ACTUALICE            /(?:(?:re-*)*valid|renov|actualic|verific|confirm|activ)e\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)(\sde)*\s(ahora|inmediat(?:a|o))/i
 describe    ZT_ACTUALICE            En algún momento, se habla sobre actualizar cuenta de algo
@@ -273,7 +282,7 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(\s(?:\w|&|;)+){0,3
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA)
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
 
@@ -340,18 +349,23 @@ body        ZT_NO_ENVIO             /no(\s\w+){0,3}\s(?:recibir|enviar)(\s[\w|á
 describe    ZT_NO_ENVIO             No podrá enviar o recibir correo
 score       ZT_NO_ENVIO             0.4
 
+# TODO: En un buen día, habrá que confirmar que esto sea de este modo
+body        ZT_APAGAR_CUENTAS       /(?:desconecta|cancela|apaga)r\s(usuario|cuenta|buzone)s/i
+describe    ZT_APAGAR_CUENTAS       Apagar cuentas
+score       ZT_APAGAR_CUENTAS       0.2
+
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_PERMANENTE || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
-meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO || ZT_CUENTAS_EXPIRARAN)
+meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN)
 describe    __ZT_PERDIDA_CUENTA     Distintas formas de referirse a la cancelación futura de la cuenta
 
-meta        ZT_VARIAS_AMENAZAS_01   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_CUENTAS_EXPIRARAN) > 1)
+meta        ZT_VARIAS_AMENAZAS_01   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN) > 1)
 describe    ZT_VARIAS_AMENAZAS_01   Hay al menos dos amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_01   0.3
 
 # Sólo basta con sumar 0.6 del otro que agregamos
-meta        ZT_VARIAS_AMENAZAS_02   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_CUENTAS_EXPIRARAN) > 2)
+meta        ZT_VARIAS_AMENAZAS_02   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN) > 2)
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
@@ -359,9 +373,9 @@ meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_PERMANENTE + ZT_ACCESO_LIMITA
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_CUENTAS_EXPIRARAN + ZT_EXCLUSION_PERMANENTE + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_EXCLUSION_PERMANENTE + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
-score       ZT_DEMASIADA_ADVERT     0.4
+score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA
 
 # CONTENIDO
@@ -539,11 +553,17 @@ body        ZT_HAGA_SITIO           /(?:acceda|abra)\sel(?:\s\w+){0,2}\ssitio/i
 describe    ZT_HAGA_SITIO           Abra el sitio
 score       ZT_HAGA_SITIO           0.1
 
+# TODO: Verificar, verificar mucho
+# Es la configuración y el condicional lo que le hace así según \#39
+body        ZT_HAGA_ACTUALIZACION   /actualizar?\s(?:t|s)u\s(?:cuenta|correo|usuario|buz(?:ó|o|.)n|(?:e-*)*mail)\ssi/i
+describe    ZT_HAGA_ACTUALIZACION   Actualiza tu cuenta si
+score       ZT_HAGA_ACTUALIZACION   0.3
+
 body        ZT_RESPONDER_MENSAJE    /responder(?:\sa)?\seste\s(?:mensaje|correo)/i
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 
-meta        __ZT_ACCIONES           (ZT_HAGA_CLIC || ZT_HAGA_FORM || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+meta        __ZT_ACCIONES           (ZT_HAGA_CLIC || ZT_HAGA_FORM || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION ||ZT_HAGA_ACTUALIZACION || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
 meta        ZT_CLICK_ACCION         ((ZT_HAGA_CLIC || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (ZT_HAGA_FORM || ZT_HAGA_INFORMACION || ZT_RESPONDER_MENSAJE))
@@ -576,6 +596,11 @@ score       ZT_RAZON_02             0.5
 meta        ZT_RAZON_03             ((ZT_VERSION_VIEJA || ZT_POR_ACTUALIZACION) && __ZT_SENDO_RECHAZADOS)
 describe    ZT_RAZON_03             Por una razón, sus correos están siendo rechazados
 score       ZT_RAZON_03             0.9
+
+# TODO: Verificar que sea correcto
+meta        ZT_RAZON_04             (ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
+describe    ZT_RAZON_04             Cuenta inactiva por correo spam recibido
+score       ZT_RAZON_04             0.9
 
 meta        ZT_MOTIVA_ACCION        (__ZT_OBJETIVOS && __ZT_ACCIONES)
 describe    ZT_MOTIVA_ACCION        Actualizar cuenta por medio de un clic
@@ -635,7 +660,7 @@ score       ZT_FIRMA_01             0.9
 
 # Esta es una de mis mejores ideas, sin duda
 # Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno
-meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO))
+meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO || ZT_NOMINAL))
 describe    ZT_COMPORTAMENTAL_01    Agravantes sobre su From: en conjunto a cierto conocido spammer
 score       ZT_COMPORTAMENTAL_01    7.0
 

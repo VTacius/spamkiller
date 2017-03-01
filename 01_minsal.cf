@@ -129,7 +129,7 @@ score       FREEMAIL_MISSING_HEADERS    0.9
 endif
 
 # Ciertas reglas sobre ciertos comportamientos
-header      FROM_SIGNOS                 From =~ /1|\!|\?|\+/
+header      FROM_SIGNOS                 From =~ /1|\!|\?|\+|\*/
 describe    FROM_SIGNOS                 Signos en From: siempre son sospechosos de ser de parte de spammer
 score       FROM_SIGNOS                 0.2
 
