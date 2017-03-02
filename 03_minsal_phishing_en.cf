@@ -22,9 +22,16 @@ score       VTE_NO_AUTO_UPGRADED        2.1
 meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
 describe    __VTE_UPDATE                Distintas maneras de dar a actualización como razón
 
-body        VTE_ACCESO_REMOTO           /(online|remote)\saccess/i
-describe    VTE_ACCESO_REMOTO           Remote access
-score       VTE_ACCESO_REMOTO           0.4
+body        VTE_ACCESO_REMOTO_01        /(online|remote)\saccess/i
+describe    VTE_ACCESO_REMOTO_01        Remote access
+score       VTE_ACCESO_REMOTO_01        0.4
+
+body        VTE_ACCESO_REMOTO_02        /un(?:known|recognized)\slocation(?:\s\w+){0,2}\s(?:session|logging)/i
+describe    VTE_ACCESO_REMOTO_02        unknown location tried logging
+score       VTE_ACCESO_REMOTO_02        0.6
+
+meta        __VTE_ACCESO_REMOTO         (VTE_ACCESO_REMOTO_01 || VTE_ACCESO_REMOTO_02)
+describe    __VTE_ACCESO_REMOTO         Distintas formas de referirse a acceso remoto
 
 body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
 describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
@@ -74,12 +81,23 @@ score       VTE_LIMITE_SIZE_ADV         1.8
 meta        __VTE_LIMITES               (VTE_ACCOUNT_LIMIT || VTE_ACCOUNT_LIMIT_ADV || VTE_LIMITE_SIZE || VTE_LIMITE_SIZE_ADV)
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || __VTE_LIMITES)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || __VTE_LIMITES)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
 
 # HELPERS
+
+body        VTE_LE_NOTIFICAMOS_01       /this(?:\s\w+){0,2}\snotify(?:\s\w+){0,2}\sthat/i
+describe    VTE_LE_NOTIFICAMOS_01       This is for notify
+score       VTE_LE_NOTIFICAMOS_01       0.1
+
+body        VTE_LE_NOTIFICAMOS_02       /take\s(?:attention|note)\s(?:about|of)\sthis/i
+describe    VTE_LE_NOTIFICAMOS_02       Take attention of this
+score       VTE_LE_NOTIFICAMOS_02       0.2
+
+meta        __VTE_NOTIFICACION          (VTE_LE_NOTIFICAMOS_01 || VTE_LE_NOTIFICAMOS_02)
+describe    __VTE_NOTIFICACION          Distintas formas de señalar que el correo notifica algo al usuario
 
 body        VTE_ACCOUNT                 /\w+@(\w+\.*)+\s(account|mailbox)/i
 describe    VTE_ACCOUNT                 usuario@dominio.com cuenta
@@ -222,6 +240,14 @@ score       VTE_INCAPACIDAD_CORREO      0.9
 
 # Fin de AMENAZA
 
+# CONTENIDO
+
+body        VTE_NEGARSE_01              /else(?:\s\w+){0,2}\s(?:mailbox|account)(?:\s\w+){0,2}\sblocked?/i
+describe    VTE_NEGARSE_01              else your account will be blocked
+score       VTE_NEGARSE_01              0.6
+
+# Fin de CONTENIDO
+
 # OBJETIVOS
 
 body        VTE_TO_UPDATED              /(?:to|for)\supdated?\smanual(?:ly)?/i
@@ -239,6 +265,10 @@ score       VTE_MOTIVA_ACCION           1.2
 # Fin de COMPORTAMENTALES
 
 # TODO: VTE_COMPORTAMENTAL_02 debe parecerse a ZT_COMPORTAMENTAL_01
+meta        VTE_NOTIFICA_RAZON          (__VTE_NOTIFICACION && (__VTE_RAZONES))
+describe    VTE_NOTIFICA_RAZON          Se le notifica al usuario sobre una razón
+score       VTE_NOTIFICA_RAZON          0.5
+
 meta        VTE_COMPORTAMENTAL_01       (VTE_MOTIVA_ACCION && FROM_MINSAL_INVALIDO)
 describe    VTE_COMPORTAMENTAL_01       En inglés tendrá que bastar la motivación para que algo así suceda
 score       VTE_COMPORTAMENTAL_01       4.0

@@ -307,6 +307,11 @@ body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n)(\s
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.4
 
+# TODO: Este es un poco complicado de agregar por acá, sin embargo, funciona como una amenaza bien velada. De que cumplen la función tal, la cumple. Y gracias a <usuarios>, tiene contexto
+body        ZT_APAGAR_CUENTAS       /(?:estamos|nos\shan)\s(?:ordenado|pedido|obligado)s?(\s\w+){0,2}\s(?:cancel|apag)(?:uen|ar)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail|usuario)s?/i
+describe    ZT_APAGAR_CUENTAS       Han ordenado apagar cuentas
+score       ZT_APAGAR_CUENTAS       0.6
+
 body        ZT_CUENTAS_CERRARAN     /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)s*(\s\w*){0,3}\s(?:cerrar|desconectar|cancelar)(?:á|a|.)n/i
 describe    ZT_CUENTAS_CERRARAN     Cuentas cerarrán
 score       ZT_CUENTAS_CERRARAN     0.4
@@ -348,11 +353,6 @@ score       ZT_NO_ENVIO_RECEP_ADV   0.5
 body        ZT_NO_ENVIO             /no(\s\w+){0,3}\s(?:recibir|enviar)(\s[\w|áéíóú]+)*\s(?:correo|mensaje)/i
 describe    ZT_NO_ENVIO             No podrá enviar o recibir correo
 score       ZT_NO_ENVIO             0.4
-
-# TODO: En un buen día, habrá que confirmar que esto sea de este modo
-body        ZT_APAGAR_CUENTAS       /(?:desconecta|cancela|apaga)r\s(usuario|cuenta|buzone)s/i
-describe    ZT_APAGAR_CUENTAS       Apagar cuentas
-score       ZT_APAGAR_CUENTAS       0.2
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_PERMANENTE || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
