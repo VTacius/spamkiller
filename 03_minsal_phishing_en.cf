@@ -78,10 +78,14 @@ meta        VTE_LIMITE_SIZE_ADV         (VTE_ACCOUNT_LIMIT_ADV && VTE_ACCOUNT_SI
 describe    VTE_LIMITE_SIZE_ADV         Conocida firma spammer más específica
 score       VTE_LIMITE_SIZE_ADV         1.8
 
+body        VTE_SECURITY_ACCOUNT        /for\s(?:the|your)\s(?:safety|security)(?:\s\w+){0,2}\s(?:information|account)/i
+describe    VTE_SECURITY_ACCOUNT        for your security account
+score       VTE_SECURITY_ACCOUNT        0.9
+
 meta        __VTE_LIMITES               (VTE_ACCOUNT_LIMIT || VTE_ACCOUNT_LIMIT_ADV || VTE_LIMITE_SIZE || VTE_LIMITE_SIZE_ADV)
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || __VTE_LIMITES)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -135,6 +139,14 @@ body        VTE_BUZON_ZIMBRA            /zimbra\s(account|mailbox)/i
 describe    VTE_BUZON_ZIMBRA            Buzón Zimbra
 score       VTE_BUZON_ZIMBRA            1.2
 
+body        VTE_NEGACION_01             /if(?:\s\w+)?\s(?:do|not)(?:n\'t|\snot)?\s(verify|validate|update)/i
+describe    VTE_NEGACION_01             If don't verify
+score       VTE_NEGACION_01             0.5
+
+body        VTE_NEGACION_02             /if(?:\s\w+)?\s(?:do|not)(?:n\'t|\snot)?\s(verify|validate|update)\syour\s(?:information|mailbox|account)/i
+describe    VTE_NEGACION_02             If don't verify your account
+score       VTE_NEGACION_02             0.9
+
 # Fin de HELPERS
 
 # MEDIANTES
@@ -154,61 +166,68 @@ meta        VTE_HACER_CLICK_ENLACE      (__VTE_HCER_CLIC_ENLAC_01 || __VTE_HCER_
 describe    VTE_HACER_CLICK_ENLACE      Sugiere hacer click
 score       VTE_HACER_CLICK_ENLACE      0.9
 
+body        VTE_VERIFY_FORM_ADV         /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
+describe    VTE_VERIFY_FORM_ADV         Download the attached form
+score       VTE_VERIFY_FORM_ADV         0.9
+
 body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
 score       VTE_LOGIN_ACTIVATING        0.9
 
-meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_LOGIN_ACTIVATING)
+meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
 
 # OBJETIVOS
-body        __VTE_ACTUALIZAR_CUENTA_01  /(complete|follow)(\syour)*(\swith)*\s(update|upgrade|actualization)/i
-describe    __VTE_ACTUALIZAR_CUENTA_01  Completar la actualización
+body        VTE_ACTUALIZAR_CUENTA_01    /(complete|follow)(\syour)*(\swith)*\s(update|upgrade|actualization)/i
+describe    VTE_ACTUALIZAR_CUENTA_01    Completar la actualización
+score       VTE_ACTUALIZAR_CUENTA_01    0.6
 
-body        __VTE_ACTUALIZAR_CUENTA_02  /(upgrade|update)\syour\s((email|system|mailbox)\s)*(account|mailbox)/i
-describe    __VTE_ACTUALIZAR_CUENTA_02  Update your account
+body        VTE_ACTUALIZAR_CUENTA_02    /(upgrade|update)\syour\s((email|system|mailbox)\s)*(account|mailbox)/i
+describe    VTE_ACTUALIZAR_CUENTA_02    Update your account
+score       VTE_ACTUALIZAR_CUENTA_02    0.9
 
-body        VTE_VALID_CNTA              /(re-*)*(activate|validate|verify|restore)\syour\saccount/i
-describe    VTE_VALID_CNTA              Validar cuenta
-score       VTE_VALID_CNTA              0.3
+body        VTE_ACTUALIZAR_CUENTA_03    /(upgrade|update)\syour\s((e-*)*mail|system|mailbox)\s(account|mailbox)/i
+describe    VTE_ACTUALIZAR_CUENTA_03    Upgrade your email account
+score       VTE_ACTUALIZAR_CUENTA_03    0.6
 
-body        VTE_VERIFY_FORM_ADV         /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
-describe    VTE_VERIFY_FORM_ADV         Download the attached form
-score       VTE_VERIFY_FORM_ADV         0.9
+meta        __VTE_ACTUALIZAR_CUENTA     (VTE_ACTUALIZAR_CUENTA_01 || VTE_ACTUALIZAR_CUENTA_02 || VTE_ACTUALIZAR_CUENTA_03)
+describe    __VTE_ACTUALIZAR_CUENTA     Diferentes formas de referirse a la actualización de cuenta
 
-body        __VTE_VALID_CNTA_ADV_01     /(re-*)*(activate|validate|verify|restore)\syour(\s(\w+\.*)+)*\saccount/i
-describe    __VTE_VALID_CNTA_ADV_01     Validar dominio.com cuenta
+body        VTE_VALID_CUENTA_01         /(re-*)*(activate|validate|verify|restore)\syour\s(?:account|information)/i
+describe    VTE_VALID_CUENTA_01         Validar cuenta
+score       VTE_VALID_CUENTA_01         0.6
 
-body        __VTE_VALID_CNTA_ADV_02     /(must|has\sto)\s(re-*)*(activate|validate|verify|restore)\syour\saccount/i
-describe    __VTE_VALID_CNTA_ADV_02     Validar dominio.com cuenta
+body        VTE_VALID_CUENTA_02         /(re-*)*(activate|validate|verify|restore)\syour(\s(\w+\.*)+)*\saccount/i
+describe    VTE_VALID_CUENTA_02         Validar dominio.com cuenta
+score       VTE_VALID_CUENTA_02         0.6
 
-body        __VTE_VALID_CNTA_ADV_03     /(re-*)*(activate|validate|verify|restore)\s\w+@(\w+\.*)+\saccount/i
-describe    __VTE_VALID_CNTA_ADV_03     Validar usuario@dominio.com cuenta
+body        VTE_VALID_CUENTA_03         /(must|has\sto)\s(re-*)*(activate|validate|verify|restore)\syour\saccount/i
+describe    VTE_VALID_CUENTA_03         Validar dominio.com cuenta
+score       VTE_VALID_CUENTA_03         0.9
 
-body        VTE_ACTUALIZAR_CUENTA_ADV   /(upgrade|update)\syour\s((e-*)*mail|system|mailbox)\s(account|mailbox)/i
-describe    VTE_ACTUALIZAR_CUENTA_ADV   Upgrade your email account
-score       VTE_ACTUALIZAR_CUENTA_ADV   0.6
+body        VTE_VALID_CUENTA_04         /(re-*)*(activate|validate|verify|restore)\s\w+@(\w+\.*)+\saccount/i
+describe    VTE_VALID_CUENTA_04         Validar usuario@dominio.com cuenta
+score       VTE_VALID_CUENTA_04         0.3
 
-body        VTE_AUMENTAR_CUOTA          /space\s(added)(\sto)*\syour\s(inbox|mailbox)/i
-describe    VTE_AUMENTAR_CUOTA          space added to your inbox
-score       VTE_AUMENTAR_CUOTA          0.9
+meta        __VTE_VALIDAR_CUENTA        (VTE_VALID_CUENTA_01 || VTE_VALID_CUENTA_02 || VTE_VALID_CUENTA_03 || VTE_VALID_CUENTA_04)
+describe    __VTE_VALIDAR_CUENTA        Distintas formas de hablar sobre validación de cuenta
 
-meta        __VTE_RECOMPENSA_FALSA      (VTE_AUMENTAR_CUOTA || VTE_VALID_CNTA || VTE_VALIDAR_CUENTA)
+body        VTE_AUMENTAR_CUOTA_01       /space\s(added)(\sto)*\syour\s(inbox|mailbox)/i
+describe    VTE_AUMENTAR_CUOTA_01       space added to your inbox
+score       VTE_AUMENTAR_CUOTA_01       0.9
+
+body        VTE_AUMENTAR_CUOTA_02       /(?:prevent|avoid)\sexceeding\syour\s(?:quota|limit)/i
+describe    VTE_AUMENTAR_CUOTA_02       avoid exceeding your cuota
+score       VTE_AUMENTAR_CUOTA_02       0.9
+
+meta        __VTE_AUMENTAR_CUOTA        (VTE_AUMENTAR_CUOTA_01 || VTE_AUMENTAR_CUOTA_01)
+describe    __VTE_AUMENTAR_CUOTA        Distintas formas de referirse al aumento de cuota como objetivo
+
+meta        __VTE_RECOMPENSA_FALSA      (__VTE_ACTUALIZAR_CUENTA || __VTE_VALIDAR_CUENTA || __VTE_AUMENTAR_CUOTA)
 describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, en Inglés
 
-meta        VTE_VALID_CNTA_ADV          (__VTE_VALID_CNTA_ADV_01 || __VTE_VALID_CNTA_ADV_02 || __VTE_VALID_CNTA_ADV_03)
-describe    VTE_VALID_CNTA_ADV          Distintos tipos avanzados para referirse a activación de cuenta
-score       VTE_VALID_CNTA_ADV          0.9
-
-meta        VTE_VALIDAR_CUENTA          (VTE_VALID_CNTA || VTE_VALID_CNTA_ADV)
-describe    VTE_VALIDAR_CUENTA          Distintas formas de hablar sobre validación de cuenta
-score       VTE_VALIDAR_CUENTA          0.5
-
-meta        VTE_ACTUALIZAR_CUENTA       (__VTE_ACTUALIZAR_CUENTA_01 || __VTE_ACTUALIZAR_CUENTA_02)
-describe    VTE_ACTUALIZAR_CUENTA       Diferentes formas de referirse a la actualización de cuenta
-score       VTE_ACTUALIZAR_CUENTA       0.6
 
 # Fin OBJETIVOS
 
