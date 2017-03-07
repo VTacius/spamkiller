@@ -107,7 +107,11 @@ body        ZT_LIMIT_08             /(?:supera|excedi|llega)do\s(?:e|a)l\sl(?:i|
 describe    ZT_LIMIT_08             Superado el límite de cuota
 score       ZT_LIMIT_08             0.3
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08)
+body        ZT_LIMIT_09             /llegado\sal\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:q|c)uota/i
+describe    ZT_LIMIT_09             Llegado al limite de cuota
+score       ZT_LIMIT_09             0.1
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
@@ -125,9 +129,9 @@ body        ZT_VERSION_VIEJA        /operando\sen\snuestra\sversi(?:ó|o|.)n\san
 describe    ZT_VERSION_VIEJA        Operando en nuestra versión anterior
 score       ZT_VERSION_VIEJA        0.2
 
-body        ZT_POR_ACTUALIZACION    /(?:por|debido)(\s\w+){0,3}\sactualizaci(?:o|ó|.)n\sdel?/i
+body        ZT_POR_ACTUALIZACION    /(?:por|debido)(\s\w+){0,3}\sactualizaci(?:o|ó|.|=C3=B3)n\sdel?(?:\sla)?\s(?:sistema|base|correo|webmail)/i
 describe    ZT_POR_ACTUALIZACION    Debido a actualización de
-score       ZT_POR_ACTUALIZACION    0.3
+score       ZT_POR_ACTUALIZACION    0.4
 
 body        ZT_REQUIERE_VALIDAR     /(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\s(?:requiere|necesita)\sv(?:alida|erifica)(?:r|ci(?:o|.|ó)n)/i
 describe    ZT_REQUIERE_VALIDAR     Tu cuenta requiere validar
@@ -200,11 +204,15 @@ body        ZT_SENDO_RECHAZADOS_02  /entrantes(\sse)*\s(?:puso|pusieron|est(?:á
 describe    ZT_SENDO_RECHAZADOS_02  Entrantes se puso en espera
 score       ZT_SENDO_RECHAZADOS_02  0.1
 
-body        ZT_SENDO_RECHAZADOS_03  /(?:correo|mensaje)s?(?:\s[\w|áéíóú]+){0,2}\sest(?:á|a|.)n?(?:\s[\w|áéíóú]+){0,3}\s(?:espera|pendiente)s?/i
+body        ZT_SENDO_RECHAZADOS_03  /(?:correo|mensaje)s?(?:\s[\w.áéíóú]+){0,2}\sest(?:á|a|.)n?(?:\s[\w.áéíóú]+){0,3}\s(?:espera|pendiente)s?/i
 describe    ZT_SENDO_RECHAZADOS_03  Correos están en espera
 score       ZT_SENDO_RECHAZADOS_03  0.5
 
-meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03)
+body        ZT_SENDO_RECHAZADOS_04  /(?:correo|mensaje)s?(?:\s[\wáéíóú0-9\=]+){0,3}\sest(?:á|a|.|=C3=A1)n?(?:\s[\wáéíóú0-9\=]+){0,3}\s(?:espera|pendiente)s?/i
+describe    ZT_SENDO_RECHAZADOS_04  Correos están en espera
+score       ZT_SENDO_RECHAZADOS_04  0.5
+
+meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04)
 describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipica detallen en excusa spammer
 
 body        ZT_MEJORAR_SERVICIO     /(?:\sun)*\smejor(?:ar)*(?:\s(?:el|los))*\sservi(?:cio|dores*)\sde\scorreo/i
@@ -595,7 +603,7 @@ score       ZT_HAGA_ACTUALIZAC_02   0.3
 meta        __ZT_HAGA_ACTUALIZAC    (ZT_HAGA_ACTUALIZAC_01 || ZT_HAGA_ACTUALIZAC_02)
 describe    __ZT_HAGA_ACTUALIZAC    Distintas formas de hacer actualización
 
-body        ZT_RESPONDER_MENSAJE    /responder(?:\sa)?\seste\s(?:mensaje|correo)/i
+body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:mensaje|correo)/i
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 

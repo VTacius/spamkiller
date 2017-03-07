@@ -49,46 +49,49 @@ body        VTE_ACCOUNT_SIZE            /(account|quota|mailbox)\s(size|limit)/i
 describe    VTE_ACCOUNT_SIZE            Account size
 score       VTE_ACCOUNT_SIZE            0.9
 
-body        __VTE_ACCOUNT_LIMIT_01      /has\sexceeded(\sit)*\squota/i
-describe    __VTE_ACCOUNT_LIMIT_01      Excedido cuota
+body        VTE_ACCOUNT_LIMIT_01        /has\sexceeded(\sit)*\squota/i
+describe    VTE_ACCOUNT_LIMIT_01        Excedido cuota
+score       VTE_ACCOUNT_LIMIT_01        0.8
 
-body        __VTE_ACCOUNT_LIMIT_02      /has\s(reached|exceeded)\s([0-9]+(,|\.|\s)*)+/i
-describe    __VTE_ACCOUNT_LIMIT_02      Excedido cuota
+body        VTE_ACCOUNT_LIMIT_02        /has\s(reached|exceeded)\s([0-9]+(,|\.|\s)*)+/i
+describe    VTE_ACCOUNT_LIMIT_02        Excedido cuota
+score       VTE_ACCOUNT_LIMIT_02        0.9
 
-meta        VTE_ACCOUNT_LIMIT           (__VTE_ACCOUNT_LIMIT_01 || __VTE_ACCOUNT_LIMIT_02)
-describe    VTE_ACCOUNT_LIMIT           Limite alcanzado por la cuenta
-score       VTE_ACCOUNT_LIMIT           0.9
+body        VTE_ACCOUNT_LIMIT_03        /(account|mailbox)\sis\s(above|over)\s([0-9]{1,}\.*)+\s*(k|m|g)b/i
+describe    VTE_ACCOUNT_LIMIT_03        Mailbox is over 10 Gb
+score       VTE_ACCOUNT_LIMIT_03        1.2 
 
-body        __VTE_ACCOUNT_LIMIT_ADV_01  /(account|mailbox)\sis\s(above|over)\s([0-9]{1,}\.*)+\s*(k|m|g)b/i
-describe    __VTE_ACCOUNT_LIMIT_ADV_01  Mailbox is over 10 Gb
+body        VTE_ACCOUNT_LIMIT_04        /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
+describe    VTE_ACCOUNT_LIMIT_04        Has reached 10 Gb
+score       VTE_ACCOUNT_LIMIT_04        1.2 
 
-body        __VTE_ACCOUNT_LIMIT_ADV_02  /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|m|g)b/i
-describe    __VTE_ACCOUNT_LIMIT_ADV_02  Has reached 10 Gb
-score       __VTE_ACCOUNT_LIMIT_ADV_02  0.9 
+meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04)
+describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
-meta        VTE_ACCOUNT_LIMIT_ADV       (__VTE_ACCOUNT_LIMIT_ADV_01 || __VTE_ACCOUNT_LIMIT_ADV_02)
-describe    VTE_ACCOUNT_LIMIT_ADV       Limite alcanzado por la cuenta en unidad de medida
-score       VTE_ACCOUNT_LIMIT_ADV       0.9 
-
-meta        VTE_LIMITE_SIZE             (VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+# Este es una FIRMA, en algún momento 
+meta        VTE_LIMITE_SIZE             (__VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
 describe    VTE_LIMITE_SIZE             Conocida firma spammer
 score       VTE_LIMITE_SIZE             1.2
-
-meta        VTE_LIMITE_SIZE_ADV         (VTE_ACCOUNT_LIMIT_ADV && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
-describe    VTE_LIMITE_SIZE_ADV         Conocida firma spammer más específica
-score       VTE_LIMITE_SIZE_ADV         1.8
 
 body        VTE_SECURITY_ACCOUNT        /for\s(?:the|your)\s(?:safety|security)(?:\s\w+){0,2}\s(?:information|account)/i
 describe    VTE_SECURITY_ACCOUNT        for your security account
 score       VTE_SECURITY_ACCOUNT        0.9
 
-meta        __VTE_LIMITES               (VTE_ACCOUNT_LIMIT || VTE_ACCOUNT_LIMIT_ADV || VTE_LIMITE_SIZE || VTE_LIMITE_SIZE_ADV)
+meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
 meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
+
+# DETALLES
+
+body        VTE_DEFINIDO_POR_ADMIN      /as\sset\sby\sadmin(?:istrator)?/i
+describe    VTE_DEFINIDO_POR_ADMIN      Definido por administrador
+score       VTE_DEFINIDO_POR_ADMIN      0.1
+
+# Fin de DETALLES
 
 # HELPERS
 
@@ -233,25 +236,24 @@ describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, 
 
 # AMENAZA
 
-body        __VTE_SUSP_CORREO_01        /(inactive|expire|close)\syour\s(email|account|mailbox)/i
-describe    __VTE_SUSP_CORREO_01        Inactive your account
+body        VTE_SUSPENSION_CORREO_01    /(inactive|expire|close)\syour\s(email|account|mailbox)/i
+describe    VTE_SUSPENSION_CORREO_01    Inactive your account
+score       VTE_SUSPENSION_CORREO_01    0.6
 
-body        __VTE_SUSP_CORREO_02        /(e*mail|mail|mailbox|account|password)\swill\s(inactive|expire|close)/i
-describe    __VTE_SUSP_CORREO_02        Password will expire
+body        VTE_SUSPENSION_CORREO_02    /(e*mail|mail|mailbox|account|password)\swill\s(inactive|expire|close)/i
+describe    VTE_SUSPENSION_CORREO_02    Password will expire
+score       VTE_SUSPENSION_CORREO_02    0.6
 
-meta        VTE_SUSPENDERAN_CORREO      (__VTE_SUSP_CORREO_01 || __VTE_SUSP_CORREO_02)
-describe    VTE_SUSPENDERAN_CORREO      Password will expire
-score       VTE_SUSPENDERAN_CORREO      0.5
+body        VTE_SUSPENSION_CORREO_03    /(e*mail|mail|mailbox|account|password)(\s(account|password))\swill\s(expire|close)/i
+describe    VTE_SUSPENSION_CORREO_03    Password account will expire
+score       VTE_SUSPENSION_CORREO_03    0.9
 
-body        __VTE_SUSP_CORREO_ADV_01    /(e*mail|mail|mailbox|account|password)(\s(account|password))\swill\s(expire|close)/i
-describe    __VTE_SUSP_CORREO_ADV_01    Password account will expire
+body        VTE_SUSPENSION_CORREO_04    /result\sin\s(inactive|close)\syour\s(email|account|mailbox)/i
+describe    VTE_SUSPENSION_CORREO_04    Result in inactive your email
+score       VTE_SUSPENSION_CORREO_04    0.9
 
-body        __VTE_SUSP_CORREO_ADV_02    /result\sin\s(inactive|close)\syour\s(email|account|mailbox)/i
-describe    __VTE_SUSP_CORREO_ADV_02    Result in inactive your email
-
-meta        VTE_SUSPENDERAN_CORREO_ADV  (__VTE_SUSP_CORREO_ADV_01 || __VTE_SUSP_CORREO_ADV_02)
-describe    VTE_SUSPENDERAN_CORREO_ADV  Password account will expire
-score       VTE_SUSPENDERAN_CORREO_ADV  0.9
+meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04)
+describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
 
 body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i
 describe    VTE_INCAPACIDAD_CORREO      Don't able to send o receive 
@@ -264,6 +266,10 @@ score       VTE_INCAPACIDAD_CORREO      0.9
 body        VTE_NEGARSE_01              /else(?:\s\w+){0,2}\s(?:mailbox|account)(?:\s\w+){0,2}\sblocked?/i
 describe    VTE_NEGARSE_01              else your account will be blocked
 score       VTE_NEGARSE_01              0.6
+
+body        VTE_NEGARSE_02              /until\syou\s(?:re-?)?(?:validate|verify)/i
+describe    VTE_NEGARSE_02              until you re-validate
+score       VTE_NEGARSE_02              0.6
 
 # Fin de CONTENIDO
 
@@ -281,7 +287,9 @@ meta        VTE_MOTIVA_ACCION           (__VTE_RAZONES && __VTE_META_MEDIANTES)
 describe    VTE_MOTIVA_ACCION           Ha dado una razón para que se realice una acción
 score       VTE_MOTIVA_ACCION           1.2
 
-# Fin de COMPORTAMENTALES
+meta        VTE_RAZON_01                (__VTE_LIMITES && VTE_DEFINIDO_POR_ADMIN)
+describe    VTE_RAZON_01                Límite, como ha sido definido por administrador
+score       VTE_RAZON_01                0.9
 
 # TODO: VTE_COMPORTAMENTAL_02 debe parecerse a ZT_COMPORTAMENTAL_01
 meta        VTE_NOTIFICA_RAZON          (__VTE_NOTIFICACION && (__VTE_RAZONES))
@@ -291,3 +299,6 @@ score       VTE_NOTIFICA_RAZON          0.5
 meta        VTE_COMPORTAMENTAL_01       (VTE_MOTIVA_ACCION && FROM_MINSAL_INVALIDO)
 describe    VTE_COMPORTAMENTAL_01       En inglés tendrá que bastar la motivación para que algo así suceda
 score       VTE_COMPORTAMENTAL_01       4.0
+
+# Fin de COMPORTAMENTALES
+
