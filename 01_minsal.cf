@@ -47,7 +47,8 @@ meta        HTML_AND_PLAIN_TEXT         (HTML_MESSAGE && !MIME_HTML_ONLY)
 describe    HTML_AND_PLAIN_TEXT         Contiene HTML and texto plano. 
 score       HTML_AND_PLAIN_TEXT         0.2
 
-meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID)
+# TODO: Es que las RCVD_* no sé como podrían ir, aunque acá de casualidad me parece bien
+meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID || RCVD_IN_BL_SPAMCOP_NET)
 describe    __CORREO_BAJA_CALIDAD       Iré colocando test que verifiquen que a nivel de SMTP sea probablemente spammer
 
 meta        CORREO_BAJA_CALIDAD         (__CORREO_BAJA_CALIDAD && (HTML_MESSAGE || T_REMOTE_IMAGE || HTML_FONT_LOW_CONTRAST))
