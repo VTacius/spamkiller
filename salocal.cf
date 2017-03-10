@@ -51,17 +51,18 @@ use_pyzor 1
 pyzor_path /usr/bin/pyzor
 pyzor_options --homedir /opt/zimbra/amavisd/.pyzor
 
-score   URIBL_BLACK         3.250
-score   URIBL_DBL_SPAM      3.250
-score   RCVD_IN_SBL         1.500
-score   RCVD_IN_SORBS_SPAM  0.750
-score   RAZOR2_CHECK        3.250
-score   PYZOR_CHECK         3.250
-score   BAYES_999           1.650
-score   BAYES_99            1.350
-score   BAYES_60            1.150
-score   BAYES_50            1.050
-score   BAYES_00            -0.5
-score   RDNS_NONE           1.5
-score   RP_MATCHES_RCVD     -1.8
-score   DNS_FROM_AHBL_RHSBL 0 
+score   URIBL_BLACK             3.250
+score   URIBL_DBL_SPAM          3.250
+score   RCVD_IN_SBL             1.500
+score   RCVD_IN_BL_SPAMCOP_NET  1.500
+score   RCVD_IN_SORBS_SPAM      0.750
+score   RAZOR2_CHECK            3.250
+score   PYZOR_CHECK             3.250
+score   BAYES_999               1.650
+score   BAYES_99                1.350
+score   BAYES_60                1.150
+score   BAYES_50                1.050
+score   BAYES_00                -0.5
+score   RDNS_NONE               1.5
+score   RP_MATCHES_RCVD         -1.8
+score   DNS_FROM_AHBL_RHSBL     0 

@@ -156,6 +156,10 @@ body        ZT_REQUIERE_VALIDAR     /(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\
 describe    ZT_REQUIERE_VALIDAR     Tu cuenta requiere validar
 score       ZT_REQUIERE_VALIDAR     0.4
 
+body        ZT_NO_ACTUALIZABLE      /cuenta(?:\sde)?(?:\scorreo)?(?:\selectr(?:ó|o|.|=F3)nico)?\sno(?:\s\w+){0,2}\s(?:pue?d(?:o|e))\s(?:actualiz|valid)ar/i
+describe    ZT_NO_ACTUALIZABLE      Cuenta de correo electrónico no se puede actualizar
+score       ZT_NO_ACTUALIZABLE      0.4
+
 body        ZT_NUEVA_POLITICA       /(?:parte|debido|por)(?:\s(?:de|a))*\sla\snueva\s(?:(?:pol(?:í|i|.)tica)|norma|medida)s*/i
 describe    ZT_NUEVA_POLITICA       Debido a las nuevas políticas
 score       ZT_NUEVA_POLITICA       0.2
@@ -197,18 +201,18 @@ body        ZT_ESTE_PDF             /(?:archivo|fichero|adjunto)\sPDF/s
 describe    ZT_ESTE_PDF             Archivo PDF
 score       ZT_ESTE_PDF             0.1
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_ESTE_PDF || ZT_LE_INFORMA)
+meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_ESTE_PDF || ZT_LE_INFORMA)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 
@@ -311,6 +315,10 @@ score       ZT_ACTUALIZAR_04        0.4
 body        ZT_ACTUALIZAR_05        /(?:complet|termin)ar\s(?:esta|la)\sactualizaci(?:o|ó|.)n/i
 describe    ZT_ACTUALIZAR_05        Completar esta actualización
 score       ZT_ACTUALIZAR_05        0.3
+
+body        ZT_ACTUALIZAR_06        /para\sactualizar\s(?:manual|autom[\wáéíóú\=]{0,3}tica)mente/i
+describe    ZT_ACTUALIZAR_06        Para actualizar manualmente
+score       ZT_ACTUALIZAR_06        0.2
 
 # TODO: Verificar si esto no es algo diferente a un objetivo, por el contexto en que sucede
 body        ZT_ACTUALICE            /(?:(?:re-*)*valid|renov|actualic|verific|confirm|activ)e\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)(\sde)*\s(ahora|inmediat(?:a|o))/i
@@ -620,12 +628,28 @@ body        ZT_HAGA_CLICK_03        /haga\sclick?\sahor(?:ro|a)/i
 describe    ZT_HAGA_CLICK_03        Haga click ahora
 score       ZT_HAGA_CLICK_03        0.3
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03)
+# Su contexto real ocurre cuando se le combina con otros
+body        __ZT_HAGA_CLICK_04      /ha(?:ga|cer)\sclick?\s(?:y|o)/i
+describe    __ZT_HAGA_CLICK_04      Haga click o
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
-body        ZT_HAGA_COPIE_ENLACE    /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
-describe    ZT_HAGA_COPIE_ENLACE    Copie enlace en navegaor
-score       ZT_HAGA_COPIE_ENLACE    0.3
+body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
+describe    ZT_HAGA_COPIE_LINK_01   Copie enlace en navegaor
+score       ZT_HAGA_COPIE_LINK_01   0.3
+
+body        ZT_HAGA_COPIE_LINK_02   /copie\s(?:el|los)\ssiguientes?\senlaces?\spara/i
+describe    ZT_HAGA_COPIE_LINK_02   Copie el siguiente enlace para
+score       ZT_HAGA_COPIE_LINK_02   0.2
+
+# TODO: Agregar (y\spegue)?
+meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02)
+describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
+
+meta        ZT_CLICK_Y_COPIAR       (__ZT_HAGA_CLICK_04 && __ZT_HAGA_COPIE_LINK)
+describe    ZT_CLICK_Y_COPIAR       Haga clic o copie el enlace
+score       ZT_CLICK_Y_COPIAR       0.3
 
 body        ZT_UPDATE_AQUI          /(?:actualizar|update)\s(?:here|a(?:c(?:a|á|.)|qu(?:i|í|.)))/i
 describe    ZT_UPDATE_AQUI          Update aquí
@@ -671,10 +695,10 @@ body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:me
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 
-meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || ZT_HAGA_COPIE_ENLACE || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
-meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || ZT_HAGA_COPIE_ENLACE || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
+meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
 describe    ZT_CLICK_ACCION         Distintas acciones a realizar por el usuario Por medio de click
 score       ZT_CLICK_ACCION         0.3
 
@@ -710,7 +734,7 @@ meta        ZT_RAZON_04             (ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
 describe    ZT_RAZON_04             Cuenta inactiva por correo spam recibido
 score       ZT_RAZON_04             0.9
 
-meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || __ZT_POR_ACTUALIZACION || ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
+meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
 describe    ZT_RAZON_05             Por motivos de seguridad, requiere validar
 score       ZT_RAZON_05             0.9
 
@@ -778,7 +802,8 @@ score       ZT_FIRMA_01             0.9
 
 # Esta es una de mis mejores ideas, sin duda
 # Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno
-meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO || ZT_NOMINAL))
+# TODO: Pues que RAZOR2_CHECK debería trabajar en otro ámbito, me parece
+meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO || ZT_NOMINAL || RAZOR2_CHECK))
 describe    ZT_COMPORTAMENTAL_01    Agravantes sobre su From: en conjunto a cierto conocido spammer
 score       ZT_COMPORTAMENTAL_01    7.0
 
