@@ -123,7 +123,11 @@ body        ZT_LIMIT_09             /llegado\sal\sl(í|i|.|=C3=AD)mite\sde(?:\sl
 describe    ZT_LIMIT_09             Llegado al limite de cuota
 score       ZT_LIMIT_09             0.1
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09)
+body        ZT_LIMIT_10             /se\sha\ssuperado\s(?:[0-9]+[,.]?)+\srepositorio/i
+describe    ZT_LIMIT_10             Se ha superado 23,456 respositorio
+score       ZT_LIMIT_10             0.3
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
@@ -296,6 +300,8 @@ body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|veri
 describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
 score       ZT_ACTUALIZAR_CUENTA    0.2
 
+# TODO: Un día que tengas tiempo, resulta que _01 y 02 deberían unirse como (?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail), 
+# pero vale la pena una revisión exhaustiva
 body        ZT_ACTUALIZAR_01        /(?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(\sde)*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
 score       ZT_ACTUALIZAR_01        0.6
@@ -632,7 +638,15 @@ score       ZT_HAGA_CLICK_03        0.3
 body        __ZT_HAGA_CLICK_04      /ha(?:ga|cer)\sclick?\s(?:y|o)/i
 describe    __ZT_HAGA_CLICK_04      Haga click o
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04)
+body        ZT_HAGA_CLICK_05        /(?:actualiz|verific)ar(?:\sal)?\shac(?:er|iendo)\sclick?/i
+describe    ZT_HAGA_CLICK_05        Actualizar haciendo click
+score       ZT_HAGA_CLICK_05        0.3
+
+body        ZT_HAGA_CLICK_06        /click?sen\sel\senlace\s(?:de\sabajo|abajo|siguiente)/i
+describe    ZT_HAGA_CLICK_06        Click en el enlace abajo
+score       ZT_HAGA_CLICK_06        0.2
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
