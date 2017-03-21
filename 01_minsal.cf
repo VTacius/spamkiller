@@ -1,5 +1,5 @@
 # Carga de plugins personalizados
-
+#
 loadplugin  FromNotReplyTo              plugins/FromNotReplyTo.pm 
 header      FROM_NOT_REPLYTO            eval:check_for_from_not_reply_to()
 describe    FROM_NOT_REPLYTO            From: no coincide con Reply-To:

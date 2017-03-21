@@ -51,11 +51,13 @@ use_pyzor 1
 pyzor_path /usr/bin/pyzor
 pyzor_options --homedir /opt/zimbra/amavisd/.pyzor
 
+loadplugin Mail::SpamAssassin::Plugin::SPF
+
 score   URIBL_BLACK             3.250
 score   URIBL_DBL_SPAM          3.250
 score   RCVD_IN_SBL             1.500
 score   RCVD_IN_BL_SPAMCOP_NET  1.500
-score   RCVD_IN_SORBS_SPAM      0.750
+score   RCVD_IN_SORBS_SPAM      1.500
 score   RAZOR2_CHECK            3.250
 score   PYZOR_CHECK             3.250
 score   BAYES_999               1.650
@@ -66,3 +68,6 @@ score   BAYES_00                -0.5
 score   RDNS_NONE               1.5
 score   RP_MATCHES_RCVD         -1.8
 score   DNS_FROM_AHBL_RHSBL     0 
+score   SPF_FAIL                2.000
+score   SPF_HELO_FAIL           0.900
+score   SPF_SOFTFAIL            0.900

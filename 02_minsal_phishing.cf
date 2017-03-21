@@ -200,23 +200,28 @@ body        ZT_LE_INFORMA           /(?:para|le)\sinforma(?:rle|mos)\sque/i
 describe    ZT_LE_INFORMA           Para informale
 score       ZT_LE_INFORMA           0.1
 
+# Esta otra fue para un correo especifico de hacienda
+body        ZT_PENDIENTES           /presenta\sdeclaraciones\spendientes/i
+describe    ZT_PENDIENTES           Presenta declaraciones pendientes
+score       ZT_PENDIENTES           0.2
+
 # Esta otra es pobre, pero muy pobre
 body        ZT_ESTE_PDF             /(?:archivo|fichero|adjunto)\sPDF/s
 describe    ZT_ESTE_PDF             Archivo PDF
 score       ZT_ESTE_PDF             0.1
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_ESTE_PDF || ZT_LE_INFORMA)
+meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 
@@ -368,7 +373,7 @@ body        ZT_CERRAREMOS_CUENTA    /(?:cerrar|desconectar|cancelar)(?:é|e|.)*(
 describe    ZT_CERRAREMOS_CUENTA    Cerraremos la cuenta
 score       ZT_CERRAREMOS_CUENTA    0.4
 
-body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n)(\s\w+){0,3}\scerrar(é|e|a|á|.)/i
+body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n)(?:\s[\wáéíóú=]+){0,3}\s(?:clausura|cerra)(?:r(?:é|e|a|á|.)|da)/i
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.4
 
@@ -427,7 +432,12 @@ body        ZT_SUSPENSION_ENVIO     /sus?pender(?:á|a|.)(?:\s\w+){0,2}\s(?:envi
 describe    ZT_SUSPENSION_ENVIO     Suspenderá para enviar o recibir mensajes
 score       ZT_SUSPENSION_ENVIO     0.9
 
-meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN)
+# Este fue de un problema especifico con Hacienda
+body        ZT_RETRASO_FUTURO       /retrasar(?:a|á|.)?\ssus\sfuturas?\sdeclaraci(?:o|ó|.)n(?:es)?/i
+describe    ZT_RETRASO_FUTURO       Retrasará sus futuras declaraciones
+score       ZT_RETRASO_FUTURO       0.2
+
+meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
 meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
@@ -442,11 +452,11 @@ meta        ZT_VARIAS_AMENAZAS_02   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
-meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN) > 1)
+meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_RETRASO_FUTURO) > 1)
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
 score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA
@@ -546,7 +556,11 @@ body        ZT_NEGARSE_06           /si\sno\s(?:verifica|valida|confirma|renueva
 describe    ZT_NEGARSE_06           Si no verifica
 score       ZT_NEGARSE_06           0.1
 
-meta        __ZT_NEGACION           (ZT_NEGARSE_01 || ZT_NEGARSE_02 || ZT_NEGARSE_03 || ZT_NEGARSE_04 || ZT_NEGARSE_05 || ZT_NEGARSE_06)
+body        ZT_NEGARSE_07           /hacer\scaso\somiso/i
+describe    ZT_NEGARSE_07           Hacer caso omiso
+score       ZT_NEGARSE_07           0.2
+
+meta        __ZT_NEGACION           (ZT_NEGARSE_01 || ZT_NEGARSE_02 || ZT_NEGARSE_03 || ZT_NEGARSE_04 || ZT_NEGARSE_05 || ZT_NEGARSE_06 || ZT_NEGARSE_07)
 describe    __ZT_NEGACION           Distintas formas de referirse a la no actualización por parte del usuario
 
 # Helpers que ayudan a dar claridad a los MEDIANTE requeridos
