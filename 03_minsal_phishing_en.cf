@@ -33,9 +33,13 @@ score       VTE_ACCESO_REMOTO_02        0.6
 meta        __VTE_ACCESO_REMOTO         (VTE_ACCESO_REMOTO_01 || VTE_ACCESO_REMOTO_02)
 describe    __VTE_ACCESO_REMOTO         Distintas formas de referirse a acceso remoto
 
-body        VTE_ACTIVIDAD_SOSPECHOSA    /(irregular|suspect)\sactivit(y|ies)/i
-describe    VTE_ACTIVIDAD_SOSPECHOSA    Irregular activity
-score       VTE_ACTIVIDAD_SOSPECHOSA    0.4
+body        VTE_SUSPECT_ACTIVITY_01     /(?:irregular|suspect|unusual)\sactivit(?:y|ies)/i
+describe    VTE_SUSPECT_ACTIVITY_01     Irregular activity
+score       VTE_SUSPECT_ACTIVITY_01     0.4
+
+body        VTE_SUSPECT_ACTIVITY_02     /detect\ssome\s(?:irregular|suspect|unusual)\sactivit(?:y|ies)/i
+describe    VTE_SUSPECT_ACTIVITY_02     Detect some unusual activity
+score       VTE_SUSPECT_ACTIVITY_02     0.5 
 
 body        VTE_MAINTENANCE             /((e-*)*mail|system)\smaintenance/i
 describe    VTE_MAINTENANCE             System maintenance
@@ -68,8 +72,16 @@ score       VTE_ACCOUNT_LIMIT_04        1.2
 meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04)
 describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
+body        VTE_CANCEL_REQUEST           /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
+describe    VTE_CANCEL_REQUEST           Made a request to shutdown
+score       VTE_CANCEL_REQUEST           0.9
+
+body        VTE_CANCEL_ADVISED          /advised\sto\scancel\sthe\srequest/i
+describe    VTE_CANCEL_ADVISED          Advised to cancel the request
+score       VTE_CANCEL_ADVISED          0.9
+
 # Este es una FIRMA, en algún momento 
-meta        VTE_LIMITE_SIZE             (__VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && VTE_HACER_CLICK_ENLACE)
+meta        VTE_LIMITE_SIZE             (__VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && __VTE_HACER_CLICK_ENLACE)
 describe    VTE_LIMITE_SIZE             Conocida firma spammer
 score       VTE_LIMITE_SIZE             1.2
 
@@ -80,7 +92,7 @@ score       VTE_SECURITY_ACCOUNT        0.9
 meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_ACTIVIDAD_SOSPECHOSA || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST || VTE_CANCEL_ADVISED)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -89,7 +101,15 @@ describe    __VTE_RAZONES               Sobre las razones que espeta el correo p
 
 body        VTE_DEFINIDO_POR_ADMIN      /as\sset\sby\sadmin(?:istrator)?/i
 describe    VTE_DEFINIDO_POR_ADMIN      Definido por administrador
-score       VTE_DEFINIDO_POR_ADMIN      0.1
+score       VTE_DEFINIDO_POR_ADMIN      0.2
+
+body        VTE_PROCESADO_EN_BREVE      /request\swill\sbe\sprocessed\sshortly/i
+describe    VTE_PROCESADO_EN_BREVE      Request will be processed shortly
+score       VTE_PROCESADO_EN_BREVE      0.2
+
+body        VTE_PETICION_ACCIDENTAL     /request\swas\smade\saccidentally/i
+describe    VTE_PETICION_ACCIDENTAL     Request was made accidentally
+score       VTE_PETICION_ACCIDENTAL     0.2
 
 # Fin de DETALLES
 
@@ -126,17 +146,20 @@ body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
 describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
 score       VTE_FOLLOW_INSTRUCC         0.3
 
-body        VTE_PLAZO_DE_HORAS          /((with)*in)(\sthe)*(\snext)*\s(24|36|48)(ho*u*rs*)/i
-describe    VTE_PLAZO_DE_HORAS          Tal plazo de horas
-score       VTE_PLAZO_DE_HORAS          0.4
+body        VTE_PLAZO_DE_HORAS_01       /(?:(?:with)?in)(?:\sthe)?(?:\snext)?\s(?:24|36|48)\s?(?:ho?u?rs?)/i
+describe    VTE_PLAZO_DE_HORAS_01       Tal plazo de horas
+score       VTE_PLAZO_DE_HORAS_01       0.4
 
-body        VTE_PLAZO_DE_HORAS_ADV      /((with)*in)(\sthe)*\snext\s(24|36|48)(ho*u*rs*)/i
-describe    VTE_PLAZO_DE_HORAS_ADV      Tal plazo de horas
-score       VTE_PLAZO_DE_HORAS_ADV      0.6
+body        VTE_PLAZO_DE_HORAS_02       /(?:(?:with)?in)(?:\sthe)?\snext\s(?:24|36|48)(ho?u?rs?)/i
+describe    VTE_PLAZO_DE_HORAS_02       Tal plazo de horas
+score       VTE_PLAZO_DE_HORAS_02       0.6
 
 body        VTE_PLAZO_DE_DIAS           /(in|within)\s([0-9]+|un|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\s*days*/i
 describe    VTE_PLAZO_DE_DIAS           Tal plazo de días
 score       VTE_PLAZO_DE_DIAS           0.4
+
+meta        __VTE_PLAZO_TIEMPO          (VTE_PLAZO_DE_HORAS_01 || VTE_PLAZO_DE_HORAS_02 || VTE_PLAZO_DE_DIAS)
+describe    __VTE_PLAZO_TIEMPO          Distintas formas de dar un plazo de tiempo como parte de la advertencia
 
 body        VTE_BUZON_ZIMBRA            /zimbra\s(account|mailbox)/i
 describe    VTE_BUZON_ZIMBRA            Buzón Zimbra
@@ -153,21 +176,24 @@ score       VTE_NEGACION_02             0.9
 # Fin de HELPERS
 
 # MEDIANTES
-body        __VTE_HCER_CLIC_ENLAC_01    /please\sclick*\:/i
-describe    __VTE_HCER_CLIC_ENLAC_01    Por favor, clic
+body        VTE_HACER_CLIC_ENLACE_01    /please\sclick*\:/i
+describe    VTE_HACER_CLIC_ENLACE_01    Por favor, clic
+score       VTE_HACER_CLIC_ENLACE_01    0.9
 
-body        __VTE_HCER_CLIC_ENLAC_02    /(click|use)*(\s(on|in))*(\sthe)*\s(link|URL|here)/i
-describe    __VTE_HCER_CLIC_ENLAC_02    click on the link
+body        VTE_HACER_CLIC_ENLACE_02    /(click|use)*(\s(on|in))*(\sthe)*\s(link|URL|here)/i
+describe    VTE_HACER_CLIC_ENLACE_02    click on the link
+score       VTE_HACER_CLIC_ENLACE_02    0.9
 
-body        __VTE_HCER_CLIK_ENLAC_03    /(via|through)\s(link|url)/
-describe    __VTE_HCER_CLIK_ENLAC_03    via link
+body        VTE_HACER_CLIK_ENLACE_03    /(via|through)\s(link|url)/
+describe    VTE_HACER_CLIK_ENLACE_03    via link
+score       VTE_HACER_CLIC_ENLACE_03    0.9
 
-body        __VTE_HCER_CLIC_ENLAC_04    /click?\sor?\scopy\sthe\s(?:link|url)/i
-describe    __VTE_HCER_CLIC_ENLAC_04    click or copy the link
+body        VTE_HACER_CLIC_ENLACE_04    /click?\sor?\scopy\sthe\s(?:link|url)/i
+describe    VTE_HACER_CLIC_ENLACE_04    click or copy the link
+score       VTE_HACER_CLIC_ENLACE_04    0.9
 
-meta        VTE_HACER_CLICK_ENLACE      (__VTE_HCER_CLIC_ENLAC_01 || __VTE_HCER_CLIC_ENLAC_02 || __VTE_HCER_CLIK_ENLAC_03 || __VTE_HCER_CLIC_ENLAC_04)
-describe    VTE_HACER_CLICK_ENLACE      Sugiere hacer click
-score       VTE_HACER_CLICK_ENLACE      0.9
+meta        __VTE_HACER_CLICK_ENLACE    (VTE_HACER_CLIC_ENLACE_01 || VTE_HACER_CLIC_ENLACE_02 || VTE_HACER_CLIK_ENLACE_03 || VTE_HACER_CLIC_ENLACE_04)
+describe    __VTE_HACER_CLICK_ENLACE    Sugiere hacer click
 
 body        VTE_VERIFY_FORM_ADV         /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
 describe    VTE_VERIFY_FORM_ADV         Download the attached form
@@ -177,7 +203,7 @@ body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
 score       VTE_LOGIN_ACTIVATING        0.9
 
-meta        __VTE_META_MEDIANTES        (VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING)
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
@@ -187,7 +213,7 @@ body        VTE_ACTUALIZAR_CUENTA_01    /(complete|follow)(\syour)*(\swith)*\s(u
 describe    VTE_ACTUALIZAR_CUENTA_01    Completar la actualización
 score       VTE_ACTUALIZAR_CUENTA_01    0.6
 
-body        VTE_ACTUALIZAR_CUENTA_02    /(upgrade|update)\syour\s((email|system|mailbox)\s)*(account|mailbox)/i
+body        VTE_ACTUALIZAR_CUENTA_02    /(?:upgrade|update)(?:\stheir|your)\s(?:(?:system|mailbox|(?:e-*)?mail)\s)?(?:account|mailbox)/i
 describe    VTE_ACTUALIZAR_CUENTA_02    Update your account
 score       VTE_ACTUALIZAR_CUENTA_02    0.9
 
@@ -252,12 +278,19 @@ body        VTE_SUSPENSION_CORREO_04    /result\sin\s(inactive|close)\syour\s(em
 describe    VTE_SUSPENSION_CORREO_04    Result in inactive your email
 score       VTE_SUSPENSION_CORREO_04    0.9
 
-meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04)
+body        VTE_SUSPENSION_CORREO_05    /(?:mailbox|account)\swill\sbe\sshut\s?down\spermanently/i
+describe    VTE_SUSPENSION_CORREO_05    mailbox will be shutdown permanently
+score       VTE_SUSPENSION_CORREO_05    0.9
+
+meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05)
 describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
 
 body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i
 describe    VTE_INCAPACIDAD_CORREO      Don't able to send o receive 
 score       VTE_INCAPACIDAD_CORREO      0.9
+
+meta        __VTE_AMENAZA               (__VTE_SUSPENDERAN_CORREO || VTE_INCAPACIDAD_CORREO)
+describe    __VTE_AMENAZA               Distintas amenazas dadas al usuario respecto al futuro de su cuenta
 
 # Fin de AMENAZA
 
@@ -287,9 +320,17 @@ meta        VTE_MOTIVA_ACCION           (__VTE_RAZONES && __VTE_META_MEDIANTES)
 describe    VTE_MOTIVA_ACCION           Ha dado una razón para que se realice una acción
 score       VTE_MOTIVA_ACCION           1.2
 
+meta        VTE_PLAZO_AMENAZA           (__VTE_PLAZO_TIEMPO && __VTE_AMENAZA)
+describe    VTE_PLAZO_AMENAZA           La amenaza ha de cumplirse en un plazo tal de tiempo
+score       VTE_PLAZO_AMENAZA           1.2
+
 meta        VTE_RAZON_01                (__VTE_LIMITES && VTE_DEFINIDO_POR_ADMIN)
 describe    VTE_RAZON_01                Límite, como ha sido definido por administrador
 score       VTE_RAZON_01                0.9
+
+meta        VTE_RAZON_02                ((VTE_CANCEL_REQUEST || VTE_CANCEL_ADVISED) && (VTE_PROCESADO_EN_BREVE || VTE_PETICION_ACCIDENTAL))
+describe    VTE_RAZON_02                Su petición de cierre, procesada en breve
+score       VTE_RAZON_02                0.9
 
 # TODO: VTE_COMPORTAMENTAL_02 debe parecerse a ZT_COMPORTAMENTAL_01
 meta        VTE_NOTIFICA_RAZON          (__VTE_NOTIFICACION && (__VTE_RAZONES))
