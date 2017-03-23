@@ -85,25 +85,25 @@ describe    __ZT_SUB                Distintas formas de subject que no están na
 # RAZONES
 body        ZT_LIMIT_01             /l(?:í|i|&iacute;)mite\sde\salmacenamiento\sde\ssu\s(?:casilla|buz(?:ó|o|&oacute;)n)\sse\sha\s(?:excedido|superado)/i
 describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
-score       ZT_LIMIT_01             0.2
+score       ZT_LIMIT_01             0.3
 
 body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)(\sde\scorreo)*\sha\s(?:excedido|superado)(?:\sel)*(?:\sla)*\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_02             Casilla (de correo) ha superado el límite
-score       ZT_LIMIT_02             0.2
+score       ZT_LIMIT_02             0.4
 
 # Es obvio que tener correo obligatorio le da casi mejor puntaje
 body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(\sde\scorreo)\sha\s(?:excedido|superado)(?:\sel)*(?:\sla)*\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_03             Casilla de correo ha superado el límite
-score       ZT_LIMIT_03             0.3
+score       ZT_LIMIT_03             0.4
 
 body        ZT_LIMIT_04             /(?:buz(?:ó|o|.)n(\sde\scorreo)*|casilla)\sha\s(?:excedido|superado)(?:\sel)*\sl(?:í|i.)mite\sde\salmacenamiento/i
 describe    ZT_LIMIT_04             Casilla de correo ha excedido límite de almacenamiento
-score       ZT_LIMIT_04             0.3
+score       ZT_LIMIT_04             0.4
 
 # No hay  contexto con correo, pero es una frase demasiado rara para aparecer
 body        ZT_LIMIT_05             /(?:superado|excedido)(?:\sel)*\s(?:repositorio|l(?:í|i|&iacute;)mite|excedido)\sde\s(?:[0-9]+\.*)+\s*(?:buzones|(g|m|k)b)/i
 describe    ZT_LIMIT_05             Superado el repositorio de 24 buzones
-score       ZT_LIMIT_05             0.3
+score       ZT_LIMIT_05             0.4
 
 body        ZT_LIMIT_06             /super(?:ó|o|a|.)\slos\s(?:[0-9]+(?:\s|\.|,)*)+\s(?:definido|configurado|buzones|mensajes)s*/i
 describe    ZT_LIMIT_06             Superó 23,467 definidos
@@ -117,17 +117,25 @@ score       ZT_LIMIT_07             0.3
 # Revisar con ZT_LIMIT_07
 body        ZT_LIMIT_08             /(?:supera|excedi|llega)do\s(?:e|a)l\sl(?:i|í|.)mite\sde\s(?:almacenamiento|cuota|repositorio)/i
 describe    ZT_LIMIT_08             Superado el límite de cuota
-score       ZT_LIMIT_08             0.3
+score       ZT_LIMIT_08             0.4
 
 body        ZT_LIMIT_09             /llegado\sal\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:q|c)uota/i
 describe    ZT_LIMIT_09             Llegado al limite de cuota
-score       ZT_LIMIT_09             0.1
+score       ZT_LIMIT_09             0.2
 
 body        ZT_LIMIT_10             /se\sha\ssuperado\s(?:[0-9]+[,.]?)+\srepositorio/i
 describe    ZT_LIMIT_10             Se ha superado 23,456 respositorio
-score       ZT_LIMIT_10             0.3
+score       ZT_LIMIT_10             0.4
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10)
+body        ZT_LIMIT_11             /super(?:ó|ado|.)\ssu\sl(?:í|i|.)mite/i
+describe    ZT_LIMIT_11             superó su límite
+score       ZT_LIMIT_11             0.1
+
+body        ZT_LIMIT_12             /est(?:a|á|.)\sejecutando\s[0-9,%.]+(?:\s\w+){0,2}\sl(?:í|i|.)mite(?:\s\w+){0,2}\scuota/i
+describe    ZT_LIMIT_12             Esta ejecutando 99.9% de su cuota
+score       ZT_LIMIT_12             0.4
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
@@ -210,18 +218,22 @@ body        ZT_ESTE_PDF             /(?:archivo|fichero|adjunto)\sPDF/s
 describe    ZT_ESTE_PDF             Archivo PDF
 score       ZT_ESTE_PDF             0.1
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES)
+body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á|a|.)\sda(?:ñ|.)ada\s(?:con|por)(?:\sun)\svirus/i
+describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
+score       ZT_DANIO_VIRUS          0.3
+
+meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 
@@ -377,6 +389,11 @@ body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n)(?:
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.4
 
+# Este se define en el pasado. Más bien, sólo tiene sentido con una negación, validar algo así es demasiado complejo en realidad
+body        ZT_CUENTA_BLOQUEADA     /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
+describe    ZT_CUENTA_BLOQUEADA     Cuenta se bloqueó
+score       ZT_CUENTA_BLOQUEADA     0.1
+
 # TODO: Este es un poco complicado de agregar por acá, sin embargo, funciona como una amenaza bien velada. De que cumplen la función tal, la cumple. Y gracias a <usuarios>, tiene contexto
 body        ZT_APAGAR_CUENTAS       /(?:estamos|nos\shan)\s(?:ordenado|pedido|obligado)s?(\s\w+){0,2}\s(?:cancel|apag)(?:uen|ar)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail|usuario)s?/i
 describe    ZT_APAGAR_CUENTAS       Han ordenado apagar cuentas
@@ -437,7 +454,7 @@ body        ZT_RETRASO_FUTURO       /retrasar(?:a|á|.)?\ssus\sfuturas?\sdeclara
 describe    ZT_RETRASO_FUTURO       Retrasará sus futuras declaraciones
 score       ZT_RETRASO_FUTURO       0.2
 
-meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO)
+meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
 meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
@@ -456,7 +473,7 @@ meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACC
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
 score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA
@@ -505,6 +522,14 @@ score       ZT_CORTESIA_ADMIN_01    0.3
 body        ZT_AGRADECE_USO         /gracias\spor\sus(?:o|a)r?(?:\s\w+){0,2}\s(?:correo|servicio|servidores|plataforma)/i
 describe    ZT_AGRADECE_USO         Gracias por el uso de nuestra plataforma
 score       ZT_AGRADECE_USO         0.3
+
+body        ZT_AGRADECE_COOPERA     /gracias por su cooperaci(?:ó|o|.)n/i
+describe    ZT_AGRADECE_COOPERA     Gracias por su cooperación
+score       ZT_AGRADECE_COOPERA     0.2
+
+body        ZT_DISCULPA_01          /disculpas\spor(?:\s\w+){0,2}\sinconveniente/i
+describe    ZT_DISCULPA_01          Disculpa por inconvenientes
+score       ZT_DISCULPA_01          0.2
 
 # Un par de HELPERS que describen "Mover un correo spam a la bandeja de entrada"
 body        __VT_MOVER                /(mu(e|é|.+)valo|mover)/
@@ -823,6 +848,10 @@ score       ZT_NOMINAL              1.2
 meta        ZT_PREFIRMA_01          (ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_PREFIRMA_01          Una especie de pre-firma inspirada en \#18
 score       ZT_PREFIRMA_01          0.6
+
+meta        ZT_PREFIRMA_02          (__ZT_RAZONES && __ZT_ACCIONES && ZT_AGRADECE_COOPERA)
+describe    ZT_PREFIRMA_02          Inspirada en \#55. Se trata sobre agradecer su cooperacion
+score       ZT_PREFIRMA_02          0.5
 
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
