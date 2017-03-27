@@ -282,7 +282,15 @@ body        VTE_SUSPENSION_CORREO_05    /(?:mailbox|account)\swill\sbe\sshut\s?d
 describe    VTE_SUSPENSION_CORREO_05    mailbox will be shutdown permanently
 score       VTE_SUSPENSION_CORREO_05    0.9
 
-meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05)
+body        VTE_SUSPENSION_CORREO_06    /disable\sfor\ssending(?:\smore)?\smessages/i
+describe    VTE_SUSPENSION_CORREO_06    Disable for sending more messages
+score       VTE_SUSPENSION_CORREO_06    0.9
+
+body        VTE_SUSPENSION_CORREO_07    /(?:e*mail|mail|mailbox|account|password)\swill\sbe\s(?:inactive|expire|close|blocked)/i
+describe    VTE_SUSPENSION_CORREO_07    Account will be blocked
+score       VTE_SUSPENSION_CORREO_07    0.9
+
+meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05 || VTE_SUSPENSION_CORREO_06 || VTE_SUSPENSION_CORREO_07)
 describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
 
 body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i

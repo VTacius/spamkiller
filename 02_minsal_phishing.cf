@@ -135,7 +135,11 @@ body        ZT_LIMIT_12             /est(?:a|á|.)\sejecutando\s[0-9,%.]+(?:\s\w
 describe    ZT_LIMIT_12             Esta ejecutando 99.9% de su cuota
 score       ZT_LIMIT_12             0.4
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11)
+body        ZT_LIMIT_13             /ha\ssuperado\s[0-9]+\s(?:g|m|k)b/i
+describe    ZT_LIMIT_13             Ha superado 23 Gb
+score       ZT_LIMIT_13             0.2
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
@@ -161,7 +165,12 @@ body        ZT_POR_ACTUALIZAC_02    /esta(?:re)?mos\scambia(?:ndo|r)(\s\w+){0,1}
 describe    ZT_POR_ACTUALIZAC_02    Estaremos cambiando nuestros sistemas de correo
 score       ZT_POR_ACTUALIZAC_02    0.4
 
-meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02)
+# TODO: Revisar con *_01, me parece que nuestra es lo que hace falta
+body        ZT_POR_ACTUALIZAC_03    /debido\sa\sla\s?(?:reciente|nueva)\sactualizaci(?:o|ó|.)n/i
+describe    ZT_POR_ACTUALIZAC_03    Debido a la reciente actualización
+score       ZT_POR_ACTUALIZAC_03    0.2
+
+meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03)
 describe    __ZT_POR_ACTUALIZACION  Distintas formas de dar como razón a la actualización del servicio
 
 body        ZT_REQUIERE_VALIDAR     /(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\s(?:requiere|necesita)\sv(?:alida|erifica)(?:r|ci(?:o|.|ó)n)/i
@@ -256,14 +265,18 @@ body        ZT_SENDO_RECHAZADOS_04  /(?:correo|mensaje)s?(?:\s[\wáéíóú0-9\=
 describe    ZT_SENDO_RECHAZADOS_04  Correos están en espera
 score       ZT_SENDO_RECHAZADOS_04  0.5
 
-meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04)
+body        ZT_SENDO_RECHAZADOS_05  /mensajes?\srecibidos?(?:\s?,)?\sse\shan?\ssuspendido/i
+describe    ZT_SENDO_RECHAZADOS_05  Mensajes recibidos se han suspendido
+score       ZT_SENDO_RECHAZADOS_05  0.4
+
+meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05)
 describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipica detallen en excusa spammer
 
 body        ZT_MEJORAR_SERVICIO     /(?:\sun)*\smejor(?:ar)*(?:\s(?:el|los))*\sservi(?:cio|dores*)\sde\scorreo/i
 describe    ZT_MEJORAR_SERVICIO     [Para] mejorar el servicio de correo
 score       ZT_MEJORAR_SERVICIO     0.2
 
-body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec)(?:e|i|a)(?:do)*\spor(?:\sel)*\s(?:admin(?:istra(?:d|t)or)*)/i
+body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec|cre)(?:e|i|a)(?:do)?\spor(?:\sel)?\s(?:admin(?:istra(?:d|t)or)*|webmaster)/i
 describe    ZT_CONFIGURADO_ADMIN    Definido por administrador
 score       ZT_CONFIGURADO_ADMIN    0.1
 
@@ -360,7 +373,7 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(\s(?:\w|&|;)+){0,3
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
-body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener)\ssu\slista\sde\scontactos\s(?:segur|guardad)(?:a|o)s?/i
+body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|t)u\slista\sde\scontactos\s(?:segur|guardad)(?:a|o)s?/i
 describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
 score       ZT_MANTENER_CONTACTOS   0.4
 
@@ -727,6 +740,10 @@ body        ZT_HAGA_INFORMACION     /(?:complet|rellen)(?:e|a)(?:ndo)?(?:\s(?:la
 describe    ZT_HAGA_INFORMACION     Complete la información. Completando la información
 score       ZT_HAGA_INFORMACION     0.1
 
+body        ZT_HAGA_INGRESO         /in(?:grese|troduzca)\ssus\sdatos\sa\scontinuaci(?:ó|o|.)n/i
+describe    ZT_HAGA_INGRESO         Introduzca sus datos a continuación
+score       ZT_HAGA_INGRESO         0.1
+
 body        ZT_HAGA_SITIO           /(?:acceda|abra)\sel(?:\s\w+){0,2}\ssitio/i
 describe    ZT_HAGA_SITIO           Abra el sitio
 score       ZT_HAGA_SITIO           0.1
@@ -748,14 +765,14 @@ body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:me
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 
-meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
-meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
+meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
 describe    ZT_CLICK_ACCION         Distintas acciones a realizar por el usuario Por medio de click
 score       ZT_CLICK_ACCION         0.3
 
-meta        ZT_RESPONDER_ACCION     ((ZT_RESPONDER_MENSAJE) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION))
+meta        ZT_RESPONDER_ACCION     ((ZT_RESPONDER_MENSAJE) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO))
 describe    ZT_RESPONDER_ACCION     Distintas acciones a realizar por el usuario por medio de la respuesta de su mensaje
 score       ZT_RESPONDER_ACCION     0.3
 
@@ -790,7 +807,6 @@ score       ZT_RAZON_04             0.9
 meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
 describe    ZT_RAZON_05             Por motivos de seguridad, requiere validar
 score       ZT_RAZON_05             0.9
-
 
 # Este podría funcionar en muchos casos, pero al menos podría servir para rastreo 
 meta        ZT_RAZON_06             ((__ZT_MANTENIMIENTO || __ZT_POR_ACTUALIZACION) && ZT_HORA_INICIO)
