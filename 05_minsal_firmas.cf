@@ -1,0 +1,162 @@
+### Todas aquellas reglas que se refieran a spam específico
+### Las reglas se refieren a contenido que se considera poco probable de aparecer en correo legítimo
+
+
+header      HITSUB_LETTER_RESPONSE      Subject =~ /letter(\s|-)response/i
+describe    HITSUB_LETTER_RESPONSE      Este es una comprobada cabecera spammers, que por lo demás no tiene sentido en español
+score       HITSUB_LETTER_RESPONSE      1.2 
+
+header      HITSUB_DICOM                Subject =~ /alerta\sde\sreporte\sen\sDicom/i
+describe    HITSUB_DICOM                Conocida cabecera SPAM sobre aviso en DICOM
+score       HITSUB_DICOM                1.2
+
+header      HITSUB_XLS_INVOICE          Subject =~ /please\sfind\sattached\sa\s(?:doc|pdf|xls)\sinvoice/i
+describe    HITSUB_XLS_INVOICE          Conocida cabecera SPAM sobre aviso de un supuesto antivirus
+score       HITSUB_XLS_INVOICE          1.2
+
+header      HITSUB_DES_MESSAGE          Subject =~ /message\shas\sbeen\sdisinfected/i
+describe    HITSUB_DES_MESSAGE          Un servidor de correo normal no debería mostrar un mensaje así
+score       HITSUB_DES_MESSAGE          1.2
+
+header      HITSUB_MILLENIUM_LOTT_01    Subject =~ /millennium\s(?:lottery|commission)\sproject\s201[0-9]/i
+describe    HITSUB_MILLENIUM_LOTT_01    Conocida cabecera de SPAM sobre ganador de lotería
+score       HITSUB_MILLENIUM_LOTT_01    1.5
+
+header      HITSUB_MILLENIUM_LOTT_02    Subject =~ /millennium\sproject\s201[0-9]/i
+describe    HITSUB_MILLENIUM_LOTT_02    Conocida cabecera de SPAM sobre ganador de lotería
+score       HITSUB_MILLENIUM_LOTT_02    1.2
+
+meta        __HITSUB_MILLENIUM_LOTT    (HITSUB_MILLENIUM_LOTT_01 || HITSUB_MILLENIUM_LOTT_02)
+describe    __HITSUB_MILLENIUM_LOTT    Distintas formas conocidas sobre la cabecera Millenium Lottery
+
+header      HITSUB_MINISTRY_OF_HEALTH   Subject =~ /special\swarning\sfor\sministry\sof\shealth/i
+describe    HITSUB_MINISTRY_OF_HEALTH   Parte de una conocida cabecera SPAM
+score       HITSUB_MINISTRY_OF_HEALTH   1.2
+
+## HITS
+body        __FALSO_LOTERIA             /loter(i|í)a|loterie|lottery/i
+describe    __FALSO_LOTERIA             Lotería, a esta altura de la vida
+
+body        __FALSO_GANADOR             /ganador|laur.at|winners/i
+describe    __FALSO_GANADOR             Le nombra como ganador de algo
+
+body        __FALSO_EMBAJADOR           /embajador|embajadora/i
+describe    __FALSO_EMBAJADOR           Habla sobre un supuesto embajador
+
+body        __FALSO_PROFESOR            /profesor|profesora/i
+describe    __FALSO_PROFESOR            Habla sobre un supuesto profesor
+
+body        __FALSO_ECONOMISTA          /economista/i
+describe    __FALSO_ECONOMISTA          Habla sobre un supuesta economista
+
+body        __FALSO_DIRECTOR_GENERAL    /director general|directora general/i
+describe    __FALSO_DIRECTOR_GENERAL    Habla sobre un supuesta Director General
+
+body        __FALSO_AMANTE              /amante/i
+describe    __FALSO_AMANTE              "Amante que sueña"
+
+body        __FALSO_SONADOR             /so(ña|na|\w+)dor/i
+describe    __FALSO_SONADOR             Parte de "Soñador que ama"
+
+body        __FALSO_INTERNET            /internet/i
+describe    __FALSO_INTERNET            Nombra algo que en este punto es demasiado abstracto, como internet mismo
+
+body        __FALSO_REVISAR             /revisar|consultar|consulte/i
+describe    __FALSO_REVISAR             Menciona revisar el fichero adjunto
+
+body        __FALSO_ADJUNTO             /adjunto/i
+describe    __FALSO_ADJUNTO             Menciona un fichero que ha traído adjunto
+
+body        __FALSO_CONFIRMACION        /confirma|confirmar/i
+describe    __FALSO_CONFIRMACION        Se refiere al acto de confirmar como el de enviar información
+
+body        __FALSO_FELICITACIONES      /felicitaciones|f.licitations|Congratulations/
+describe    __FALSO_FELICITACIONES      Felicitaciones es demasiado formal para en verdad ser felicitación
+
+meta        __REVISAR_ADJNT_CONFIRMAR   (__FALSO_REVISAR && __FALSO_ADJUNTO && __FALSO_CONFIRMACION)
+describe    __REVISAR_ADJNT_CONFIRMAR   Revisar, adjunto y confirmar
+
+
+meta        PUESTOS_FALSOS              (__FALSO_EMBAJADOR && __FALSO_PROFESOR && __FALSO_ECONOMISTA && __FALSO_DIRECTOR_GENERAL)
+describe    PUESTOS_FALSOS              Habla sobre embajadores, profesores, embajadores y directores generales
+score       PUESTOS_FALSOS              0.4
+
+body        HITS_CREDIT_CONTROLLER      /Credit Controller/i
+describe    HITS_CREDIT_CONTROLLER      Credit Controller en un conocio correo spam
+score       HITS_CREDIT_CONTROLLER      1.2
+
+body        HITS_MINISTRY_OF_HEALTH     /Ministry Of Health/i
+describe    HITS_MINISTRY_OF_HEALTH     A conjugar con el caso JP MONFORT
+score       HITS_MINISTRY_OF_HEALTH     1.2
+
+body        HITS_ROGUE_NATION           /Mission Impossible Rogue Nation/i
+describe    HITS_ROGUE_NATION           Sobre conocido contenido spam
+score       HITS_ROGUE_NATION           2.1
+
+body        HITS_IT_HELP_DESK           /IT HELP DESK/i
+describe    HITS_IT_HELP_DESK           Justo para decir "IT Help Desk"
+score       HITS_IT_HELP_DESK           2.1
+
+body        HIT_JPMONFORT               /J.P.Monfort/i
+describe    HIT_JPMONFORT               J.P Monfort en un conocido spam
+score       HIT_JPMONFORT               1.2
+
+body        HIT_LIGHTFOOT               /Lightfoot/i
+describe    HIT_LIGHTFOOT               Karen Lightfoot en un conocido spam
+score       HIT_LIGHTFOOT               1.2
+
+body        HIT_STONECROSS              /Stonecross/i
+describe    HIT_STONECROSS              Stonecross Industrial Park en un conocido correo spam
+score       HIT_STONECROSS              1.2
+
+body        HIT_HTK4S                   /HTK4S/i
+describe    HIT_HTK4S                   HTK4S en un conocido spam
+score       HIT_HTK4S                   1.2
+
+## Fin de HITS
+meta        FIRMA_JPMONFORT_MIN_OF_HEALTH   (HITS_MINISTRY_OF_HEALTH && HIT_JPMONFORT)
+describe    FIRMA_JPMONFORT_MIN_OF_HEALTH   Ministry of Health por parte de JP Monfort, conocida firma de spam
+score       FIRMA_JPMONFORT_MIN_OF_HEALTH   1.5
+
+meta        FIRMA_JPMONFORT_ROGUE_NATION    (HIT_JPMONFORT && HITS_ROGUE_NATION)
+describe    FIRMA_JPMONFORT_ROGUE_NATION    J.P Monfort y una frase de película, conocida firma de spam 
+score       FIRMA_JPMONFORT_ROGUE_NATION    1.5
+
+meta        FIRMA_JPMONFORT_COMPLETO        (__FALSO_EMBAJADOR && __FALSO_PROFESOR && __FALSO_ECONOMISTA && __FALSO_DIRECTOR_GENERAL && __FALSO_AMANTE && __FALSO_SONADOR)
+describe    FIRMA_JPMONFORT_COMPLETO        Cumple con la estructura de un conocido SPAMER
+score       FIRMA_JPMONFORT_COMPLETO        1.2
+
+meta        FIRMA_ROGUE_NAT_MIN_OF_HEALTH   (HITS_MINISTRY_OF_HEALTH && HITS_ROGUE_NATION)
+describe    FIRMA_ROGUE_NAT_MIN_OF_HEALTH   Frase de película y Ministro de Salud, conocida firma de spam
+score       FIRMA_ROGUE_NAT_MIN_OF_HEALTH   1.8
+
+meta        FIRMA_ESTIM_USUA_HTK4S          (ZT_SUB_ESTIMADA_CUENTA && HIT_HTK4S)
+describe    FIRMA_ESTIM_USUA_HTK4S          Estimado Usuario, de HTK4S, conocida firma de spam
+score       FIRMA_ESTIM_USUA_HTK4S          1.5
+
+meta        FIRMA_MILLENNIUM_LOTTERY        (__HITSUB_MILLENIUM_LOTT && LOTERIA_INTERNET && GANADOR_LOTERIA_FELICITACIONES && __REVISAR_ADJNT_CONFIRMAR )
+describe    FIRMA_MILLENNIUM_LOTTERY        Cierto spam de lotería. \#21 y \#26
+score       FIRMA_MILLENNIUM_LOTTERY        2.1
+
+# CONTENIDO
+meta        FIRMA_XLS_INVOICE               (HIT_LIGHTFOOT && HIT_STONECROSS && HITS_CREDIT_CONTROLLER)
+describe    FIRMA_XLS_INVOICE               Karen Lightfoot, conocida firma de spam
+score       FIRMA_XLS_INVOICE               1.8 
+
+meta        GANADOR_LOTERIA                 (__FALSO_GANADOR && __FALSO_LOTERIA)
+describe    GANADOR_LOTERIA                 Se refiere a él como ganador de lotería
+score       GANADOR_LOTERIA                 0.2
+
+meta        LOTERIA_INTERNET                (__FALSO_LOTERIA && __FALSO_INTERNET)
+describe    LOTERIA_INTERNET                Menciona algo así como Lotería de Internet
+score       LOTERIA_INTERNET                0.2
+
+meta        GANADOR_LOTERIA_MILLONARIA      (GANADOR_LOTERIA && LOTS_OF_MONEY)
+describe    GANADOR_LOTERIA_MILLONARIA      Se refiere a él como ganador de una lotería millonaria
+score       GANADOR_LOTERIA_MILLONARIA      0.4
+
+meta        GANADOR_LOTERIA_FELICITACIONES  (GANADOR_LOTERIA && __FALSO_FELICITACIONES )
+describe    GANADOR_LOTERIA_FELICITACIONES  Se refiere al usuario como un afortunado ganador de la lotería
+score       GANADOR_LOTERIA_FELICITACIONES  0.3
+
+# Fin de CONTENIDO

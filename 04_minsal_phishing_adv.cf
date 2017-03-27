@@ -1,0 +1,36 @@
+# TODO: Este podría servir de base para otras combinaciones
+body        __ZTD_SALUDO                /(?:contento\sde|me\scomplace)\scontactar\scon(?:tigo|\susted)/i
+describe    __ZTD_SALUDO                Contento de contactar con usted
+
+body        ZTD_PRESENTACION            /gerente\sdel?\sbanco\s(?:de|en|con)(?:\suna)?\ssucursal/i
+describe    ZTD_PRESENTACION            Gerente de banco en una sucursal
+score       ZTD_PRESENTACION            0.4
+
+body        ZTD_RAZON_SELECCION         /(?:despu(?:e|é|.)s|luego)\sde\svari(?:o|a)s\sinvestiga(?:ciones|dores)\soficiales/i
+describe    ZTD_RAZON_SELECCION         Después de varias investigaciones oficiales
+score       ZTD_RAZON_SELECCION         0.4
+
+body        ZTD_INVERSION_MEDIANTE      /invertir\sen\ssu\spa(?:í|i|.)s\s(?:mediante|a\strav(?:e|é|.)s\sde)\s(?:t|s)u\sa(?:yuda|sistencia)/i
+describe    ZTD_INVERSION_MEDIANTE      Invertir en su país mediante su ayuda
+score       ZTD_INVERSION_MEDIANTE      0.4
+
+body        ZTD_MEDIO_INVERSION         /me\sgustar(?:í|i|.)a\stransferir\sa\ssu\scuenta/
+describe    ZTD_MEDIO_INVERSION         Transferencia: Me gustaría transferir a su cuenta
+score       ZTD_MEDIO_INVERSION         0.4
+
+body        ZTD_RAZON_INTERMEDIARIO     /no\spuedo\sestar\sdirectamente\sinvolucrado\s(?:porque|ya\sque)\s(?:a(?:ú|u|.)n|todav(?:í|i|.)a)/i
+describe    ZTD_RAZON_INTERMEDIARIO     No puedo estar directamente involucrado
+score       ZTD_RAZON_INTERMEDIARIO     0.4
+
+body        ZTD_BENEFICIO               /(?:usted|tu)\s(?:recibir|obtendr)(?:á|a|.)s?\s?(?:el|un)?\s[0-9%.]+\sde(?:l|\slas)\s(?:fondo|ganancias)/i
+describe    ZTD_BENEFICIO               Usted recibirá un 25% de las ganancias
+score       ZTD_BENEFICIO               0.4
+
+# Este es la firma para \#59
+meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION && ZTD_RAZON_SELECCION && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
+describe    ZTD_FIRMA_01                Firma según \#59
+score       ZTD_FIRMA_01                3.0
+
+meta        ZTD_FIRMAS_DINERO           (ZT_FIRMA_01 && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
+describe    ZTD_FIRMAS_DINERO           La firma se ve casi confirmada por el hecho de que se habla de mucho dinero
+score       ZTD_FIRMAS_DINERO           2.0
