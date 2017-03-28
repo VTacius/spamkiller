@@ -1,10 +1,18 @@
+header      ZTD_SUB_FAX                  subject =~ /fa\-x/i
+describe    ZTD_SUB_FAX                  FA-X, lo que parece ser parte de un conocido spam
+score       ZTD_SUB_FAX                  0.1
+
 # TODO: Este podría servir de base para otras combinaciones
 body        __ZTD_SALUDO                /(?:contento\sde|me\scomplace)\scontactar\scon(?:tigo|\susted)/i
 describe    __ZTD_SALUDO                Contento de contactar con usted
 
-body        ZTD_PRESENTACION            /gerente\sdel?\sbanco\s(?:de|en|con)(?:\suna)?\ssucursal/i
-describe    ZTD_PRESENTACION            Gerente de banco en una sucursal
-score       ZTD_PRESENTACION            0.4
+body        ZTD_PRESENTACION_01         /gerente\sdel?\sbanco\s(?:de|en|con)(?:\suna)?\ssucursal/i
+describe    ZTD_PRESENTACION_01         Gerente de banco en una sucursal
+score       ZTD_PRESENTACION_01         0.4
+
+body        ZTD_PRESENTACION_02         /tengo\sel\shonor\sde\sanunciar\s?l(?:e|a)(?:\s\w+){0,2}\snoticia/i
+describe    ZTD_PRESENTACION_02         Tengo el honor de anunciarle la noticia
+score       ZTD_PRESENTACION_02         0.4
 
 body        ZTD_RAZON_SELECCION         /(?:despu(?:e|é|.)s|luego)\sde\svari(?:o|a)s\sinvestiga(?:ciones|dores)\soficiales/i
 describe    ZTD_RAZON_SELECCION         Después de varias investigaciones oficiales
@@ -18,6 +26,10 @@ body        ZTD_MEDIO_INVERSION         /me\sgustar(?:í|i|.)a\stransferir\sa\ss
 describe    ZTD_MEDIO_INVERSION         Transferencia: Me gustaría transferir a su cuenta
 score       ZTD_MEDIO_INVERSION         0.4
 
+body        ZTD_MEDIO_INVERSION_02      /(?:noticia|aviso)\s(?:sobre|acerca)\sd?el\s(?:loter(?:í|i|.)a|juego)/i
+describe    ZTD_MEDIO_INVERSION_02      Noticia sobre la lotería del juego
+score       ZTD_MEDIO_INVERSION_02      0.5
+
 body        ZTD_RAZON_INTERMEDIARIO     /no\spuedo\sestar\sdirectamente\sinvolucrado\s(?:porque|ya\sque)\s(?:a(?:ú|u|.)n|todav(?:í|i|.)a)/i
 describe    ZTD_RAZON_INTERMEDIARIO     No puedo estar directamente involucrado
 score       ZTD_RAZON_INTERMEDIARIO     0.4
@@ -26,11 +38,24 @@ body        ZTD_BENEFICIO               /(?:usted|tu)\s(?:recibir|obtendr)(?:á|
 describe    ZTD_BENEFICIO               Usted recibirá un 25% de las ganancias
 score       ZTD_BENEFICIO               0.4
 
+# Este es algo así como un MEDIANTE avanzado
+body        ZTD_MAS_INFORMACION         /para\sobtener\sm(?:á|a|.)s\sinformaci(?:ó|o|.)n(?:\s?,)?\sconsulte\s(?:el|la)\s(?:tarea|archivo)\sadjunt(?:a|o)/i
+describe    ZTD_MAS_INFORMACION         Para obtener más información, consulte el archivo adjunto
+score       ZTD_MAS_INFORMACION         0.2
+
 # Este es la firma para \#59
-meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION && ZTD_RAZON_SELECCION && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
+meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
 describe    ZTD_FIRMA_01                Firma según \#59
 score       ZTD_FIRMA_01                3.0
+
+# Esta es la firma para \#61            
+meta        ZTD_FIRMA_02                (ZTD_SUB_FAX && ZTD_PRESENTACION_02 && ZTD_MEDIO_INVERSION_02 && ZTD_MAS_INFORMACION)
+describe    ZTD_FIRMA_02                Firma según \#61
+score       ZTD_FIRMA_02                2.0
 
 meta        ZTD_FIRMAS_DINERO           (ZT_FIRMA_01 && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
 describe    ZTD_FIRMAS_DINERO           La firma se ve casi confirmada por el hecho de que se habla de mucho dinero
 score       ZTD_FIRMAS_DINERO           2.0
+
+
+

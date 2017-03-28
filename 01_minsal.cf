@@ -43,9 +43,14 @@ meta        ENLACES_SPAMMERS            ( __VT_URL_PERNICIOSAS && __FALSO_ENLACE
 describe    ENLACES_SPAMMERS            Contenido no calificado como spam, pero con grandes posibilidades de serlo debido a enlaces en listas negras
 score       ENLACES_SPAMMERS            2.0
 
-meta        HTML_AND_PLAIN_TEXT         (HTML_MESSAGE && !MIME_HTML_ONLY)
-describe    HTML_AND_PLAIN_TEXT         Contiene HTML and texto plano. 
-score       HTML_AND_PLAIN_TEXT         0.2
+# Pocas reglas cargaron con expectativas tan grandes como estas dos
+body        POSIBLE_OFUSCAMIENTO        /(?:[\w\=]+\&nbsp;){3,7}/i
+describe    POSIBLE_OFUSCAMIENTO        En texto plano, no sé, esta como esperando a que lo considere HTML y lo renderize bien
+score       POSIBLE_OFUSCAMIENTO        0.3
+
+meta        CONTENIDO_BAJA_CALIDAD      (__ANY_TEXT_ATTACH && POSIBLE_OFUSCAMIENTO)
+describe    CONTENIDO_BAJA_CALIDAD      Se intento ofuscar el HTML y el texto plano copio esa característica
+score       CONTENIDO_BAJA_CALIDAD      0.6
 
 # TODO: Es que las RCVD_* no sé como podrían ir, aunque acá de casualidad me parece bien
 meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID || RCVD_IN_BL_SPAMCOP_NET)

@@ -69,12 +69,16 @@ body        VTE_ACCOUNT_LIMIT_04        /has\sreached\s([0-9]+(,|\.|\s)*)+\s*(k|
 describe    VTE_ACCOUNT_LIMIT_04        Has reached 10 Gb
 score       VTE_ACCOUNT_LIMIT_04        1.2 
 
-meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04)
+body        VTE_ACCOUNT_LIMIT_05        /your\smailbox\shas\sexceeded(?:\s\w+){0,5}\slimit\sof\s[0-9\.]+\s?(?:g|m|k)b/i
+describe    VTE_ACCOUNT_LIMIT_05        Your mailbox has exceeded limit of
+score       VTE_ACCOUNT_LIMIT_05        1.5
+
+meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04 || VTE_ACCOUNT_LIMIT_05)
 describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
-body        VTE_CANCEL_REQUEST           /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
-describe    VTE_CANCEL_REQUEST           Made a request to shutdown
-score       VTE_CANCEL_REQUEST           0.9
+body        VTE_CANCEL_REQUEST          /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
+describe    VTE_CANCEL_REQUEST          Made a request to shutdown
+score       VTE_CANCEL_REQUEST          0.9
 
 body        VTE_CANCEL_ADVISED          /advised\sto\scancel\sthe\srequest/i
 describe    VTE_CANCEL_ADVISED          Advised to cancel the request
@@ -99,9 +103,16 @@ describe    __VTE_RAZONES               Sobre las razones que espeta el correo p
 
 # DETALLES
 
-body        VTE_DEFINIDO_POR_ADMIN      /as\sset\sby\sadmin(?:istrator)?/i
-describe    VTE_DEFINIDO_POR_ADMIN      Definido por administrador
-score       VTE_DEFINIDO_POR_ADMIN      0.2
+body        VTE_DEFINIDO_POR_ADMIN_01   /as\sset\sby\sadmin(?:istrator)?/i
+describe    VTE_DEFINIDO_POR_ADMIN_01   Definido por administrador
+score       VTE_DEFINIDO_POR_ADMIN_01   0.2
+
+body        VTE_DEFINIDO_POR_ADMIN_02   /[0-9\.]+\s?(?:g|m|k)b\sset\sby(?:\s\w+){0,2}\sadmin(?:istrator)?/i
+describe    VTE_DEFINIDO_POR_ADMIN_02   20GB, set by admin
+score       VTE_DEFINIDO_POR_ADMIN_02   0.4
+
+meta        __VTE_DEFINIDO_POR_ADMIN    (VTE_DEFINIDO_POR_ADMIN_01 || VTE_DEFINIDO_POR_ADMIN_02)
+describe    __VTE_DEFINIDO_POR_ADMIN    Distintas formas de referirse a la definición del tamaño del buzón por parte de admin
 
 body        VTE_PROCESADO_EN_BREVE      /request\swill\sbe\sprocessed\sshortly/i
 describe    VTE_PROCESADO_EN_BREVE      Request will be processed shortly
@@ -332,7 +343,7 @@ meta        VTE_PLAZO_AMENAZA           (__VTE_PLAZO_TIEMPO && __VTE_AMENAZA)
 describe    VTE_PLAZO_AMENAZA           La amenaza ha de cumplirse en un plazo tal de tiempo
 score       VTE_PLAZO_AMENAZA           1.2
 
-meta        VTE_RAZON_01                (__VTE_LIMITES && VTE_DEFINIDO_POR_ADMIN)
+meta        VTE_RAZON_01                (__VTE_LIMITES && __VTE_DEFINIDO_POR_ADMIN)
 describe    VTE_RAZON_01                Límite, como ha sido definido por administrador
 score       VTE_RAZON_01                0.9
 
