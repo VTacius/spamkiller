@@ -53,7 +53,7 @@ describe    CONTENIDO_BAJA_CALIDAD      Se intento ofuscar el HTML y el texto pl
 score       CONTENIDO_BAJA_CALIDAD      0.6
 
 # TODO: Es que las RCVD_* no sé como podrían ir, aunque acá de casualidad me parece bien
-meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID || RCVD_IN_BL_SPAMCOP_NET)
+meta        __CORREO_BAJA_CALIDAD       (RDNS_NONE || T_DKIM_INVALID || RCVD_IN_BL_SPAMCOP_NET || T_CDISP_SZ_MANY)
 describe    __CORREO_BAJA_CALIDAD       Iré colocando test que verifiquen que a nivel de SMTP sea probablemente spammer
 
 meta        CORREO_BAJA_CALIDAD         (__CORREO_BAJA_CALIDAD && (HTML_MESSAGE || T_REMOTE_IMAGE || HTML_FONT_LOW_CONTRAST))

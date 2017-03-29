@@ -1,10 +1,19 @@
-header      ZTD_SUB_FAX                  subject =~ /fa\-x/i
-describe    ZTD_SUB_FAX                  FA-X, lo que parece ser parte de un conocido spam
-score       ZTD_SUB_FAX                  0.1
+header      ZTD_SUB_FAX                 subject =~ /fa\-x/i
+describe    ZTD_SUB_FAX                 FA-X, lo que parece ser parte de un conocido spam
+score       ZTD_SUB_FAX                 0.3
+
+# TODO: Acá resulta que podríamos hacer algo similar a FROM_MINSAL_INVALIDA, quizá más barato
+# header      ZTD_SUB_GOOGLE              from =~ /.+/i
+# describe    ZTD_SUB_GOOGLE              Pretende hacerse pasar por Google
+# score       ZTD_SUB_GOOGLE              0.1
 
 # TODO: Este podría servir de base para otras combinaciones
 body        __ZTD_SALUDO                /(?:contento\sde|me\scomplace)\scontactar\scon(?:tigo|\susted)/i
 describe    __ZTD_SALUDO                Contento de contactar con usted
+
+body        ZTD_QUERIDO_GUSUARIO        /dear\sgoogle\suser/i
+describe    ZTD_QUERIDO_GUSUARIO        Dear google user
+score       ZTD_QUERIDO_GUSUARIO        0.2
 
 body        ZTD_PRESENTACION_01         /gerente\sdel?\sbanco\s(?:de|en|con)(?:\suna)?\ssucursal/i
 describe    ZTD_PRESENTACION_01         Gerente de banco en una sucursal
@@ -12,11 +21,12 @@ score       ZTD_PRESENTACION_01         0.4
 
 body        ZTD_PRESENTACION_02         /tengo\sel\shonor\sde\sanunciar\s?l(?:e|a)(?:\s\w+){0,2}\snoticia/i
 describe    ZTD_PRESENTACION_02         Tengo el honor de anunciarle la noticia
-score       ZTD_PRESENTACION_02         0.4
+score       ZTD_PRESENTACION_02         0.6
 
-body        ZTD_RAZON_SELECCION         /(?:despu(?:e|é|.)s|luego)\sde\svari(?:o|a)s\sinvestiga(?:ciones|dores)\soficiales/i
-describe    ZTD_RAZON_SELECCION         Después de varias investigaciones oficiales
-score       ZTD_RAZON_SELECCION         0.4
+# Que más bien es una firma, pero cumple el mismo propósito
+body        ZTD_PRESENTACION_03         /ceo\sgoogle\suk/i
+describe    ZTD_PRESENTACION_03         CEO Google UK
+score       ZTD_PRESENTACION_03         0.4
 
 body        ZTD_INVERSION_MEDIANTE      /invertir\sen\ssu\spa(?:í|i|.)s\s(?:mediante|a\strav(?:e|é|.)s\sde)\s(?:t|s)u\sa(?:yuda|sistencia)/i
 describe    ZTD_INVERSION_MEDIANTE      Invertir en su país mediante su ayuda
@@ -30,32 +40,85 @@ body        ZTD_MEDIO_INVERSION_02      /(?:noticia|aviso)\s(?:sobre|acerca)\sd?
 describe    ZTD_MEDIO_INVERSION_02      Noticia sobre la lotería del juego
 score       ZTD_MEDIO_INVERSION_02      0.5
 
+# RAZONES
+
+body        ZTD_RAZON_SELECCION_01      /(?:despu(?:e|é|.)s|luego)\sde\svari(?:o|a)s\sinvestiga(?:ciones|dores)\soficiales/i
+describe    ZTD_RAZON_SELECCION_01      Después de varias investigaciones oficiales
+score       ZTD_RAZON_SELECCION_01      0.4
+
+body        ZTD_RAZON_SELECCION_02      /el\ssorteo(?:\sse)?\s(?:llev|realiz)(?:ó|o|.)(?:\sa\scabo)?\sen(?:\s\w+){1,2}\s[0-9]+/i
+describe    ZTD_RAZON_SELECCION_02      El sorteo se realizó en enero de 2017 
+score       ZTD_RAZON_SELECCION_02      0.6
+
+body        ZTD_RAZON_SELECCION_03      /you\shave\sbeen\sselected\sas\sa\swinner/i
+describe    ZTD_RAZON_SELECCION_03      You have been selected as a winner
+score       ZTD_RAZON_SELECCION_03      0.5
+
+body        ZTD_PAQUETE_SIN_ENTREGAR    /nuestro\smensajero\sno(?:\sha)?\sp(?:ue?d(?:o|e)|odido)\sentregar\s(?:el|tu|su)\s+?paquete/i
+describe    ZTD_PAQUETE_SIN_ENTREGAR    Nuestro mensajero no pudo entregar el paquete
+score       ZTD_PAQUETE_SIN_ENTREGAR    0.2
+
+# Fin de Razones
+
+# DETALLES
+
 body        ZTD_RAZON_INTERMEDIARIO     /no\spuedo\sestar\sdirectamente\sinvolucrado\s(?:porque|ya\sque)\s(?:a(?:ú|u|.)n|todav(?:í|i|.)a)/i
 describe    ZTD_RAZON_INTERMEDIARIO     No puedo estar directamente involucrado
 score       ZTD_RAZON_INTERMEDIARIO     0.4
+
+body        ZTD_FOR_USING_SERVICES      /for\susing\sgoogle\sservices/i
+describe    ZTD_FOR_USING_SERVICES      For using google services
+score       ZTD_FOR_USING_SERVICES      0.3
+
+# Fin de DETALLES
+
+# MEDIANTES
+
+body        ZTD_MAS_INFORMACION         /para\sobtener\sm(?:á|a|.)s\sinformaci(?:ó|o|.)n(?:\s?,)?\sconsulte\s(?:el|la)\s(?:tarea|archivo)\sadjunt(?:a|o)/i
+describe    ZTD_MAS_INFORMACION         Para obtener más información, consulte el archivo adjunto
+score       ZTD_MAS_INFORMACION         0.2
+
+body        ZTD_LLAMAR_CON_DATOS        /(?:debe|tiene)(?:\sque|de)?\sllamar\scon\ssu\s(?:nombre|apellido)\sy\s(?:nombre|apellido)/i
+describe    ZTD_LLAMAR_CON_DATOS        Debe llamar con su nombre y apellido
+score       ZTD_LLAMAR_CON_DATOS        0.2
+
+# Fin de MEDIANTES
+
+# OBJETIVOS
+
+body        ZTD_PARA_RECIBIR_PAQUETE    /para\s(?:recibir|la\sentrega\sde)\s+?su\spaquete/i
+describe    ZTD_PARA_RECIBIR_PAQUETE    Para recibir su paquete
+score       ZTD_PARA_RECIBIR_PAQUETE    0.3
 
 body        ZTD_BENEFICIO               /(?:usted|tu)\s(?:recibir|obtendr)(?:á|a|.)s?\s?(?:el|un)?\s[0-9%.]+\sde(?:l|\slas)\s(?:fondo|ganancias)/i
 describe    ZTD_BENEFICIO               Usted recibirá un 25% de las ganancias
 score       ZTD_BENEFICIO               0.4
 
-# Este es algo así como un MEDIANTE avanzado
-body        ZTD_MAS_INFORMACION         /para\sobtener\sm(?:á|a|.)s\sinformaci(?:ó|o|.)n(?:\s?,)?\sconsulte\s(?:el|la)\s(?:tarea|archivo)\sadjunt(?:a|o)/i
-describe    ZTD_MAS_INFORMACION         Para obtener más información, consulte el archivo adjunto
-score       ZTD_MAS_INFORMACION         0.2
+# Fin de OBJETIVOS
 
 # Este es la firma para \#59
-meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
+meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION_01 && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
 describe    ZTD_FIRMA_01                Firma según \#59
 score       ZTD_FIRMA_01                3.0
 
 # Esta es la firma para \#61            
-meta        ZTD_FIRMA_02                (ZTD_SUB_FAX && ZTD_PRESENTACION_02 && ZTD_MEDIO_INVERSION_02 && ZTD_MAS_INFORMACION)
+meta        ZTD_FIRMA_02                (ZTD_SUB_FAX && ZTD_PRESENTACION_02 && ZTD_MEDIO_INVERSION_02 && ZTD_RAZON_SELECCION_02 && ZTD_MAS_INFORMACION)
 describe    ZTD_FIRMA_02                Firma según \#61
-score       ZTD_FIRMA_02                2.0
+score       ZTD_FIRMA_02                3.0
 
-meta        ZTD_FIRMAS_DINERO           (ZT_FIRMA_01 && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
+# Firma para \#63
+meta        ZTD_FIRMA_03                (ZTD_QUERIDO_GUSUARIO && ZTD_RAZON_SELECCION_03 && ZTD_FOR_USING_SERVICES && VTE_ADJUNTO_AL_MENSAJE && ZTD_PRESENTACION_03)
+describe    ZTD_FIRMA_03                Firma según \#63
+score       ZTD_FIRMA_03                3.0
+
+meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02)
+describe    __ZT_FIRMAS                 Las distintas firmas creadas hasta ahora
+
+meta        ZTD_FIRMAS_DINERO           (__ZT_FIRMAS && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
 describe    ZTD_FIRMAS_DINERO           La firma se ve casi confirmada por el hecho de que se habla de mucho dinero
 score       ZTD_FIRMAS_DINERO           2.0
 
-
+meta        ZTD_FIRMAS_OFUSCADAS        (__ZT_FIRMAS && POSIBLE_OFUSCAMIENTO)
+describe    ZTD_FIRMAS_OFUSCADAS        Firmas sobre phishing avanzada dentro de contenio ofuscado
+score       ZTD_FIRMAS_OFUSCADAS        1.8
 

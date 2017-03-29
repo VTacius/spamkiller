@@ -214,7 +214,11 @@ body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
 score       VTE_LOGIN_ACTIVATING        0.9
 
-meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING)
+body        VTE_ADJUNTO_AL_MENSAJE      /attached\sto\sthis\se?mail\sis/i
+describe    VTE_ADJUNTO_AL_MENSAJE      Attached to this email is
+score       VTE_ADJUNTO_AL_MENSAJE      0.5
+
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
