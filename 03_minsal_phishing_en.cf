@@ -206,9 +206,9 @@ score       VTE_HACER_CLIC_ENLACE_04    0.9
 meta        __VTE_HACER_CLICK_ENLACE    (VTE_HACER_CLIC_ENLACE_01 || VTE_HACER_CLIC_ENLACE_02 || VTE_HACER_CLIK_ENLACE_03 || VTE_HACER_CLIC_ENLACE_04)
 describe    __VTE_HACER_CLICK_ENLACE    Sugiere hacer click
 
-body        VTE_VERIFY_FORM_ADV         /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
-describe    VTE_VERIFY_FORM_ADV         Download the attached form
-score       VTE_VERIFY_FORM_ADV         0.9
+body        VTE_HACER_FORM              /(download|see|check)(\sin)*(\sthe)\s(inline|attached)\sform/i
+describe    VTE_HACER_FORM              Download the attached form
+score       VTE_HACER_FORM              0.9
 
 body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
@@ -218,7 +218,11 @@ body        VTE_ADJUNTO_AL_MENSAJE      /attached\sto\sthis\se?mail\sis/i
 describe    VTE_ADJUNTO_AL_MENSAJE      Attached to this email is
 score       VTE_ADJUNTO_AL_MENSAJE      0.5
 
-meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_VERIFY_FORM_ADV || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE)
+body        VTE_COMPLETAR_DATOS         /(?:complete|fill)\sand\ssend(?:\s\w+)?\s(?:data|information)/i
+describe    VTE_COMPLETAR_DATOS         Fill and send data
+score       VTE_COMPLETAR_DATOS         0.6
+
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
@@ -255,7 +259,11 @@ body        VTE_VALID_CUENTA_04         /(re-*)*(activate|validate|verify|restor
 describe    VTE_VALID_CUENTA_04         Validar usuario@dominio.com cuenta
 score       VTE_VALID_CUENTA_04         0.3
 
-meta        __VTE_VALIDAR_CUENTA        (VTE_VALID_CUENTA_01 || VTE_VALID_CUENTA_02 || VTE_VALID_CUENTA_03 || VTE_VALID_CUENTA_04)
+body        VTE_VALID_CUENTA_05         /to\s(?:update|verify)\sand\s(?:update|verify)(?:\s\w+){0,2}\saccount/i
+describe    VTE_VALID_CUENTA_05         To update and verify your account
+score       VTE_VALID_CUENTA_05         0.3
+
+meta        __VTE_VALIDAR_CUENTA        (VTE_VALID_CUENTA_01 || VTE_VALID_CUENTA_02 || VTE_VALID_CUENTA_03 || VTE_VALID_CUENTA_04 || VTE_VALID_CUENTA_05)
 describe    __VTE_VALIDAR_CUENTA        Distintas formas de hablar sobre validación de cuenta
 
 body        VTE_AUMENTAR_CUOTA_01       /space\s(added)(\sto)*\syour\s(inbox|mailbox)/i
@@ -323,7 +331,7 @@ body        VTE_NEGARSE_01              /else(?:\s\w+){0,2}\s(?:mailbox|account)
 describe    VTE_NEGARSE_01              else your account will be blocked
 score       VTE_NEGARSE_01              0.6
 
-body        VTE_NEGARSE_02              /until\syou\s(?:re-?)?(?:validate|verify)/i
+body        VTE_NEGARSE_02              /until\syou\s(?:re-?)?(?:validate|v(?:e|a)rify)/i
 describe    VTE_NEGARSE_02              until you re-validate
 score       VTE_NEGARSE_02              0.6
 

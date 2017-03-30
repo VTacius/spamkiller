@@ -139,8 +139,16 @@ body        ZT_LIMIT_13             /ha\ssuperado\s[0-9]+\s(?:g|m|k)b/i
 describe    ZT_LIMIT_13             Ha superado 23 Gb
 score       ZT_LIMIT_13             0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13)
+body        ZT_LIMIT_14             /superado\slos\s[0-9\.\,]+\sarchivos\sdel?\sbuz(?:o|ó|.)n(?:es)?/i
+describe    ZT_LIMIT_14             superado los 23,432 archivos de buzones
+score       ZT_LIMIT_14             0.5
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
+
+body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
+describe    ZT_PROBLEMAS_ENVIO      Problemas de envío y control mientras envía correo
+score       ZT_PROBLEMAS_ENVIO      0.2
 
 body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
 describe    ZT_MANTENIMIENTO_01     Mantenimiento de nuestros canales de servicio
@@ -231,18 +239,18 @@ body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á
 describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
 score       ZT_DANIO_VIRUS          0.3
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
+meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 
@@ -296,7 +304,11 @@ body        ZT_BUZON_DEFINIDO_02    /(?:[0-9]+[,|\.|\s]*)+\s(?:defini|configura)
 describe    ZT_BUZON_DEFINIDO_02    23,465 definidos en los buzones
 score       ZT_BUZON_DEFINIDO_02    0.4
 
-meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02)
+body        ZT_BUZON_DEFINIDO_03    /repositorio\s.+?(?:\s\w+){1,2}\s\/(?:\s\w+){1,2}/i
+describe    ZT_BUZON_DEFINIDO_03    repositorio Web Services / manager
+score       ZT_BUZON_DEFINIDO_03    0.2
+
+meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03)
 describe    __ZT_BUZON_DEFINIDO     Distintas formas sobre buzón definido
 
 body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\scon)*\sregular(?:idad|mente)/i
