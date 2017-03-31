@@ -2,6 +2,10 @@ header      ZTD_SUB_FAX                 subject =~ /fa\-x/i
 describe    ZTD_SUB_FAX                 FA-X, lo que parece ser parte de un conocido spam
 score       ZTD_SUB_FAX                 0.3
 
+header      ZTD_SUB_SORTEO              subject =~ /sorteo/i
+describe    ZTD_SUB_SORTEO              FA-X, lo que parece ser parte de un conocido spam
+score       ZTD_SUB_SORTEO              0.3
+
 # TODO: Acá resulta que podríamos hacer algo similar a FROM_MINSAL_INVALIDA, quizá más barato
 # header      ZTD_SUB_GOOGLE              from =~ /.+/i
 # describe    ZTD_SUB_GOOGLE              Pretende hacerse pasar por Google
@@ -96,6 +100,30 @@ score       ZTD_BENEFICIO               0.4
 
 # Fin de OBJETIVOS
 
+# HITS
+
+body        ZTD_HIT_JPMORGAN_01         /(?:acad(?:é|e|.)micos|profesores)\sy\s(?:acad(?:é|e|.)micos|profesores)\spueden\sya\ssolicitar/i
+describe    ZTD_HIT_JPMORGAN_01         Académicos y profesores ya pueden solicitar
+score       ZTD_HIT_JPMORGAN_01         1.0
+
+body        ZTD_HIT_JPMORGAN_02         /en\scontacto\scon\s[\w\.\,]+\sexpertos\sen\sel\ssalvador/i
+describe    ZTD_HIT_JPMORGAN_02         En contacto con 23.456 expertos en El Salvador
+score       ZTD_HIT_JPMORGAN_02         0.9
+
+body        ZTD_HIT_JPMORGAN_03         /en\scontacto\scon.+?\sexpertos\sa\snivel\sglobal/i
+describe    ZTD_HIT_JPMORGAN_03         En contacto con 23,456 expertos a nivel global
+score       ZTD_HIT_JPMORGAN_03         0.9
+
+body        ZTD_HIT_JPMORGAN_04         /contacte\scon\sel\sexperto\sso.ador/i
+describe    ZTD_HIT_JPMORGAN_04         Contacte con el experto soñador
+score       ZTD_HIT_JPMORGAN_04         1.0
+
+meta        ZTD_JPMORGAN_IMAGEN         (HIT_JPMONFORT && T_REMOTE_IMAGE)
+describe    ZTD_JPMORGAN_IMAGEN         JP MONFORT y una imagen externa en lugar de contenido
+score       ZTD_JPMORGAN_IMAGEN         1.2
+
+# Fin de HITS
+
 # Este es la firma para \#59
 meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION_01 && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
 describe    ZTD_FIRMA_01                Firma según \#59
@@ -110,6 +138,11 @@ score       ZTD_FIRMA_02                3.0
 meta        ZTD_FIRMA_03                (ZTD_QUERIDO_GUSUARIO && ZTD_RAZON_SELECCION_03 && ZTD_FOR_USING_SERVICES && VTE_ADJUNTO_AL_MENSAJE && ZTD_PRESENTACION_03)
 describe    ZTD_FIRMA_03                Firma según \#63
 score       ZTD_FIRMA_03                3.0
+
+# Firma para \#64
+meta        ZTD_FIRMA_04                (ZTD_SUB_SORTEO && ZTD_PRESENTACION_02 && ZTD_MEDIO_INVERSION_02 && ZTD_RAZON_SELECCION_02 && ZTD_MAS_INFORMACION)
+describe    ZTD_FIRMA_04                Firma según \#64
+score       ZTD_FIRMA_04                3.0
 
 meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02)
 describe    __ZT_FIRMAS                 Las distintas firmas creadas hasta ahora
