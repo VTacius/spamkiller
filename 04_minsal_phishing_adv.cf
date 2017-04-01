@@ -11,6 +11,7 @@ score       ZTD_SUB_SORTEO              0.3
 # describe    ZTD_SUB_GOOGLE              Pretende hacerse pasar por Google
 # score       ZTD_SUB_GOOGLE              0.1
 
+# TODO: Unir con los saludos que están abajo
 # TODO: Este podría servir de base para otras combinaciones
 body        __ZTD_SALUDO                /(?:contento\sde|me\scomplace)\scontactar\scon(?:tigo|\susted)/i
 describe    __ZTD_SALUDO                Contento de contactar con usted
@@ -124,6 +125,17 @@ score       ZTD_JPMORGAN_IMAGEN         1.2
 
 # Fin de HITS
 
+# SALUDOS
+
+body        ZTD_ATENTAMENTE_DIRECCION   /atentamente\sdirecci(?:ó|o|.)/i
+describe    ZTD_ATENTAMENTE_DIRECCION   Atentamente Dirección
+score       ZTD_ATENTAMENTE_DIRECCION   0.3
+
+meta        __ZTD_SALUDOS               (ZTD_ATENTAMENTE_DIRECCION)
+describe    __ZTD_SALUDOS               Distintas formas de saludos encontrados en estafas
+
+# Fin de SALUDOS
+
 # Este es la firma para \#59
 meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION_01 && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
 describe    ZTD_FIRMA_01                Firma según \#59
@@ -144,12 +156,16 @@ meta        ZTD_FIRMA_04                (ZTD_SUB_SORTEO && ZTD_PRESENTACION_02 &
 describe    ZTD_FIRMA_04                Firma según \#64
 score       ZTD_FIRMA_04                3.0
 
-meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02)
+meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02 || ZTD_FIRMA_03 || ZTD_FIRMA_04)
 describe    __ZT_FIRMAS                 Las distintas firmas creadas hasta ahora
 
 meta        ZTD_FIRMAS_DINERO           (__ZT_FIRMAS && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
 describe    ZTD_FIRMAS_DINERO           La firma se ve casi confirmada por el hecho de que se habla de mucho dinero
 score       ZTD_FIRMAS_DINERO           2.0
+
+meta        ZTD_FIRMAS_SALUDO           (__ZT_FIRMAS && __ZTD_SALUDOS) 
+describe    ZTD_FIRMAS_SALUDO           Pues que es una firma conocida de estafa, y se atreve a mostrarse educado
+score       ZTD_FIRMAS_SALUDO           1.2
 
 meta        ZTD_FIRMAS_OFUSCADAS        (__ZT_FIRMAS && POSIBLE_OFUSCAMIENTO)
 describe    ZTD_FIRMAS_OFUSCADAS        Firmas sobre phishing avanzada dentro de contenio ofuscado

@@ -8,6 +8,10 @@ header      ZT_SUB_CORREO           subject =~ /correo|cuenta/i
 describe    ZT_SUB_CORREO           Estimada cuenta de usuario
 score       ZT_SUB_CORREO           0.1
 
+header      ZT_SUB_ATENCION_PERSO   subject =~ /atenci(ó|o|.)n\s(?:personal|empleados)/i
+describe    ZT_SUB_ATENCION_PERSO   Atención personal
+score       ZT_SUB_ATENCION_PERSO   0.3
+
 header      ZT_SUB_MAILBOX          subject =~ /mailbox/i
 describe    ZT_SUB_MAILBOX          Mailbox
 score       ZT_SUB_MAILBOX          1.2
@@ -169,7 +173,7 @@ body        ZT_POR_ACTUALIZAC_01    /(?:por|debido)(\s\w+){0,3}\sactualizaci(?:o
 describe    ZT_POR_ACTUALIZAC_01    Debido a actualización de
 score       ZT_POR_ACTUALIZAC_01    0.4
 
-body        ZT_POR_ACTUALIZAC_02    /esta(?:re)?mos\scambia(?:ndo|r)(\s\w+){0,1}\snuestros?(\s\w+){0,1}\ssistemas?(\s\w+){0,1}\scorreo/i
+body        ZT_POR_ACTUALIZAC_02    /(?:cambia|migra)(?:ndo|r(?:emos)?)(?:\s\w+){0,1}\snuestros?(?:\s\w+){0,1}\ssistemas?(?:\s\w+){0,1}\scorreo/i
 describe    ZT_POR_ACTUALIZAC_02    Estaremos cambiando nuestros sistemas de correo
 score       ZT_POR_ACTUALIZAC_02    0.4
 
@@ -315,6 +319,10 @@ body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\s
 describe    ZT_VERIFICAMOS_REGULAR  Verficamos regularmente [nuestras cuentas]
 score       ZT_VERIFICAMOS_REGULAR  0.2
 
+body        ZT_SISTEMA_CORREO_MW    /nuevo\ssistema\sde\scorreo.+?microsoft/i
+describe    ZT_SISTEMA_CORREO_MW    Nuevos sistema de correo de Microsoft
+score       ZT_SISTEMA_CORREO_MW    0.4
+
 # Es un poco controversial que sea DETALLE y no razón, pero por ahora tendrá que funcionar
 body        ZT_RECIBIDO_SPAM        /(?:correo|mensaje)s?(?:\sde)?\s(?:basura|spam)\srecibidos?/i
 describe    ZT_RECIBIDO_SPAM        Mensajes de SPAM Recibidos
@@ -385,11 +393,7 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(\s(?:\w|&|;)+){0,3
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
-body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|t)u\slista\sde\scontactos\s(?:segur|guardad)(?:a|o)s?/i
-describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
-score       ZT_MANTENER_CONTACTOS   0.4
-
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA || ZT_MANTENER_CONTACTOS)
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA )
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
 
@@ -478,6 +482,20 @@ score       ZT_SUSPENSION_ENVIO     0.9
 body        ZT_RETRASO_FUTURO       /retrasar(?:a|á|.)?\ssus\sfuturas?\sdeclaraci(?:o|ó|.)n(?:es)?/i
 describe    ZT_RETRASO_FUTURO       Retrasará sus futuras declaraciones
 score       ZT_RETRASO_FUTURO       0.2
+
+# Es díficil ver a los siguientes dentro de las amenazas, a menos que se advierta lo sutil que trabajan como amenaza
+#
+body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|t)u\slista\sde\scontactos\s(?:segur|guardad)(?:a|o)s?/i
+describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
+score       ZT_MANTENER_CONTACTOS   0.4
+
+body        ZT_MANTENER_CUENTA      /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singresar\sal\snuevo\ssistema\sde\scorreo/i
+describe    ZT_MANTENER_CUENTA      Dónde ingresar al nuevo sistema de correo
+score       ZT_MANTENER_CUENTA      0.4
+
+# TODO: En cuanto se pueda, debería integrarse con los demás tipos de amenaza
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || ZT_MANTENER_CUENTA)
+descri      __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
@@ -622,7 +640,11 @@ describe    __ZT_SIGA_INSTRUC_01    Seguir los siguientes detalles
 body        __ZT_SIGA_INSTRUC_02    /(?:siga|le(?:er|a))\s(?:estas?|(?:las?\s)?siguientes?)(?:\s[\wáéíóú=]+){0,3}\s(?:instrucciones|informaci(?:(?:o|ó|.)n)?)/i
 describe    __ZT_SIGA_INSTRUC_02    Siga las siguientes instrucciones
 
-meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02)
+# Esta es una forma rara de dar a entender que se darán instrucciones, sospecho que se utilizará en el futuro
+body        __ZT_SIGA_INSTRUC_03    /(?:siga|lea)\sesta\slista\s.+?de\s\w+\s(?:informaci(?:ó|o|.)n|instrucciones)\simportante/i
+describe    __ZT_SIGA_INSTRUC_03    Lea las siguientes lista de información importante
+
+meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03)
 describe    __ZT_SIGA_INSTRUCCIONES Distintas formas de referirse a seguir instrucciones
 
 # Helpers que describen plazos de tiempo
@@ -825,6 +847,10 @@ meta        ZT_RAZON_06             ((__ZT_MANTENIMIENTO || __ZT_POR_ACTUALIZACI
 describe    ZT_RAZON_06             A las 12:00 empezamos a actualizar
 score       ZT_RAZON_06             0.3
 
+meta        ZT_RAZON_07             ((__ZT_MANTENIMIENTO || __ZT_POR_ACTUALIZACION) && ZT_SISTEMA_CORREO_MW)
+describe    ZT_RAZON_07             Actualizaremos a nuestros sistema nuevos sistema de correo microsoft
+score       ZT_RAZON_07             0.9
+
 meta        ZT_MOTIVA_ACCION        (__ZT_OBJETIVOS && __ZT_ACCIONES)
 describe    ZT_MOTIVA_ACCION        Actualizar cuenta por medio de un clic
 score       ZT_MOTIVA_ACCION        0.9
@@ -841,7 +867,7 @@ meta        ZT_AMOR_BIBLICO_02      (__ZT_OBJETIVOS && __ZT_RESTRIC_CUENTA)
 describe    ZT_AMOR_BIBLICO_02      Actualice su cuenta, o tendrá restricciones sobre su cuenta
 score       ZT_AMOR_BIBLICO_02      0.9
 
-meta        __ZT_AMOR_BIBLICO       (ZT_AMOR_BIBLICO_01 || ZT_AMOR_BIBLICO_02 || ZT_AMOR_BIBLICO_ADV)
+meta        __ZT_AMOR_BIBLICO       (ZT_AMOR_BIBLICO_01 || ZT_AMOR_BIBLICO_02 || ZT_AMOR_BIBLICO_03 || ZT_AMOR_BIBLICO_04)
 describe    __ZT_AMOR_BIBLICO       Distintas formas de incitar a un objetivo por medio de algún tipo de amenaza
 
 meta        ZT_CASTIGO_BIBLICO_02   (__ZT_RAZONES && __ZT_RESTRIC_CUENTA)
@@ -852,7 +878,15 @@ meta        ZT_CASTIGO_BIBLICO_03   (__ZT_SENDO_RECHAZADOS && ZT_VERSION_VIEJA)
 describe    ZT_CASTIGO_BIBLICO_03   Sus correos serán rechazados por la versión de su cuenta
 score       ZT_CASTIGO_BIBLICO_03   0.9
 
-meta        __ZT_CASTIGO_BIBLICO    (ZT_CASTIGO_BIBLICO_01 || ZT_CASTIGO_BIBLICO_02 || ZT_CASTIGO_BIBLICO_03)
+meta        ZT_AMOR_BIBLICO_04      (__ZT_OBJETIVOS && __ZT_AMENAZA_PAS_AGRE)
+describe    ZT_AMOR_BIBLICO_04      Actualice su cuenta, de lo contrario, le diremos sutilmente que la va a perder
+score       ZT_AMOR_BIBLICO_04      0.9
+
+meta        ZT_CASTIGO_BIBLICO_04   (__ZT_RAZONES && __ZT_AMENAZA_PAS_AGRE)
+describe    ZT_CASTIGO_BIBLICO_04   Estamos haciendo cambios, por tal razón, es posible que se quede sin cuenta
+score       ZT_CASTIGO_BIBLICO_04   0.9
+
+meta        __ZT_CASTIGO_BIBLICO    (ZT_CASTIGO_BIBLICO_01 || ZT_CASTIGO_BIBLICO_02 || ZT_CASTIGO_BIBLICO_03 || ZT_CASTIGO_BIBLICO_04)
 describe    __ZT_CASTIGO_BIBLICO    Distintas formas de explicar la razón del castigo
 
 meta        ZT_PROMESA_PARAISO_01   (__ZT_RAZONES && __ZT_OBJETIVOS)
@@ -860,9 +894,9 @@ describe    ZT_PROMESA_PARAISO_01   Tal razón, le premia con tal cosa
 score       ZT_PROMESA_PARAISO_01   0.6
 
 # Esta implica que ZT_AMOR_BIBLICO_01 ha sido aplicada, así que más bien estamos sumando a un caso particular de ella
-meta        ZT_AMOR_BIBLICO_ADV     (__ZT_OBJETIVOS && ZT_IMPEDIR_SUSPENSION)
-describe    ZT_AMOR_BIBLICO_ADV     Actualice su cuenta, o le dan formas avanzadas de amenazas sobre su cuenta
-score       ZT_AMOR_BIBLICO_ADV     0.6
+meta        ZT_AMOR_BIBLICO_03      (__ZT_OBJETIVOS && ZT_IMPEDIR_SUSPENSION)
+describe    ZT_AMOR_BIBLICO_03      Actualice su cuenta, o le dan formas avanzadas de amenazas sobre su cuenta
+score       ZT_AMOR_BIBLICO_03      0.6
 
 # Este será otro tipo sobre consecuencia
 meta        ZT_AUMENTADA_CUOTA      (__ZT_LIMITES && ZT_AUMENTAR_CUOTA)
