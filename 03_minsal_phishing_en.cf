@@ -73,7 +73,11 @@ body        VTE_ACCOUNT_LIMIT_05        /your\smailbox\shas\sexceeded(?:\s\w+){0
 describe    VTE_ACCOUNT_LIMIT_05        Your mailbox has exceeded limit of
 score       VTE_ACCOUNT_LIMIT_05        1.5
 
-meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04 || VTE_ACCOUNT_LIMIT_05)
+body        VTE_ACCOUNT_LIMIT_06        /due\sto\syour\squota\shas\sexceeded/i
+describe    VTE_ACCOUNT_LIMIT_06        Due to your quota has exceeded
+score       VTE_ACCOUNT_LIMIT_06        0.9
+
+meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04 || VTE_ACCOUNT_LIMIT_05 || VTE_ACCOUNT_LIMIT_06)
 describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
 body        VTE_CANCEL_REQUEST          /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
@@ -153,10 +157,6 @@ body        VTE_AFTER_VALIDATION        /(after|upon)\s(verifica|valida)tion/i
 describe    VTE_AFTER_VALIDATION        After verification
 score       VTE_AFTER_VALIDATION        0.4
 
-body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
-describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
-score       VTE_FOLLOW_INSTRUCC         0.3
-
 body        VTE_PLAZO_DE_HORAS_01       /(?:(?:with)?in)(?:\sthe)?(?:\snext)?\s(?:24|36|48)\s?(?:ho?u?rs?)/i
 describe    VTE_PLAZO_DE_HORAS_01       Tal plazo de horas
 score       VTE_PLAZO_DE_HORAS_01       0.4
@@ -222,7 +222,11 @@ body        VTE_COMPLETAR_DATOS         /(?:complete|fill)\sand\ssend(?:\s\w+)?\
 describe    VTE_COMPLETAR_DATOS         Fill and send data
 score       VTE_COMPLETAR_DATOS         0.6
 
-meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS)
+body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
+describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
+score       VTE_FOLLOW_INSTRUCC         0.3
+
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS || VTE_FOLLOW_INSTRUCC)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
@@ -236,14 +240,14 @@ body        VTE_ACTUALIZAR_CUENTA_02    /(?:upgrade|update)(?:\stheir|your)\s(?:
 describe    VTE_ACTUALIZAR_CUENTA_02    Update your account
 score       VTE_ACTUALIZAR_CUENTA_02    0.9
 
-body        VTE_ACTUALIZAR_CUENTA_03    /(upgrade|update)\syour\s((e-*)*mail|system|mailbox)\s(account|mailbox)/i
+body        VTE_ACTUALIZAR_CUENTA_03    /(?:upgrade|update)\syour\s(?:(?:e-*)*mail|system|mailbox)\s(?:account|mailbox|service)/i
 describe    VTE_ACTUALIZAR_CUENTA_03    Upgrade your email account
 score       VTE_ACTUALIZAR_CUENTA_03    0.6
 
 meta        __VTE_ACTUALIZAR_CUENTA     (VTE_ACTUALIZAR_CUENTA_01 || VTE_ACTUALIZAR_CUENTA_02 || VTE_ACTUALIZAR_CUENTA_03)
 describe    __VTE_ACTUALIZAR_CUENTA     Diferentes formas de referirse a la actualización de cuenta
 
-body        VTE_VALID_CUENTA_01         /(re-*)*(activate|validate|verify|restore)\syour\s(?:account|information)/i
+body        VTE_VALID_CUENTA_01         /(re-*)*(?:activate|validate|verify|restore)\syour\s(?:account|information|email)/i
 describe    VTE_VALID_CUENTA_01         Validar cuenta
 score       VTE_VALID_CUENTA_01         0.6
 
@@ -313,7 +317,11 @@ body        VTE_SUSPENSION_CORREO_07    /(?:e*mail|mail|mailbox|account|password
 describe    VTE_SUSPENSION_CORREO_07    Account will be blocked
 score       VTE_SUSPENSION_CORREO_07    0.9
 
-meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05 || VTE_SUSPENSION_CORREO_06 || VTE_SUSPENSION_CORREO_07)
+body        VTE_SUSPENSION_CORREO_08    /\w+@\w+\.gob\.sv\s(?:will\sbe|is)\sexpir(?:ing|e)\sin\s[0-9]{1,2}\sdays/i
+describe    VTE_SUSPENSION_CORREO_08    cuenta@salud.gob.sv is expiring in 3 days
+score       VTE_SUSPENSION_CORREO_08    1.2
+
+meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05 || VTE_SUSPENSION_CORREO_06 || VTE_SUSPENSION_CORREO_07 || VTE_SUSPENSION_CORREO_08)
 describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
 
 body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i

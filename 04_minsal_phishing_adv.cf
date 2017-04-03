@@ -71,6 +71,10 @@ body        ZTD_RAZON_INTERMEDIARIO     /no\spuedo\sestar\sdirectamente\sinvoluc
 describe    ZTD_RAZON_INTERMEDIARIO     No puedo estar directamente involucrado
 score       ZTD_RAZON_INTERMEDIARIO     0.4
 
+body        ZTD_RAZON_INTERMEDIO_02     /is\svery\sdifficult.+?send\sthis\sinformation\sto\s.+?ministries/
+describe    ZTD_RAZON_INTERMEDIO_02     Es muy difícil para mí enviar esta información a todos los ministerios del mundo
+score       ZTD_RAZON_INTERMEDIO_02     0.4
+
 body        ZTD_FOR_USING_SERVICES      /for\susing\sgoogle\sservices/i
 describe    ZTD_FOR_USING_SERVICES      For using google services
 score       ZTD_FOR_USING_SERVICES      0.3
@@ -123,6 +127,33 @@ meta        ZTD_JPMORGAN_IMAGEN         (HIT_JPMONFORT && T_REMOTE_IMAGE)
 describe    ZTD_JPMORGAN_IMAGEN         JP MONFORT y una imagen externa en lugar de contenido
 score       ZTD_JPMORGAN_IMAGEN         1.2
 
+body        __ZTD_IMPORTANTE_MINSAL_ES  /importante\sa\sal\sministerio\sde\ssalud/i
+describe    __ZTD_IMPORTANTE_MINSAL_ES  Importante al Ministerio de Salud
+
+body        __ZTD_IMPORTANTE_MINSAL_EN  /important\sfor\sthe\sministry\sof\shealth/i
+describe    __ZTD_IMPORTANTE_MINSAL_EN  Important for the ministry of health
+
+meta        ZTD_IMPORTANTE_MINSAL       (__ZTD_IMPORTANTE_MINSAL_ES && __ZTD_IMPORTANTE_MINSAL_EN)
+describe    ZTD_IMPORTANTE_MINSAL       Dice en dos idiomas una conocida frase spam, lo que de hecho es una conocida firma spammer
+score       ZTD_IMPORTANTE_MINSAL       0.5
+
+body        ZTD_SALVAVIDAS              /this\smessage.+?can\ssave\sthe\slives\sof\smillions/i
+describe    ZTD_SALVAVIDAS              Este mensaje puede salvar la vida de millones
+score       ZTD_SALVAVIDAS              0.5
+
+body        ZTD_RESPONSABLE_GENOCIDIO   /if\snot.+?responsible\sfor\sthe\sdeath\sof\smillions/i
+describe    ZTD_RESPONSABLE_GENOCIDIO   Si no, serán responsables por la muerte de millones de personas
+score       ZTD_RESPONSABLE_GENOCIDIO   0.5
+
+body        ZTD_INSTRUCCIONES           /you.+?make\san\salarm\sto\salert\syou.+?enter\sthe\swebsite/i
+describe    ZTD_INSTRUCCIONES           Tu debes hacer una alarma que te recuerde entrar al sitio
+score       ZTD_INSTRUCCIONES           0.4
+
+# Evitando el Genocidio
+body        ZTD_GM_RAZON_01             /there\sare.+?suicides.+?suffering.+?surgery/i
+describe    ZTD_GM_RAZON_01             Hay suicidios relacionados con el sufrimiento de estas cirugías
+score       ZTD_GM_RAZON_01             0.4
+
 # Fin de HITS
 
 # SALUDOS
@@ -156,7 +187,12 @@ meta        ZTD_FIRMA_04                (ZTD_SUB_SORTEO && ZTD_PRESENTACION_02 &
 describe    ZTD_FIRMA_04                Firma según \#64
 score       ZTD_FIRMA_04                3.0
 
-meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02 || ZTD_FIRMA_03 || ZTD_FIRMA_04)
+# Firma para \#67
+meta        ZTD_FIRMA_05                (ZTD_IMPORTANTE_MINSAL && ZTD_SALVAVIDAS && ZTD_RESPONSABLE_GENOCIDIO && ZTD_RAZON_INTERMEDIO_02 && ZTD_INSTRUCCIONES)
+describe    ZTD_FIRMA_05                Firma según \#65
+score       ZTD_FIRMA_05                3.0
+
+meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02 || ZTD_FIRMA_03 || ZTD_FIRMA_04 || ZTD_FIRMA_05)
 describe    __ZT_FIRMAS                 Las distintas firmas creadas hasta ahora
 
 meta        ZTD_FIRMAS_DINERO           (__ZT_FIRMAS && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
