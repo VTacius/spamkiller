@@ -44,7 +44,7 @@ header      ZT_SUB_ADMIN            subject =~ /administra(?:d|t)or(?:es)?/i
 describe    ZT_SUB_ADMIN            Administrador
 score       ZT_SUB_ADMIN            0.4
 
-header      ZT_SUB_VERIFICACION     subject =~ /verificaci(?:o|ó|.)n/i
+header      ZT_SUB_VERIFICACION     subject =~ /verifica(?:ci(?:o|ó|.)n|r)/i
 describe    ZT_SUB_VERIFICACION     Verificación
 score       ZT_SUB_VERIFICACION     0.1
 
@@ -87,18 +87,17 @@ describe    __ZT_SUB                Distintas formas de subject que no están na
 # Fin de HEADERS
 
 # RAZONES
-body        ZT_LIMIT_01             /l(?:í|i|&iacute;)mite\sde\salmacenamiento\sde\ssu\s(?:casilla|buz(?:ó|o|&oacute;)n)\sse\sha\s(?:excedido|superado)/i
+body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
 score       ZT_LIMIT_01             0.3
 
-body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)(\sde\scorreo)*\sha\s(?:excedido|superado)(?:\sel)*(?:\sla)*\s(?:l(?:í|i.)mite|cuota)/i
+body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_02             Casilla (de correo) ha superado el límite
 score       ZT_LIMIT_02             0.4
 
-# Es obvio que tener correo obligatorio le da casi mejor puntaje
-body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(\sde\scorreo)\sha\s(?:excedido|superado)(?:\sel)*(?:\sla)*\s(?:l(?:í|i.)mite|cuota)/i
+body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\sde\s(?:correo|casilla))\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_03             Casilla de correo ha superado el límite
-score       ZT_LIMIT_03             0.4
+score       ZT_LIMIT_03             0.5
 
 body        ZT_LIMIT_04             /(?:buz(?:ó|o|.)n(\sde\scorreo)*|casilla)\sha\s(?:excedido|superado)(?:\sel)*\sl(?:í|i.)mite\sde\salmacenamiento/i
 describe    ZT_LIMIT_04             Casilla de correo ha excedido límite de almacenamiento
@@ -323,6 +322,11 @@ body        ZT_SISTEMA_CORREO_MW    /nuevo\ssistema\sde\scorreo.+?microsoft/i
 describe    ZT_SISTEMA_CORREO_MW    Nuevos sistema de correo de Microsoft
 score       ZT_SISTEMA_CORREO_MW    0.4
 
+# Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
+body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
+describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
+score       ZT_LIMITE_ALMACENA      0.2
+
 # Es un poco controversial que sea DETALLE y no razón, pero por ahora tendrá que funcionar
 body        ZT_RECIBIDO_SPAM        /(?:correo|mensaje)s?(?:\sde)?\s(?:basura|spam)\srecibidos?/i
 describe    ZT_RECIBIDO_SPAM        Mensajes de SPAM Recibidos
@@ -356,7 +360,7 @@ body        ZT_ACTUALIZAR_01        /(?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*va
 describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
 score       ZT_ACTUALIZAR_01        0.6
 
-body        ZT_ACTUALIZAR_02        /(?:para|y)\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+body        ZT_ACTUALIZAR_02        /(?:para|y|requieren?)\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_ACTUALIZAR_02        Las instrucciones le dicen que el final de esto es actualizar su cuenta
 score       ZT_ACTUALIZAR_02        0.9
 
@@ -389,7 +393,7 @@ body        ZT_ACTUALICE_ADV_02     /(?:para|y)\s(?:(?:(?:re-*)*valid|renov|actu
 describe    ZT_ACTUALICE_ADV_02     Para actualizar su cuenta de correo, una forma muy especifíca y mortal
 score       ZT_ACTUALICE_ADV_02     0.5
 
-body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite)/i
+body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
@@ -644,7 +648,10 @@ describe    __ZT_SIGA_INSTRUC_02    Siga las siguientes instrucciones
 body        __ZT_SIGA_INSTRUC_03    /(?:siga|lea)\sesta\slista\s.+?de\s\w+\s(?:informaci(?:ó|o|.)n|instrucciones)\simportante/i
 describe    __ZT_SIGA_INSTRUC_03    Lea las siguientes lista de información importante
 
-meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03)
+body        __ZT_SIGA_INSTRUC_04    /siga\sla\s?instrucci(?:ó|o|.)n\spara/i
+describe    __ZT_SIGA_INSTRUC_04    Siga las instrucciones para
+
+meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03 || __ZT_SIGA_INSTRUC_04)
 describe    __ZT_SIGA_INSTRUCCIONES Distintas formas de referirse a seguir instrucciones
 
 # Helpers que describen plazos de tiempo
@@ -918,6 +925,10 @@ score       ZT_PREFIRMA_02          0.5
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
 score       ZT_FIRMA_01             0.9
+
+meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_02 && ZT_AUMENTAR_CUOTA && ZT_LIMIT_02)
+describe    ZT_FIRMA_02             Firma inspirada en \#69
+score       ZT_FIRMA_02             2.0
 
 # Esta es una de mis mejores ideas, sin duda
 # Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno

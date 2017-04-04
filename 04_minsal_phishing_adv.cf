@@ -107,6 +107,12 @@ score       ZTD_BENEFICIO               0.4
 
 # HITS
 
+body        __ZTD_HIT_MICROSOFT         /microsoft/i
+describe    __ZTD_HIT_MICROSOFT         Microsoft
+
+body        __ZTD_HIT_GRACIAS           /gracias/i
+describe    __ZTD_HIT_GRACIAS           Gracias
+
 body        ZTD_HIT_JPMORGAN_01         /(?:acad(?:é|e|.)micos|profesores)\sy\s(?:acad(?:é|e|.)micos|profesores)\spueden\sya\ssolicitar/i
 describe    ZTD_HIT_JPMORGAN_01         Académicos y profesores ya pueden solicitar
 score       ZTD_HIT_JPMORGAN_01         1.0
