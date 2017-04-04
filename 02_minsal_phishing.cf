@@ -146,7 +146,12 @@ body        ZT_LIMIT_14             /superado\slos\s[0-9\.\,]+\sarchivos\sdel?\s
 describe    ZT_LIMIT_14             superado los 23,432 archivos de buzones
 score       ZT_LIMIT_14             0.5
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14)
+# TODO: Es que necesita uniformalizar como las otras
+body        ZT_LIMIT_15             /cuenta\sde\scorreo\s.+?\ses\slimitada/i
+describe    ZT_LIMIT_15             Cuenta de correo es limitada
+score       ZT_LIMIT_15             0.2
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -280,7 +285,11 @@ body        ZT_SENDO_RECHAZADOS_05  /mensajes?\srecibidos?(?:\s?,)?\sse\shan?\ss
 describe    ZT_SENDO_RECHAZADOS_05  Mensajes recibidos se han suspendido
 score       ZT_SENDO_RECHAZADOS_05  0.4
 
-meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05)
+body        ZT_SENDO_RECHAZADOS_06  /han\srechazado\slos\smensajes\sentrantes/i
+describe    ZT_SENDO_RECHAZADOS_06  Han rechazados los mensajes entrantes
+score       ZT_SENDO_RECHAZADOS_06  0.5
+
+meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06)
 describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipica detallen en excusa spammer
 
 body        ZT_MEJORAR_SERVICIO     /(?:\sun)*\smejor(?:ar)*(?:\s(?:el|los))*\sservi(?:cio|dores*)\sde\scorreo/i
@@ -397,7 +406,11 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA )
+body        ZT_DESBLOQUEO_CUENTA    /desbloquear\slos\smensajes\sentrantes/i
+describe    ZT_DESBLOQUEO_CUENTA    Desbloquear los mensajes entrantes
+score       ZT_DESBLOQUEO_CUENTA    0.3
+
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA || ZT_DESBLOQUEO_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
 
@@ -418,14 +431,15 @@ body        ZT_CERRAREMOS_CUENTA    /(?:cerrar|desconectar|cancelar)(?:é|e|.)*(
 describe    ZT_CERRAREMOS_CUENTA    Cerraremos la cuenta
 score       ZT_CERRAREMOS_CUENTA    0.4
 
-body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n)(?:\s[\wáéíóú=]+){0,3}\s(?:clausura|cerra)(?:r(?:é|e|a|á|.)|da)/i
+# TODO. El punto puede ser una trampa
+body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n).+?(?:clausura|cerra|desactiva)(?:r(?:é|e|a|á|.)|da)/i
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
-score       ZT_CUENTA_CERRARA       0.4
+score       ZT_CUENTA_CERRARA       0.2
 
 # Este se define en el pasado. Más bien, sólo tiene sentido con una negación, validar algo así es demasiado complejo en realidad
 body        ZT_CUENTA_BLOQUEADA     /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
 describe    ZT_CUENTA_BLOQUEADA     Cuenta se bloqueó
-score       ZT_CUENTA_BLOQUEADA     0.1
+score       ZT_CUENTA_BLOQUEADA     0.2
 
 # TODO: Este es un poco complicado de agregar por acá, sin embargo, funciona como una amenaza bien velada. De que cumplen la función tal, la cumple. Y gracias a <usuarios>, tiene contexto
 body        ZT_APAGAR_CUENTAS       /(?:estamos|nos\shan)\s(?:ordenado|pedido|obligado)s?(\s\w+){0,2}\s(?:cancel|apag)(?:uen|ar)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail|usuario)s?/i
@@ -677,7 +691,11 @@ body        ZT_PLAZO_LIMITE_03      /[0-9]{2}\:[0-9]{2}(?:\s?(?:A|P\.?)M)?\sde(\
 describe    ZT_PLAZO_LIMITE_03      12:00 de mañana
 score       ZT_PLAZO_LIMITE_03      0.2
 
-meta        __ZT_PLAZO_TIEMPO       (ZT_PLAZO_DE_HORAS || ZT_PLAZO_DE_DIAS || ZT_PLAZO_LIMITE_01 || ZT_PLAZO_LIMITE_02 || ZT_PLAZO_LIMITE_03)
+body        ZT_PLAZO_LIMITE_04      /las\spr(?:o|ó|.)ximas\s(?:12|24|36|48)\shoras?/i
+describe    ZT_PLAZO_LIMITE_04      Las próximas 24 horas
+score       ZT_PLAZO_LIMITE_04      0.2
+
+meta        __ZT_PLAZO_TIEMPO       (ZT_PLAZO_DE_HORAS || ZT_PLAZO_DE_DIAS || ZT_PLAZO_LIMITE_01 || ZT_PLAZO_LIMITE_02 || ZT_PLAZO_LIMITE_03 || ZT_PLAZO_LIMITE_04)
 describe    __ZT_PLAZO_TIEMPO       Distintas formas de hacer plazos de tiempo
 
 # FIRMAS CONTENIDO
