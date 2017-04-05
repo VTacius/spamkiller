@@ -45,6 +45,15 @@ body        ZTD_MEDIO_INVERSION_02      /(?:noticia|aviso)\s(?:sobre|acerca)\sd?
 describe    ZTD_MEDIO_INVERSION_02      Noticia sobre la lotería del juego
 score       ZTD_MEDIO_INVERSION_02      0.5
 
+# Tendría que considerarse más como un saludo en forma de pregunta
+body        ZTD_INTERESADO_CREDITO      /are\syou\sinterested\sin\sa\sloan/i
+describe    ZTD_INTERESADO_CREDITO      Are you intereted in a loan
+score       ZTD_INTERESADO_CREDITO      0.2
+
+body        ZTD_OFRECEMOS_CREDITO       /we\soffer\sdifference\skind\sof\sloan/i
+describe    ZTD_OFRECEMOS_CREDITO       We offer difference kind of loan
+score       ZTD_OFRECEMOS_CREDITO       0.2
+
 # RAZONES
 
 body        ZTD_RAZON_SELECCION_01      /(?:despu(?:e|é|.)s|luego)\sde\svari(?:o|a)s\sinvestiga(?:ciones|dores)\soficiales/i
@@ -90,6 +99,10 @@ score       ZTD_MAS_INFORMACION         0.2
 body        ZTD_LLAMAR_CON_DATOS        /(?:debe|tiene)(?:\sque|de)?\sllamar\scon\ssu\s(?:nombre|apellido)\sy\s(?:nombre|apellido)/i
 describe    ZTD_LLAMAR_CON_DATOS        Debe llamar con su nombre y apellido
 score       ZTD_LLAMAR_CON_DATOS        0.2
+
+body        ZTD_CONTACTENOS             /if\syou\sare\sinterested\scontact.+?e?mail/i
+describe    ZTD_CONTACTENOS             If you are intereted contact us via email
+score       ZTD_CONTACTENOS             0.2
 
 # Fin de MEDIANTES
 
@@ -160,6 +173,18 @@ body        ZTD_GM_RAZON_01             /there\sare.+?suicides.+?suffering.+?sur
 describe    ZTD_GM_RAZON_01             Hay suicidios relacionados con el sufrimiento de estas cirugías
 score       ZTD_GM_RAZON_01             0.4
 
+body        ZTD_RANGO_MILLONES_DOLARES  /\$[0-9\.,]{2,}\sto\s\$[0-9]{2,}(?:\s?millions?)?/i
+describe    ZTD_RANGO_MILLONES_DOLARES  $10000 to 10Millions
+score       ZTD_RANGO_MILLONES_DOLARES  0.2
+
+body        ZTD_FELICIDADES_DE_GOOGLE   /congratulations.+?(?:\s(?:staffs|members)){0,2}google/i
+describe    ZTD_FELICIDADES_DE_GOOGLE   Congratulations on behalf of the Staffs & Members of Google
+score       ZTD_FELICIDADES_DE_GOOGLE   0.4
+
+body        ZTD_TERMINOS_GOOGLE         /google(?:\s|\-)+terms\s&\sprivacy/i
+describe    ZTD_TERMINOS_GOOGLE         Google - Terms & Privacy
+score       ZTD_TERMINOS_GOOGLE         0.2
+
 # Fin de HITS
 
 # SALUDOS
@@ -172,6 +197,10 @@ meta        __ZTD_SALUDOS               (ZTD_ATENTAMENTE_DIRECCION)
 describe    __ZTD_SALUDOS               Distintas formas de saludos encontrados en estafas
 
 # Fin de SALUDOS
+
+meta        ZTD_MEMBRETE_GOOGLE         (ZTD_QUERIDO_GUSUARIO && ZTD_FELICIDADES_DE_GOOGLE && ZTD_TERMINOS_GOOGLE)
+describe    ZTD_MEMBRETE_GOOGLE         Esta queriendo dejar en claro que se trata de Google
+score       ZTD_MEMBRETE_GOOGLE         0.9
 
 # Este es la firma para \#59
 meta        ZTD_FIRMA_01                (__ZTD_SALUDO && ZTD_PRESENTACION_01 && ZTD_RAZON_SELECCION_01 && ZTD_INVERSION_MEDIANTE && ZTD_MEDIO_INVERSION && ZTD_RAZON_INTERMEDIARIO && ZTD_BENEFICIO)
@@ -198,7 +227,11 @@ meta        ZTD_FIRMA_05                (ZTD_IMPORTANTE_MINSAL && ZTD_SALVAVIDAS
 describe    ZTD_FIRMA_05                Firma según \#65
 score       ZTD_FIRMA_05                3.0
 
-meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02 || ZTD_FIRMA_03 || ZTD_FIRMA_04 || ZTD_FIRMA_05)
+meta        ZTD_FIRMA_06                (ZTD_INTERESADO_CREDITO && ZTD_OFRECEMOS_CREDITO && ZTD_CONTACTENOS && FILL_THIS_FORM)
+describe    ZTD_FIRMA_06                Firma según \#71
+score       ZTD_FIRMA_06                1.2
+
+meta        __ZT_FIRMAS                 (ZTD_FIRMA_01 || ZTD_FIRMA_02 || ZTD_FIRMA_03 || ZTD_FIRMA_04 || ZTD_FIRMA_05 || ZTD_FIRMA_06)
 describe    __ZT_FIRMAS                 Las distintas firmas creadas hasta ahora
 
 meta        ZTD_FIRMAS_DINERO           (__ZT_FIRMAS && (__LOTSA_MONEY_00 || __LOTSA_MONEY_01 || __LOTSA_MONEY_04 || __FRAUD_KDT))
