@@ -151,7 +151,16 @@ body        ZT_LIMIT_15             /cuenta\sde\scorreo\s.+?\ses\slimitada/i
 describe    ZT_LIMIT_15             Cuenta de correo es limitada
 score       ZT_LIMIT_15             0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15)
+body        ZT_LIMIT_16             /(?:el|la)\s(?:buz(?:ó|o|.)n|caja)\sde\scorreo\sest(?:á|a|.)\sllen(?:a|o)/i
+describe    ZT_LIMIT_16             La caja de correo está llena
+score       ZT_LIMIT_16             0.2
+
+# Había mucha discusión sobre si este era un DETALLE o precisamente un límite por derecho propio, y ha ganado esta última opción
+body        ZT_LIMIT_17             /cuota\sde\s(?:cuota|casilla|buz(?:ó|o|.)n|correo)(?:\sde\scorreo)?\selectr(?:ó|o|.)nic(?:a|o)\s\w+\sse\ssupera/i
+describe    ZT_LIMIT_17             Su cuota de correo electrónico casi se supera
+score       ZT_LIMIT_17             0.2
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17)
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -166,7 +175,11 @@ body        ZT_MANTENIMIENTO_02     /manteni(?:endo|miento)\sy\s(?:actualiza(?:n
 describe    ZT_MANTENIMIENTO_02     Mantenimiento y actualización de todos los buzones
 score       ZT_MANTENIMIENTO_02     0.4
 
-meta        __ZT_MANTENIMIENTO      (ZT_MANTENIMIENTO_01 || ZT_MANTENIMIENTO_02)
+body        ZT_MANTENIMIENTO_03     /haciendo\sun\smantenimiento\s(?:a|en)\snuestros?\sservidor(?:es)?/i
+describe    ZT_MANTENIMIENTO_03     Haciendo un mantenimiento a nuestros servidores
+score       ZT_MANTENIMIENTO_03     0.3
+
+meta        __ZT_MANTENIMIENTO      (ZT_MANTENIMIENTO_01 || ZT_MANTENIMIENTO_02 || ZT_MANTENIMIENTO_03)
 describe    __ZT_MANTENIMIENTO      Distintas formas de decir mantenimiento como razón frente al usuario
 
 body        ZT_VERSION_VIEJA        /operando\sen\snuestra\sversi(?:ó|o|.)n\santerior/i
@@ -181,12 +194,16 @@ body        ZT_POR_ACTUALIZAC_02    /(?:cambia|migra)(?:ndo|r(?:emos)?)(?:\s\w+)
 describe    ZT_POR_ACTUALIZAC_02    Estaremos cambiando nuestros sistemas de correo
 score       ZT_POR_ACTUALIZAC_02    0.4
 
+body        ZT_POR_ACTUALIZAC_04    /migrando\sa\sla\snueva\s(?:interfaz|versi(?:ó|o|.)n)\sde\s.+?(?:servidor|zimbra)/i
+describe    ZT_POR_ACTUALIZAC_04    Migrando a la nueva versión de zimbra
+score       ZT_POR_ACTUALIZAC_04    0.5
+
 # TODO: Revisar con *_01, me parece que nuestra es lo que hace falta
 body        ZT_POR_ACTUALIZAC_03    /debido\sa\sla\s?(?:reciente|nueva)\sactualizaci(?:o|ó|.)n/i
 describe    ZT_POR_ACTUALIZAC_03    Debido a la reciente actualización
 score       ZT_POR_ACTUALIZAC_03    0.2
 
-meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03)
+meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03 || ZT_POR_ACTUALIZAC_04)
 describe    __ZT_POR_ACTUALIZACION  Distintas formas de dar como razón a la actualización del servicio
 
 body        ZT_REQUIERE_VALIDAR     /(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\s(?:requiere|necesita)\sv(?:alida|erifica)(?:r|ci(?:o|.|ó)n)/i
@@ -511,9 +528,13 @@ body        ZT_MANTENER_CUENTA      /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singr
 describe    ZT_MANTENER_CUENTA      Dónde ingresar al nuevo sistema de correo
 score       ZT_MANTENER_CUENTA      0.4
 
+body        ZT_MANTENER_CUENTA_02   /evitar\s(?:la\sp(?:é|e|.)rdida\sde|perder)\ssu\s(?:buz(?:o|ó|.)n|bandeja|casilla)\sde\s(?:entrada|correo)/i
+describe    ZT_MANTENER_CUENTA_02   Evitar perder su bandeja de entrada
+score       ZT_MANTENER_CUENTA_02   0.4
+
 # TODO: En cuanto se pueda, debería integrarse con los demás tipos de amenaza
-meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || ZT_MANTENER_CUENTA)
-descri      __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || ZT_MANTENER_CUENTA || ZT_MANTENER_CUENTA_02)
+describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
@@ -551,6 +572,7 @@ describe    ZT_QUERIDO_ZIMBRA       Querido usuario zimbra
 score       ZT_QUERIDO_ZIMBRA       0.5
 
 # De alguna forma, nos denominamos administrador
+# TODO: Podríamos agruparlos en orden para crear firmas
 body        ZT_ADMIN_SISTEMA_01     /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\ss(?:istema|ervicio)/i
 describe    ZT_ADMIN_SISTEMA_01     Administrador del sistema
 score       ZT_ADMIN_SISTEMA_01     0.3
@@ -570,6 +592,10 @@ score       ZT_ADMIN_SISTEMA_04     0.4
 body        ZT_ADMIN_SISTEMA_05     /it\shelp\s(?:desk|system)/i
 describe    ZT_ADMIN_SISTEMA_05     IT help desk
 score       ZT_ADMIN_SISTEMA_05     0.6
+
+body        ZT_ADMIN_SISTEMA_06     /equipo\st(?:é|e|.)cnico/i
+describe    ZT_ADMIN_SISTEMA_06     Equipo técnico
+score       ZT_ADMIN_SISTEMA_06     0.3
 
 body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
 describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
