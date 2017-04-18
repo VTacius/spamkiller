@@ -160,7 +160,11 @@ body        ZT_LIMIT_17             /cuota\sde\s(?:cuota|casilla|buz(?:ó|o|.)n|
 describe    ZT_LIMIT_17             Su cuota de correo electrónico casi se supera
 score       ZT_LIMIT_17             0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17)
+body        ZT_LIMIT_18             /l(?:í|i|.)mite\sde\salmacenamiento\sdel?\sbuz(?:ó|o|.)n(?:es)?\s.+?super(?:ó|o|ado)/i
+describe    ZT_LIMIT_18             Límite de almacenamiento del buzón debió superar
+score       ZT_LIMIT_18             0.3
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -185,6 +189,11 @@ describe    __ZT_MANTENIMIENTO      Distintas formas de decir mantenimiento como
 body        ZT_VERSION_VIEJA        /operando\sen\snuestra\sversi(?:ó|o|.)n\santerior/i
 describe    ZT_VERSION_VIEJA        Operando en nuestra versión anterior
 score       ZT_VERSION_VIEJA        0.2
+
+# Pensé que era una amenaza en tiempo pasada, de hecho es el tiempo verbal quién la configura como RAZON
+body        ZT_CUENTAS_EXPIRARON    /su\scuenta\sde\scorreo.+?expir(?:ó|o|.)/i
+describe    ZT_CUENTAS_EXPIRARON    Cuenta de correo expiró
+score       ZT_CUENTAS_EXPIRARON    0.2
 
 body        ZT_POR_ACTUALIZAC_01    /(?:por|debido)(\s\w+){0,3}\sactualizaci(?:o|ó|.|=C3=B3)n\sdel?(?:\sla)?\s(?:sistema|base|correo|webmail)/i
 describe    ZT_POR_ACTUALIZAC_01    Debido a actualización de
@@ -245,6 +254,11 @@ body        ZT_LUCHA_ANTISPAM       /trabaja(?:ndo|mos)(?:\s\w+){0,2}\s(?:elimin
 describe    ZT_LUCHA_ANTISPAM       Trabajando para eliminar spam
 score       ZT_LUCHA_ANTISPAM       0.3
 
+# Discutí mucho si tenía que ser una razón por si mismo en lugar de una DETALLE, incluso así funciona en el correo que lo hallé.
+body        ZT_TASA_SPAM            /(?:porque|debido)(?:\s\w+)+?\sta(?:s|x)a\sde\scorreos?.+?\s(?:basura|spam).+?(?:basura|spam)/i
+describe    ZT_TASA_SPAM            Debido a la alta tasa de correos basura / spam
+score       ZT_TASA_SPAM            0.2
+
 # Esta es pobre, pero muy pobre
 body        ZT_LE_INFORMA           /(?:para|le)\sinforma(?:rle|mos)\sque/i
 describe    ZT_LE_INFORMA           Para informale
@@ -264,18 +278,18 @@ body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á
 describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
 score       ZT_DANIO_VIRUS          0.3
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
+meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 
@@ -406,6 +420,10 @@ body        ZT_ACTUALIZAR_06        /para\sactualizar\s(?:manual|autom[\wáéí�
 describe    ZT_ACTUALIZAR_06        Para actualizar manualmente
 score       ZT_ACTUALIZAR_06        0.2
 
+body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snuev(?:a|o)(?:\s\w+)?\s(?:cuenta|correo|webmail)/i
+describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
+score       ZT_ACTUALIZAR_07        0.2
+
 # TODO: Verificar si esto no es algo diferente a un objetivo, por el contexto en que sucede
 body        ZT_ACTUALICE            /(?:(?:re-*)*valid|renov|actualic|verific|confirm|activ)e\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)(\sde)*\s(ahora|inmediat(?:a|o))/i
 describe    ZT_ACTUALICE            En algún momento, se habla sobre actualizar cuenta de algo
@@ -423,11 +441,15 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
+body        ZT_RENOVAR_CERTS        /certificado\sde\s(?:cuenta|webmail)\sse\svolver(?:á|a|.)\sa\screar/i
+describe    ZT_RENOVAR_CERTS        Certificados de webmail se volverán a crear
+score       ZT_RENOVAR_CERTS        0.2
+
 body        ZT_DESBLOQUEO_CUENTA    /desbloquear\slos\smensajes\sentrantes/i
 describe    ZT_DESBLOQUEO_CUENTA    Desbloquear los mensajes entrantes
 score       ZT_DESBLOQUEO_CUENTA    0.3
 
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA || ZT_DESBLOQUEO_CUENTA)
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
 
@@ -505,9 +527,18 @@ body        ZT_NO_ENVIO_RECEP_ADV   /no\sp(?:ued(?:a|e)|odr(?:ía|á))\s*(?:envi
 describe    ZT_NO_ENVIO_RECEP_ADV   No podrá enviar o recibir correos
 score       ZT_NO_ENVIO_RECEP_ADV   0.5
 
-body        ZT_NO_ENVIO             /no(\s\w+){0,3}\s(?:recibir|enviar)(\s[\w|áéíóú]+)*\s(?:correo|mensaje)/i
-describe    ZT_NO_ENVIO             No podrá enviar o recibir correo
-score       ZT_NO_ENVIO             0.4
+body        ZT_NO_ENVIO_01          /no(\s\w+){0,3}\s(?:recibir|enviar)(\s[\w|áéíóú]+)*\s(?:correo|mensaje)/i
+describe    ZT_NO_ENVIO_01          No podrá enviar o recibir correo
+score       ZT_NO_ENVIO_01          0.4
+
+body        ZT_NO_ENVIO_02          /interrumpi(?:r|da)(?:\s\w+)\s(?:env(?:í|i|.)o|entrega|recepci(?:ó|o|.)n)\sde\scorreo/i
+describe    ZT_NO_ENVIO_02          Interrupida el envío de correo
+score       ZT_NO_ENVIO_02          0.3
+
+# La cuestión es que la frase podría usarse en un contexto legítimo
+body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)a\sel\s(?:mensaje|correo)/i
+describe    ZT_NO_ENVIO_03          Error cuando se envía el mensaje
+score       ZT_NO_ENVIO_03          0.1
 
 body        ZT_SUSPENSION_ENVIO     /sus?pender(?:á|a|.)(?:\s\w+){0,2}\s(?:enviar|recibir)\s(?:y|o)\s(?:enviar|recibir)\s(?:mensaje|correo)s?/i
 describe    ZT_SUSPENSION_ENVIO     Suspenderá para enviar o recibir mensajes
@@ -539,15 +570,15 @@ describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
-meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
+meta        __ZT_PERDIDA_CUENTA     (ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN || ZT_IMPEDIR_SUSPENSION || ZT_NO_ENVIO_01 || ZT_NO_ENVIO_02 || ZT_NO_ENVIO_03 || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
 describe    __ZT_PERDIDA_CUENTA     Distintas formas de referirse a la cancelación futura de la cuenta
 
-meta        ZT_VARIAS_AMENAZAS_01   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 1)
+meta        ZT_VARIAS_AMENAZAS_01   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 1)
 describe    ZT_VARIAS_AMENAZAS_01   Hay al menos dos amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_01   0.3
 
 # Sólo basta con sumar 0.6 del otro que agregamos
-meta        ZT_VARIAS_AMENAZAS_02   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 2)
+meta        ZT_VARIAS_AMENAZAS_02   ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 2)
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
@@ -555,7 +586,7 @@ meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACC
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_IMPEDIR_SUSPENSION + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
 score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA
@@ -596,6 +627,14 @@ score       ZT_ADMIN_SISTEMA_05     0.6
 body        ZT_ADMIN_SISTEMA_06     /equipo\st(?:é|e|.)cnico/i
 describe    ZT_ADMIN_SISTEMA_06     Equipo técnico
 score       ZT_ADMIN_SISTEMA_06     0.3
+
+body        ZT_ADMIN_SISTEMA_07     /equipo\sde\s(?:soporte|apoyo)\st(?:é|e|.)cnico/i
+describe    ZT_ADMIN_SISTEMA_07     Equipo de apoyo técnico
+score       ZT_ADMIN_SISTEMA_07     0.2
+
+body        ZT_ADMIN_SISTEMA_08     /(?:equipo|divisi(?:ó|o|.)n)\sde\stecnolog(?:í|i|.)a\sde(?:\sla)?\sinformaci(?:ó|o|.)n/i
+describe    ZT_ADMIN_SISTEMA_08     División de tecnología de la información
+score       ZT_ADMIN_SISTEMA_08     0.2
 
 body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
 describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
@@ -783,7 +822,11 @@ body        ZT_HAGA_CLICK_06        /click?sen\sel\senlace\s(?:de\sabajo|abajo|s
 describe    ZT_HAGA_CLICK_06        Click en el enlace abajo
 score       ZT_HAGA_CLICK_06        0.2
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06)
+# Me parece que hay usos bastantes válidos para usar esta frase
+body        __ZT_HAGA_CLICK_07      /entrar\saqu(?:í|i|.)/i
+describe    __ZT_HAGA_CLICK_07      Entrar aquí
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
@@ -829,6 +872,10 @@ body        ZT_HAGA_INGRESO         /in(?:grese|troduzca)\ssus\sdatos\sa\scontin
 describe    ZT_HAGA_INGRESO         Introduzca sus datos a continuación
 score       ZT_HAGA_INGRESO         0.1
 
+body        ZT_HAGA_REVISION        /revi(?:s|c)(?:e|ar)\ssus?\s(?:informaci(?:ó|o|.)n|registros|datos)/i
+describe    ZT_HAGA_REVISION        Revise sus registros
+score       ZT_HAGA_REVISION        0.1
+
 body        ZT_HAGA_SITIO           /(?:acceda|abra)\sel(?:\s\w+){0,2}\ssitio/i
 describe    ZT_HAGA_SITIO           Abra el sitio
 score       ZT_HAGA_SITIO           0.1
@@ -850,14 +897,14 @@ body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:me
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 
-meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
-meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
+meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO  || ZT_HAGA_REVISION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
 describe    ZT_CLICK_ACCION         Distintas acciones a realizar por el usuario Por medio de click
 score       ZT_CLICK_ACCION         0.3
 
-meta        ZT_RESPONDER_ACCION     ((ZT_RESPONDER_MENSAJE) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO))
+meta        ZT_RESPONDER_ACCION     ((ZT_RESPONDER_MENSAJE) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION))
 describe    ZT_RESPONDER_ACCION     Distintas acciones a realizar por el usuario por medio de la respuesta de su mensaje
 score       ZT_RESPONDER_ACCION     0.3
 
