@@ -80,9 +80,13 @@ score       VTE_ACCOUNT_LIMIT_06        0.9
 meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04 || VTE_ACCOUNT_LIMIT_05 || VTE_ACCOUNT_LIMIT_06)
 describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
-body        VTE_CANCEL_REQUEST          /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
-describe    VTE_CANCEL_REQUEST          Made a request to shutdown
-score       VTE_CANCEL_REQUEST          0.9
+body        VTE_CANCEL_REQUEST_01       /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
+describe    VTE_CANCEL_REQUEST_01       Made a request to shutdown
+score       VTE_CANCEL_REQUEST_01       0.9
+
+body        VTE_CANCEL_REQUEST_02       /requested\s.+?account\sto\sbe\s(?:inactive|expire|close|blocked|deactivate)d/i
+describe    VTE_CANCEL_REQUEST_02       Requested your e-mail account to be closed
+score       VTE_CANCEL_REQUEST_02
 
 body        VTE_CANCEL_ADVISED          /advised\sto\scancel\sthe\srequest/i
 describe    VTE_CANCEL_ADVISED          Advised to cancel the request
@@ -100,7 +104,7 @@ score       VTE_SECURITY_ACCOUNT        0.9
 meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST || VTE_CANCEL_ADVISED)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -122,9 +126,13 @@ body        VTE_PROCESADO_EN_BREVE      /request\swill\sbe\sprocessed\sshortly/i
 describe    VTE_PROCESADO_EN_BREVE      Request will be processed shortly
 score       VTE_PROCESADO_EN_BREVE      0.2
 
-body        VTE_PETICION_ACCIDENTAL     /request\swas\smade\saccidentally/i
-describe    VTE_PETICION_ACCIDENTAL     Request was made accidentally
-score       VTE_PETICION_ACCIDENTAL     0.2
+body        VTE_PETICION_ACCIDENTAL_01  /request\swas\smade\saccidentally/i
+describe    VTE_PETICION_ACCIDENTAL_01  Request was made accidentally
+score       VTE_PETICION_ACCIDENTAL_01  0.2
+
+body        VTE_PETICION_ACCIDENTAL_02  /recently\s(?:wrong|mistaken)ly\srequested?/i
+describe    VTE_PETICION_ACCIDENTAL_02  Recently mistakenly requested  
+score       VTE_PETICION_ACCIDENTAL_02  0.2
 
 # Fin de DETALLES
 
@@ -183,6 +191,10 @@ score       VTE_NEGACION_01             0.5
 body        VTE_NEGACION_02             /if(?:\s\w+)?\s(?:do|not)(?:n\'t|\snot)?\s(verify|validate|update)\syour\s(?:information|mailbox|account)/i
 describe    VTE_NEGACION_02             If don't verify your account
 score       VTE_NEGACION_02             0.9
+
+body        VTE_SALUDO_01               /dear\s(?:e-?)?mail\suser/i
+describe    VTE_SALUDO_01               Dear mail user
+score       VTE_SALUDO_01               0.3
 
 # Fin de HELPERS
 
@@ -289,7 +301,7 @@ describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, 
 
 # AMENAZA
 
-body        VTE_SUSPENSION_CORREO_01    /(inactive|expire|close)\syour\s(email|account|mailbox)/i
+body        VTE_SUSPENSION_CORREO_01    /(?:inactive|expire|close|suspend|limit)\syour\s.+?(?:email|account|mailbox)/i
 describe    VTE_SUSPENSION_CORREO_01    Inactive your account
 score       VTE_SUSPENSION_CORREO_01    0.6
 
@@ -313,7 +325,7 @@ body        VTE_SUSPENSION_CORREO_06    /disable\sfor\ssending(?:\smore)?\smessa
 describe    VTE_SUSPENSION_CORREO_06    Disable for sending more messages
 score       VTE_SUSPENSION_CORREO_06    0.9
 
-body        VTE_SUSPENSION_CORREO_07    /(?:e*mail|mail|mailbox|account|password)\swill\sbe\s(?:inactive|expire|close|blocked)/i
+body        VTE_SUSPENSION_CORREO_07    /(?:e*mail|mail|mailbox|account|password)\s(?:will|to)\sbe\s(?:inactive|expire|close|blocked|deactivated)/i
 describe    VTE_SUSPENSION_CORREO_07    Account will be blocked
 score       VTE_SUSPENSION_CORREO_07    0.9
 
@@ -367,7 +379,7 @@ meta        VTE_RAZON_01                (__VTE_LIMITES && __VTE_DEFINIDO_POR_ADM
 describe    VTE_RAZON_01                Límite, como ha sido definido por administrador
 score       VTE_RAZON_01                0.9
 
-meta        VTE_RAZON_02                ((VTE_CANCEL_REQUEST || VTE_CANCEL_ADVISED) && (VTE_PROCESADO_EN_BREVE || VTE_PETICION_ACCIDENTAL))
+meta        VTE_RAZON_02                ((VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED) && (VTE_PROCESADO_EN_BREVE || VTE_PETICION_ACCIDENTAL_01 || VTE_PETICION_ACCIDENTAL_02))
 describe    VTE_RAZON_02                Su petición de cierre, procesada en breve
 score       VTE_RAZON_02                0.9
 

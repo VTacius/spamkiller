@@ -395,6 +395,7 @@ describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
 score       ZT_ACTUALIZAR_CUENTA    0.2
 
 # TODO: Un día que tengas tiempo, resulta que _01 y 02 deberían unirse como (?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail), 
+# TODO: De buenas a primeras, hace falta requieren en el primer grupo
 # pero vale la pena una revisión exhaustiva
 body        ZT_ACTUALIZAR_01        /(?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(\sde)*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
