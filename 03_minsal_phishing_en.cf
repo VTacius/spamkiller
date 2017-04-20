@@ -80,6 +80,10 @@ score       VTE_ACCOUNT_LIMIT_06        0.9
 meta        __VTE_ACCOUNT_LIMIT         (VTE_ACCOUNT_LIMIT_01 || VTE_ACCOUNT_LIMIT_02 || VTE_ACCOUNT_LIMIT_03 || VTE_ACCOUNT_LIMIT_04 || VTE_ACCOUNT_LIMIT_05 || VTE_ACCOUNT_LIMIT_06)
 describe    __VTE_ACCOUNT_LIMIT         Distintas forms de referirse a Limite alcanzado por la cuenta
 
+body        VTE_ACCOUNT_CANCELED        /your.+?account.+?(?:close|expire|cancele)d/i
+describe    VTE_ACCOUNT_CANCELED        Your account is canceled
+score       VTE_ACCOUNT_CANCELED        0.8
+
 body        VTE_CANCEL_REQUEST_01       /made\sa\srequest\s(?:for|to)\s(?:close|shut\s?down|cancel)/i
 describe    VTE_CANCEL_REQUEST_01       Made a request to shutdown
 score       VTE_CANCEL_REQUEST_01       0.9
@@ -104,7 +108,7 @@ score       VTE_SECURITY_ACCOUNT        0.9
 meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED || VTE_ACCOUNT_CANCELED)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -222,6 +226,10 @@ body        VTE_HACER_FORM              /(download|see|check)(\sin)*(\sthe)\s(in
 describe    VTE_HACER_FORM              Download the attached form
 score       VTE_HACER_FORM              0.9
 
+body        VTE_HACER_UPDATE_RECORDS    /update\syour\srecords/i
+describe    VTE_HACER_UPDATE_RECORDS    Update your records
+score       VTE_HACER_UPDATE_RECORDS    0.8
+
 body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
 score       VTE_LOGIN_ACTIVATING        0.9
@@ -238,7 +246,7 @@ body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
 describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
 score       VTE_FOLLOW_INSTRUCC         0.3
 
-meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS || VTE_FOLLOW_INSTRUCC)
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS || VTE_FOLLOW_INSTRUCC || VTE_HACER_UPDATE_RECORDS)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
@@ -256,7 +264,15 @@ body        VTE_ACTUALIZAR_CUENTA_03    /(?:upgrade|update)\syour\s(?:(?:e-*)*ma
 describe    VTE_ACTUALIZAR_CUENTA_03    Upgrade your email account
 score       VTE_ACTUALIZAR_CUENTA_03    0.6
 
-meta        __VTE_ACTUALIZAR_CUENTA     (VTE_ACTUALIZAR_CUENTA_01 || VTE_ACTUALIZAR_CUENTA_02 || VTE_ACTUALIZAR_CUENTA_03)
+body        VTE_ACTUALIZAR_CUENTA_04    /to\s(?:re-?new|upgrade|update)\syour\szimbra\s(?:account|certificate)/i
+describe    VTE_ACTUALIZAR_CUENTA_04    to renew your zimbra certificate
+score       VTE_ACTUALIZAR_CUENTA_04    2.1
+
+body        VTE_ACTUALIZAR_CUENTA_05    /(?:account|certificate|zimbra)(?:\swill)?\sbe\s(?:re-?new|upgrad|updat)(?:ed)?/i
+describe    VTE_ACTUALIZAR_CUENTA_05    certificate will be re-newed
+score       VTE_ACTUALIZAR_CUENTA_05    0.6
+
+meta        __VTE_ACTUALIZAR_CUENTA     (VTE_ACTUALIZAR_CUENTA_01 || VTE_ACTUALIZAR_CUENTA_02 || VTE_ACTUALIZAR_CUENTA_03 || VTE_ACTUALIZAR_CUENTA_04 || VTE_ACTUALIZAR_CUENTA_05)
 describe    __VTE_ACTUALIZAR_CUENTA     Diferentes formas de referirse a la actualización de cuenta
 
 body        VTE_VALID_CUENTA_01         /(re-*)*(?:activate|validate|verify|restore)\syour\s(?:account|information|email)/i
@@ -332,6 +348,10 @@ score       VTE_SUSPENSION_CORREO_07    0.9
 body        VTE_SUSPENSION_CORREO_08    /\w+@\w+\.gob\.sv\s(?:will\sbe|is)\sexpir(?:ing|e)\sin\s[0-9]{1,2}\sdays/i
 describe    VTE_SUSPENSION_CORREO_08    cuenta@salud.gob.sv is expiring in 3 days
 score       VTE_SUSPENSION_CORREO_08    1.2
+
+body        VTE_SUSPENSION_CORREO_09    /(?:interrupt|disable).*?(?:message|email)\s(?:sending|delivery)/i
+describe    VTE_SUSPENSION_CORREO_09    interrupt your email delivery
+score       VTE_SUSPENSION_CORREO_09    0.9
 
 meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05 || VTE_SUSPENSION_CORREO_06 || VTE_SUSPENSION_CORREO_07 || VTE_SUSPENSION_CORREO_08)
 describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
