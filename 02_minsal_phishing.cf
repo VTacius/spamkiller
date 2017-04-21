@@ -52,8 +52,7 @@ header      ZT_SUB_SISTEMA          subject =~ /sistema/i
 describe    ZT_SUB_SISTEMA          Sistema
 score       ZT_SUB_SISTEMA          0.1
 
-# TODO: Terminar secuencia de meses
-header      ZT_SUB_FECHA            subject =~ /[0-9]+(?:\s?(?:de|\/|-))?\s?(?:ene(?:ro)?|feb(?:rero)?)/i
+header      ZT_SUB_FECHA            subject =~ /[0-9]+(?:\s?(?:de|\/|-))?\s?(?:ene(?:ro)?|feb(?:rero)?|mar(?:zo)?|abr(?:il)?|may(?:o)?|jun(?:io)?|jul(?:io)?|ago(?:sto)?|sept(?:iembre)?|oct(?:ubre)?|nov(?:iembre)?|dic(?:iembre)?)/i
 describe    ZT_SUB_FECHA            02 de enero
 score       ZT_SUB_FECHA            0.2
 
@@ -80,22 +79,17 @@ score       ZT_SUB_ZIMBRA_ADV       0.4
 meta        __ZT_SUB_VERIF_SISTEM   (ZT_SUB_VERIFICACION && ZT_SUB_SISTEMA)
 describe    __ZT_SUB_VERIF_SISTEM   Verificación del sistema
 
-# TODO: Pos que hay que usar este
 meta        __ZT_SUB                (ZT_SUB_ESTIMADO_CORREO || ZT_SUB_ACTUALIZANDO || ZT_SUB_ADVIRTIENDO || ZT_SUB_CUOTA || ZT_SUB_ZIMBRA_ADV || __ZT_SUB_VERIF_SISTEM)
 describe    __ZT_SUB                Distintas formas de subject que no están nada bien
 
 # Fin de HEADERS
 
 # RAZONES
-body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
+body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)?\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
-score       ZT_LIMIT_01             0.3
+score       ZT_LIMIT_01             0.4
 
-body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
-describe    ZT_LIMIT_02             Casilla (de correo) ha superado el límite
-score       ZT_LIMIT_02             0.4
-
-body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\sde\s(?:correo|casilla))\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){1,2}\s(?:l(?:í|i.)mite|cuota)/i
+body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\sde\s(?:correo|casilla))\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_03             Casilla de correo ha superado el límite
 score       ZT_LIMIT_03             0.5
 
@@ -112,17 +106,11 @@ body        ZT_LIMIT_06             /super(?:ó|o|a|.)\slos\s(?:[0-9]+(?:\s|\.|,
 describe    ZT_LIMIT_06             Superó 23,467 definidos
 score       ZT_LIMIT_06             0.3
 
-# Revisar con ZT_LIMIT_08
-body        ZT_LIMIT_07             /(?:supera*|excedi)(?:(?:ó|o|.)|do)\sel\sl(?:i|í|.)mite\sde\s(?:almacenamiento|repositorio)/i
+body        ZT_LIMIT_07             /(?:supera?|excedi|llega?)(?:(?:ó|o|.)|do)\s(?:e|a)l\sl(?:i|í|.)mite\sde\s(?:almacenamiento|cuota|repositorio)/i
 describe    ZT_LIMIT_07             Superado el límite de almacenamiento
 score       ZT_LIMIT_07             0.3
 
-# Revisar con ZT_LIMIT_07
-body        ZT_LIMIT_08             /(?:supera|excedi|llega)do\s(?:e|a)l\sl(?:i|í|.)mite\sde\s(?:almacenamiento|cuota|repositorio)/i
-describe    ZT_LIMIT_08             Superado el límite de cuota
-score       ZT_LIMIT_08             0.4
-
-body        ZT_LIMIT_09             /llegado\sal\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:q|c)uota/i
+body        ZT_LIMIT_09             /(?:lleg|super)(?:ó|ado|.)\sal?\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:almacenamiento|(?:q|c)uota)/i
 describe    ZT_LIMIT_09             Llegado al limite de cuota
 score       ZT_LIMIT_09             0.2
 
@@ -130,7 +118,8 @@ body        ZT_LIMIT_10             /se\sha\ssuperado\s(?:[0-9]+[,.]?)+\sreposit
 describe    ZT_LIMIT_10             Se ha superado 23,456 respositorio
 score       ZT_LIMIT_10             0.4
 
-body        ZT_LIMIT_11             /super(?:ó|ado|.)\ssu\sl(?:í|i|.)mite/i
+# No se parece a _09, es una versión reducida por decir algo
+body        ZT_LIMIT_11             /(?:lleg|super)(?:ó|ado|.)\s(?:el|su|al)\sl(?:í|i|.)mite/i
 describe    ZT_LIMIT_11             superó su límite
 score       ZT_LIMIT_11             0.1
 
@@ -146,8 +135,8 @@ body        ZT_LIMIT_14             /superado\slos\s[0-9\.\,]+\sarchivos\sdel?\s
 describe    ZT_LIMIT_14             superado los 23,432 archivos de buzones
 score       ZT_LIMIT_14             0.5
 
-# TODO: Es que necesita uniformalizar como las otras
-body        ZT_LIMIT_15             /cuenta\sde\scorreo\s.+?\ses\slimitada/i
+# Se parece un poco a _01, en realidad tiene diferencias sutiles y una búsqueda más holgada, de allí su menor puntaje
+body        ZT_LIMIT_15             /(?:buz(?:ó|o|.)n|cuenta|casilla)\sde\scorreo.+?es(?:t(?:a|á|.))?\s(?:limitad|excedid|superad)(?:a|o)/i
 describe    ZT_LIMIT_15             Cuenta de correo es limitada
 score       ZT_LIMIT_15             0.2
 
@@ -164,7 +153,7 @@ body        ZT_LIMIT_18             /l(?:í|i|.)mite\sde\salmacenamiento\sdel?\s
 describe    ZT_LIMIT_18             Límite de almacenamiento del buzón debió superar
 score       ZT_LIMIT_18             0.3
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -203,14 +192,13 @@ body        ZT_POR_ACTUALIZAC_02    /(?:cambia|migra)(?:ndo|r(?:emos)?)(?:\s\w+)
 describe    ZT_POR_ACTUALIZAC_02    Estaremos cambiando nuestros sistemas de correo
 score       ZT_POR_ACTUALIZAC_02    0.4
 
+body        ZT_POR_ACTUALIZAC_03    /(?:por|debido)\sa(?:\sla)?(?:\snuestra)?\s?(?:reciente|nueva)\sactualizaci(?:o|ó|.)n/i
+describe    ZT_POR_ACTUALIZAC_03    Debido a la reciente actualización
+score       ZT_POR_ACTUALIZAC_03    0.2
+
 body        ZT_POR_ACTUALIZAC_04    /migrando\sa\sla\snueva\s(?:interfaz|versi(?:ó|o|.)n)\sde\s.+?(?:servidor|zimbra)/i
 describe    ZT_POR_ACTUALIZAC_04    Migrando a la nueva versión de zimbra
 score       ZT_POR_ACTUALIZAC_04    0.5
-
-# TODO: Revisar con *_01, me parece que nuestra es lo que hace falta
-body        ZT_POR_ACTUALIZAC_03    /debido\sa\sla\s?(?:reciente|nueva)\sactualizaci(?:o|ó|.)n/i
-describe    ZT_POR_ACTUALIZAC_03    Debido a la reciente actualización
-score       ZT_POR_ACTUALIZAC_03    0.2
 
 meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03 || ZT_POR_ACTUALIZAC_04)
 describe    __ZT_POR_ACTUALIZACION  Distintas formas de dar como razón a la actualización del servicio
@@ -321,7 +309,7 @@ describe    ZT_SENDO_RECHAZADOS_06  Han rechazados los mensajes entrantes
 score       ZT_SENDO_RECHAZADOS_06  0.5
 
 meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06)
-describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipica detallen en excusa spammer
+describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipíco detalle en excusa spammer
 
 body        ZT_MEJORAR_SERVICIO     /(?:\sun)*\smejor(?:ar)*(?:\s(?:el|los))*\sservi(?:cio|dores*)\sde\scorreo/i
 describe    ZT_MEJORAR_SERVICIO     [Para] mejorar el servicio de correo
@@ -334,6 +322,10 @@ score       ZT_CONFIGURADO_ADMIN    0.1
 body        ZT_ESTABLECIDO_ADMIN    /l(?:í|i|.)mite(?:\s[\w\,]+){0,3}\s(?:establec|configur|defin)(?:[aeiou])(?:do)?(?:\spor)?(?:\sel)?\sadministrador/i
 describe    ZT_ESTABLECIDO_ADMIN    Límite definido por el administrador
 score       ZT_ESTABLECIDO_ADMIN    0.5
+
+body        ZT_CUOTA_ENVIO          /(?:l(?:í|i.)mite|cuota)\sde\s(?:recepci(?:ó|o|.)n|env(?:í|i|.)o)\sde\s(?:correo|mensaje)s?.+?hoy/i
+describe    ZT_CUOTA_ENVIO          Cuota de envío de correos por hoy
+score       ZT_CUOTA_ENVIO          0.4
 
 body        ZT_ROL_CONFIGURADO      /repositorio(?:\s(?:\w+)\s*){1}(?:\s*de)*\s(?:web|internet|navegaci(?:ó|o|.)n)/i
 describe    ZT_ROL_CONFIGURADO      Repositorio de Servicio web
@@ -385,29 +377,30 @@ body        ZT_HORA_INICIO          /(?:empe|comen)zando(?:\s\w+){0,3}\s[0-9]{2}
 describe    ZT_HORA_INICIO          Empezando alrededor de las 12:00 AM
 score       ZT_HORA_INICIO          0.1
 
-# Fin de Detalles
+# Por la forma holgada en que buscan, corresponden con formas avanzadas del objetivos ZT_ACTUALIZAR_*
+body        ZT_ACTUALICE_ADV_01     /(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?.+?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-?)?mail).+?(?:(?:inmediat|urgent)(?:o|a|i|e)(?:mente)?|ahora)/i
+describe    ZT_ACTUALICE_ADV_01     Actualice su cuenta de inmediato
+score       ZT_ACTUALICE_ADV_01     0.4
+
+body        ZT_ACTUALICE_ADV_02     /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
+describe    ZT_ACTUALICE_ADV_02     Para actualizar su cuenta de correo, una forma muy especifíca y mortal
+score       ZT_ACTUALICE_ADV_02     0.4
+
+body        ZT_ACTUALICE_ADV_03     /(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?\sy\s(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?/i
+describe    ZT_ACTUALICE_ADV_03     Actualice su cuenta de inmediato
+score       ZT_ACTUALICE_ADV_03     0.4
+
+body        ZT_LIMITE_ADV_01        /(?:l(?:í|i.)mite|cuota)\s?del?\s?(?:su)?(?:almacenamiento|cuota|repositorio)/i
+describe    ZT_LIMITE_ADV_01        Límite de cuota
+score       ZT_LIMITE_ADV_01        0.2
+# Fin de DETALLES
 
 # OBJETIVOS
 
-# En realidad tengo poco contexto con el siguiente en específico. TODO: En realidad, este no es objetivo
-body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
-score       ZT_ACTUALIZAR_CUENTA    0.2
-
-# TODO: Un día que tengas tiempo, resulta que _01 y 02 deberían unirse como (?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail), 
-# TODO: De buenas a primeras, hace falta requieren en el primer grupo
-# pero vale la pena una revisión exhaustiva
-body        ZT_ACTUALIZAR_01        /(?:para|y)(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(\sde)*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+# Es engloba las formas simples en sus acepciones más raras
+body        ZT_ACTUALIZAR_01        /(?:para|y|requieren)\s(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
 score       ZT_ACTUALIZAR_01        0.6
-
-body        ZT_ACTUALIZAR_02        /(?:para|y|requieren?)\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))(?:\s(?:\w)+){0,3}\s?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_ACTUALIZAR_02        Las instrucciones le dicen que el final de esto es actualizar su cuenta
-score       ZT_ACTUALIZAR_02        0.9
-
-body        ZT_ACTUALIZAR_03        /(?:para|y)\s(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción)?/i
-describe    ZT_ACTUALIZAR_03        En algún momento, se habla sobre actualizar cuenta de algo
-score       ZT_ACTUALIZAR_03        0.1
 
 body        ZT_ACTUALIZAR_04        /para\s(?:recibir|obtener|tener)(\s\w+)?\s(?:actualiza|verifica)ci(?:ó|o|.)n/i
 describe    ZT_ACTUALIZAR_04        Para recibir actualización
@@ -425,18 +418,11 @@ body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snue
 describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
 score       ZT_ACTUALIZAR_07        0.2
 
-# TODO: Verificar si esto no es algo diferente a un objetivo, por el contexto en que sucede
-body        ZT_ACTUALICE            /(?:(?:re-*)*valid|renov|actualic|verific|confirm|activ)e\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)(\sde)*\s(ahora|inmediat(?:a|o))/i
-describe    ZT_ACTUALICE            En algún momento, se habla sobre actualizar cuenta de algo
-score       ZT_ACTUALICE            0.5
-
-body        ZT_ACTUALICE_ADV_01     /(?:valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)(\s\w+)*\s(?:(?:inmediat|urgent)(?:o|a|i|e)(?:mente)*|ahora)/i
-describe    ZT_ACTUALICE_ADV_01     Actualice su cuenta de inmediato
-score       ZT_ACTUALICE_ADV_01     0.4
-
-body        ZT_ACTUALICE_ADV_02     /(?:para|y)\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción))\s(?:tu|su|la)?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
-describe    ZT_ACTUALICE_ADV_02     Para actualizar su cuenta de correo, una forma muy especifíca y mortal
-score       ZT_ACTUALICE_ADV_02     0.5
+# En realidad tengo poco contexto con el siguiente en específico. 
+# TODO: En realidad, este no es objetivo
+body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
+score       ZT_ACTUALIZAR_CUENTA    0.2
 
 body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
@@ -450,7 +436,7 @@ body        ZT_DESBLOQUEO_CUENTA    /desbloquear\slos\smensajes\sentrantes/i
 describe    ZT_DESBLOQUEO_CUENTA    Desbloquear los mensajes entrantes
 score       ZT_DESBLOQUEO_CUENTA    0.3
 
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 || ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_ACTUALICE || ZT_AUMENTAR_CUOTA || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA)
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_AUMENTAR_CUOTA || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
 
@@ -595,7 +581,7 @@ score       ZT_DEMASIADA_ADVERT     0.6
 # CONTENIDO
 
 # Titulos a usar para llamar atención del usuario
-body        ZT_QUERIDO_USUARIO      /(?:querid|estimad)(?:o|a)s?\s(?:cuenta|usuario)s?(\sde)?\s(?:usuario|correo|mailbox)/i
+body        ZT_QUERIDO_USUARIO      /(?:querid|estimad)(?:o|a)s?\s?(?:cuenta|usuario)?s?(\sde)?\s(?:usuario|correo|mailbox)/i
 describe    ZT_QUERIDO_USUARIO      Querido usuario
 score       ZT_QUERIDO_USUARIO      0.3
 
@@ -838,8 +824,12 @@ body        ZT_HAGA_COPIE_LINK_02   /copie\s(?:el|los)\ssiguientes?\senlaces?\sp
 describe    ZT_HAGA_COPIE_LINK_02   Copie el siguiente enlace para
 score       ZT_HAGA_COPIE_LINK_02   0.2
 
+body        ZT_HAGA_COPIE_LINK_03   /copie(?:\sy)?\speg(?:ue|ar)\s(?:a|en)\s(?:su|el)\snavegador/i
+describe    ZT_HAGA_COPIE_LINK_03   Copie y pegue en su navegador
+score       ZT_HAGA_COPIE_LINK_03   0.2
+
 # TODO: Agregar (y\spegue)?
-meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02)
+meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_FORMULARIO_03)
 describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
 
 meta        ZT_CLICK_Y_COPIAR       (__ZT_HAGA_CLICK_04 && __ZT_HAGA_COPIE_LINK)
@@ -912,7 +902,7 @@ score       ZT_RESPONDER_ACCION     0.3
 # Fin de MEDIANTES
 
 # COMPORTAMENTALES
-meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN))
+meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || ZT_CUOTA_ENVIO || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN))
 describe    ZT_RAZON_LIMITE         Límite, tal como lo ha configurado admin
 score       ZT_RAZON_LIMITE         0.3
 
@@ -1018,7 +1008,7 @@ meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_
 describe    ZT_FIRMA_01             Firma inspirada en \#18
 score       ZT_FIRMA_01             0.9
 
-meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_02 && ZT_AUMENTAR_CUOTA && ZT_LIMIT_02)
+meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_01 && ZT_AUMENTAR_CUOTA && ZT_LIMIT_01)
 describe    ZT_FIRMA_02             Firma inspirada en \#69
 score       ZT_FIRMA_02             2.0
 
@@ -1028,6 +1018,10 @@ score       ZT_FIRMA_02             2.0
 meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO || ZT_NOMINAL || RAZOR2_CHECK))
 describe    ZT_COMPORTAMENTAL_01    Agravantes sobre su From: en conjunto a cierto conocido spammer
 score       ZT_COMPORTAMENTAL_01    7.0
+
+meta        ZT_COMPORTAMENTAL_02    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && __ZT_SUB)
+describe    ZT_COMPORTAMENTAL_02    Conocidos Subject: SPAMMERS en conjunto con técnicas spammers para From:
+score       ZT_COMPORTAMENTAL_02    2.0
 
 # Fin de COMPORTAMENTALES
 
