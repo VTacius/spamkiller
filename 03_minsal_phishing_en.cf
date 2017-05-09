@@ -41,13 +41,17 @@ body        VTE_SUSPECT_ACTIVITY_02     /detect\ssome\s(?:irregular|suspect|unus
 describe    VTE_SUSPECT_ACTIVITY_02     Detect some unusual activity
 score       VTE_SUSPECT_ACTIVITY_02     0.5 
 
-body        VTE_MAINTENANCE             /((e-*)*mail|system)\smaintenance/i
-describe    VTE_MAINTENANCE             System maintenance
-score       VTE_MAINTENANCE             0.4
+body        VTE_MAINTENANCE_01          /((e-*)*mail|system)\smaintenance/i
+describe    VTE_MAINTENANCE_01          System maintenance
+score       VTE_MAINTENANCE_01          0.4
 
-body        VTE_MAINTENANCE_ADV         /scheduled*\s((e-*)*mail|system)\smaintenance/i
-describe    VTE_MAINTENANCE_ADV         Scheduled mail maintenance
-score       VTE_MAINTENANCE_ADV         0.6
+body        VTE_MAINTENANCE_02          /scheduled*\s((e-*)*mail|system)\smaintenance/i
+describe    VTE_MAINTENANCE_02          Scheduled mail maintenance
+score       VTE_MAINTENANCE_02          0.6
+
+body        VTE_MAINTENANCE_03          /scheduled\smaintenance/i
+describe    VTE_MAINTENANCE_03          Scheduled maintenance
+score       VTE_MAINTENANCE_03          0.4
 
 body        VTE_ACCOUNT_SIZE            /(account|quota|mailbox)\s(size|limit)/i
 describe    VTE_ACCOUNT_SIZE            Account size
@@ -108,7 +112,7 @@ score       VTE_SECURITY_ACCOUNT        0.9
 meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE || VTE_MAINTENANCE_ADV || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED || VTE_ACCOUNT_CANCELED)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE_01 || VTE_MAINTENANCE_02 || VTE_MAINTENANCE_03 || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED || VTE_ACCOUNT_CANCELED)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -256,7 +260,7 @@ body        VTE_ACTUALIZAR_CUENTA_01    /(complete|follow)(\syour)*(\swith)*\s(u
 describe    VTE_ACTUALIZAR_CUENTA_01    Completar la actualización
 score       VTE_ACTUALIZAR_CUENTA_01    0.6
 
-body        VTE_ACTUALIZAR_CUENTA_02    /(?:upgrade|update)(?:\stheir|your)\s(?:(?:system|mailbox|(?:e-*)?mail)\s)?(?:account|mailbox)/i
+body        VTE_ACTUALIZAR_CUENTA_02    /(?:upgrade|update)(?:\s(?:their|y?our?))\s(?:(?:system|mailbox|(?:e-*)?mail)\s)?(?:account|mailbox)/i
 describe    VTE_ACTUALIZAR_CUENTA_02    Update your account
 score       VTE_ACTUALIZAR_CUENTA_02    0.9
 
@@ -391,6 +395,10 @@ meta        VTE_MOTIVA_ACCION           (__VTE_RAZONES && __VTE_META_MEDIANTES)
 describe    VTE_MOTIVA_ACCION           Ha dado una razón para que se realice una acción
 score       VTE_MOTIVA_ACCION           1.2
 
+meta        VTE_PASIVO_AGRESIVO         (__VTE_RAZONES && __VTE_RECOMPENSA_FALSA)
+describe    VTE_PASIVO_AGRESIVO         Ha dado una razón y le ilusiona con recompensas
+score       VTE_PASIVO_AGRESIVO         1.2
+
 meta        VTE_PLAZO_AMENAZA           (__VTE_PLAZO_TIEMPO && __VTE_AMENAZA)
 describe    VTE_PLAZO_AMENAZA           La amenaza ha de cumplirse en un plazo tal de tiempo
 score       VTE_PLAZO_AMENAZA           1.2
@@ -411,6 +419,10 @@ score       VTE_NOTIFICA_RAZON          0.5
 meta        VTE_COMPORTAMENTAL_01       (VTE_MOTIVA_ACCION && FROM_MINSAL_INVALIDO)
 describe    VTE_COMPORTAMENTAL_01       En inglés tendrá que bastar la motivación para que algo así suceda
 score       VTE_COMPORTAMENTAL_01       4.0
+
+meta        VTE_COMPORTAMENTAL_02       (VTE_PASIVO_AGRESIVO && FROM_MINSAL_INVALIDO)
+describe    VTE_COMPORTAMENTAL_02       En inglés tendrá que bastar la motivación para que algo así suceda
+score       VTE_COMPORTAMENTAL_02       3.0
 
 # Fin de COMPORTAMENTALES
 
