@@ -1,0 +1,129 @@
+# COMPORTAMENTALES
+meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || ZT_CUOTA_ENVIO || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN))
+describe    ZT_RAZON_LIMITE         Límite, tal como lo ha configurado admin
+score       ZT_RAZON_LIMITE         0.3
+
+meta        ZT_RAZON_POLITICA       (__ZT_POLITICAS && ZT_POLITICAS_WHY)
+describe    ZT_RAZON_POLITICA       Nuevas politicas para proteger la seguridad
+score       ZT_RAZON_POLITICA       0.4
+
+meta        ZT_RAZON_01             (__ZT_LIMITES && __ZT_SENDO_RECHAZADOS)
+describe    ZT_RAZON_01             Le da una razón \(Límite de cuota\), además, un detalle sobre dicha razón ([Correos] siendo rechazados)
+score       ZT_RAZON_01             0.5
+
+meta        ZT_RAZON_02             (__ZT_POLITICAS && ZT_VERIFICAMOS_REGULAR)
+describe    ZT_RAZON_02             Le da una razón, \(De acuerdo a nuestas politicas\), además, un detalle sobre dicha razón (Nuestras políticas nos impiden a verificar regularmente
+score       ZT_RAZON_02             0.5
+
+meta        ZT_RAZON_03             ((ZT_VERSION_VIEJA || __ZT_POR_ACTUALIZACION) && __ZT_SENDO_RECHAZADOS)
+describe    ZT_RAZON_03             Por una razón, sus correos están siendo rechazados
+score       ZT_RAZON_03             0.9
+
+# TODO: Verificar que sea correcto
+meta        ZT_RAZON_04             (ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
+describe    ZT_RAZON_04             Cuenta inactiva por correo spam recibido
+score       ZT_RAZON_04             0.9
+
+meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
+describe    ZT_RAZON_05             Por motivos de seguridad, requiere validar
+score       ZT_RAZON_05             0.9
+
+# Este podría funcionar en muchos casos, pero al menos podría servir para rastreo 
+meta        ZT_RAZON_06             ((__ZT_MANTENIMIENTO || __ZT_POR_ACTUALIZACION) && ZT_HORA_INICIO)
+describe    ZT_RAZON_06             A las 12:00 empezamos a actualizar
+score       ZT_RAZON_06             0.3
+
+meta        ZT_RAZON_07             ((__ZT_MANTENIMIENTO || __ZT_POR_ACTUALIZACION) && ZT_SISTEMA_CORREO_MW)
+describe    ZT_RAZON_07             Actualizaremos a nuestros sistema nuevos sistema de correo microsoft
+score       ZT_RAZON_07             0.9
+
+meta        ZT_MOTIVA_ACCION        (__ZT_OBJETIVOS && __ZT_ACCIONES)
+describe    ZT_MOTIVA_ACCION        Actualizar cuenta por medio de un clic
+score       ZT_MOTIVA_ACCION        0.9
+
+meta        ZT_AMOR_BIBLICO_01      (__ZT_OBJETIVOS && __ZT_PERDIDA_CUENTA)
+describe    ZT_AMOR_BIBLICO_01      Actualice su cuenta, o perderá su cuenta
+score       ZT_AMOR_BIBLICO_01      1.2
+
+meta        ZT_CASTIGO_BIBLICO_01   (__ZT_RAZONES && __ZT_PERDIDA_CUENTA)
+describe    ZT_CASTIGO_BIBLICO_01   Por tal razón, perderá su cuenta
+score       ZT_CASTIGO_BIBLICO_01   0.9
+
+meta        ZT_AMOR_BIBLICO_02      (__ZT_OBJETIVOS && __ZT_RESTRIC_CUENTA)
+describe    ZT_AMOR_BIBLICO_02      Actualice su cuenta, o tendrá restricciones sobre su cuenta
+score       ZT_AMOR_BIBLICO_02      0.9
+
+meta        __ZT_AMOR_BIBLICO       (ZT_AMOR_BIBLICO_01 || ZT_AMOR_BIBLICO_02 || ZT_AMOR_BIBLICO_03 || ZT_AMOR_BIBLICO_04)
+describe    __ZT_AMOR_BIBLICO       Distintas formas de incitar a un objetivo por medio de algún tipo de amenaza
+
+meta        ZT_CASTIGO_BIBLICO_02   (__ZT_RAZONES && __ZT_RESTRIC_CUENTA)
+describe    ZT_CASTIGO_BIBLICO_02   Por tal razón, tendrá restricciones sobre su cuenta
+score       ZT_CASTIGO_BIBLICO_02   0.9
+
+meta        ZT_CASTIGO_BIBLICO_03   (__ZT_SENDO_RECHAZADOS && ZT_VERSION_VIEJA)
+describe    ZT_CASTIGO_BIBLICO_03   Sus correos serán rechazados por la versión de su cuenta
+score       ZT_CASTIGO_BIBLICO_03   0.9
+
+meta        ZT_AMOR_BIBLICO_04      (__ZT_OBJETIVOS && __ZT_AMENAZA_PAS_AGRE)
+describe    ZT_AMOR_BIBLICO_04      Actualice su cuenta, de lo contrario, le diremos sutilmente que la va a perder
+score       ZT_AMOR_BIBLICO_04      0.9
+
+meta        ZT_CASTIGO_BIBLICO_04   (__ZT_RAZONES && __ZT_AMENAZA_PAS_AGRE)
+describe    ZT_CASTIGO_BIBLICO_04   Estamos haciendo cambios, por tal razón, es posible que se quede sin cuenta
+score       ZT_CASTIGO_BIBLICO_04   0.9
+
+meta        __ZT_CASTIGO_BIBLICO    (ZT_CASTIGO_BIBLICO_01 || ZT_CASTIGO_BIBLICO_02 || ZT_CASTIGO_BIBLICO_03 || ZT_CASTIGO_BIBLICO_04)
+describe    __ZT_CASTIGO_BIBLICO    Distintas formas de explicar la razón del castigo
+
+meta        ZT_PROMESA_PARAISO_01   (__ZT_RAZONES && __ZT_OBJETIVOS)
+describe    ZT_PROMESA_PARAISO_01   Tal razón, le premia con tal cosa
+score       ZT_PROMESA_PARAISO_01   0.6
+
+# Esta implica que ZT_AMOR_BIBLICO_01 ha sido aplicada, así que más bien estamos sumando a un caso particular de ella
+meta        ZT_AMOR_BIBLICO_03      (__ZT_OBJETIVOS && ZT_IMPEDIR_SUSPENSION)
+describe    ZT_AMOR_BIBLICO_03      Actualice su cuenta, o le dan formas avanzadas de amenazas sobre su cuenta
+score       ZT_AMOR_BIBLICO_03      0.6
+
+# Este será otro tipo sobre consecuencia
+meta        ZT_AUMENTADA_CUOTA      (__ZT_LIMITES && ZT_AUMENTAR_CUOTA)
+describe    ZT_AUMENTADA_CUOTA      Sobrepaso los límites, aumente la cuota
+score       ZT_AUMENTADA_CUOTA      0.3
+
+meta        ZT_NOMINAL              (__ZT_RAZONES && __ZT_ACCIONES && __ZT_OBJETIVOS)
+describe    ZT_NOMINAL              Da razones para hacer una acción y lograr una actividad por parte del usuario
+score       ZT_NOMINAL              1.2
+
+meta        ZT_PREFIRMA_01          (ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
+describe    ZT_PREFIRMA_01          Una especie de pre-firma inspirada en \#18
+score       ZT_PREFIRMA_01          0.6
+
+meta        ZT_PREFIRMA_02          (__ZT_RAZONES && __ZT_ACCIONES && ZT_AGRADECE_COOPERA)
+describe    ZT_PREFIRMA_02          Inspirada en \#55. Se trata sobre agradecer su cooperacion
+score       ZT_PREFIRMA_02          0.5
+
+meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
+describe    ZT_FIRMA_01             Firma inspirada en \#18
+score       ZT_FIRMA_01             0.9
+
+meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_01 && ZT_AUMENTAR_CUOTA && ZT_LIMIT_01)
+describe    ZT_FIRMA_02             Firma inspirada en \#69
+score       ZT_FIRMA_02             2.0
+
+meta        ZT_FIRMA_03             (__ZTD_HIT_GRACIAS && ZT_AVISO_FINAL && __ZT_FIRMA_ADMIN && __ZT_SIGA_INSTRUCCIONES && ZT_NUEVA_VERSION) 
+describe    ZT_FIRMA_03             Firma inspirada en \#83
+score       ZT_FIRMA_03             2.0
+
+# Esta es una de mis mejores ideas, sin duda
+# Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno
+# TODO: Pues que RAZOR2_CHECK debería trabajar en otro ámbito, me parece
+meta        ZT_COMPORTAMENTAL_01    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && (__ZT_AMOR_BIBLICO || __ZT_CASTIGO_BIBLICO || ZT_NOMINAL || RAZOR2_CHECK))
+describe    ZT_COMPORTAMENTAL_01    Agravantes sobre su From: en conjunto a cierto conocido spammer
+score       ZT_COMPORTAMENTAL_01    7.0
+
+meta        ZT_COMPORTAMENTAL_02    ((FROM_MINSAL_INVALIDO || FROM_SIGNOS_TOO_SHORT) && __ZT_SUB)
+describe    ZT_COMPORTAMENTAL_02    Conocidos Subject: SPAMMERS en conjunto con técnicas spammers para From:
+score       ZT_COMPORTAMENTAL_02    2.0
+
+# Fin de COMPORTAMENTALES
+
+

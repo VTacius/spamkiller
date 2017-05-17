@@ -1,0 +1,222 @@
+# CONTENIDO
+
+# Titulos a usar para llamar atención del usuario
+body        ZT_QUERIDO_USUARIO      /(?:querid|estimad)(?:o|a)s?\s?(?:cuenta|usuario)?s?(\sde)?\s(?:usuario|correo|mailbox)/i
+describe    ZT_QUERIDO_USUARIO      Querido usuario
+score       ZT_QUERIDO_USUARIO      0.3
+
+body        ZT_QUERIDO_ZIMBRA       /(?:querid|estimad)(?:o|a)s?(?:\s\w+){0,4}\szimbra/i
+describe    ZT_QUERIDO_ZIMBRA       Querido usuario zimbra
+score       ZT_QUERIDO_ZIMBRA       0.5
+
+# De alguna forma, nos denominamos administrador
+# TODO: Podríamos agruparlos en orden para crear firmas
+body        ZT_ADMIN_SISTEMA_01     /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\ss(?:istema|ervicio|ervidor)/i
+describe    ZT_ADMIN_SISTEMA_01     Administrador del sistema
+score       ZT_ADMIN_SISTEMA_01     0.3
+
+body        ZT_ADMIN_SISTEMA_02     /(?:correo|mail|webmail)\sadmin(?:istra(?:d|t)or(?:es)?)?/i
+describe    ZT_ADMIN_SISTEMA_02     webmail administrator
+score       ZT_ADMIN_SISTEMA_02     0.3
+
+body        ZT_ADMIN_SISTEMA_03     /ing(?:\.|enier(?:o|a))(\s\w+){0,4}\sadmin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:istema|ervicio|webmail|correo)/i
+describe    ZT_ADMIN_SISTEMA_03     Ing tal y tal, administrador del sistema
+score       ZT_ADMIN_SISTEMA_03     0.5
+
+body        ZT_ADMIN_SISTEMA_04     /webmail(?:\s[\w|áéíóú|&\wacute;]+){0,2}\sdel?\ssistema/i
+describe    ZT_ADMIN_SISTEMA_04     Webmail del sistema
+score       ZT_ADMIN_SISTEMA_04     0.4
+
+body        ZT_ADMIN_SISTEMA_05     /it\shelp\s(?:desk|system)/i
+describe    ZT_ADMIN_SISTEMA_05     IT help desk
+score       ZT_ADMIN_SISTEMA_05     0.6
+
+body        ZT_ADMIN_SISTEMA_06     /equipo\st(?:é|e|.)cnico/i
+describe    ZT_ADMIN_SISTEMA_06     Equipo técnico
+score       ZT_ADMIN_SISTEMA_06     0.3
+
+body        ZT_ADMIN_SISTEMA_07     /equipo\sde\s(?:soporte|apoyo)\st(?:é|e|.)cnico/i
+describe    ZT_ADMIN_SISTEMA_07     Equipo de apoyo técnico
+score       ZT_ADMIN_SISTEMA_07     0.2
+
+body        ZT_ADMIN_SISTEMA_08     /(?:equipo|divisi(?:ó|o|.)n)\sde\stecnolog(?:í|i|.)a\sde(?:\sla)?\sinformaci(?:ó|o|.)n/i
+describe    ZT_ADMIN_SISTEMA_08     División de tecnología de la información
+score       ZT_ADMIN_SISTEMA_08     0.2
+
+body        ZT_ADMIN_SISTEMA_09     /servicios\sde\shelpdesk/i
+describe    ZT_ADMIN_SISTEMA_09     Servicios de HelpDesk
+score       ZT_ADMIN_SISTEMA_09     0.2
+
+body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
+describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
+score       ZT_ADMIN_WEBMAIL        0.5
+
+meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_WEBMAIL)
+describe    __ZT_FIRMA_ADMIN        Distintas formas de referirse a si mismos como administradores de sistemas
+
+# Estamos dando las gracias por nimiedades. Pocas cosas configuran mejor una estafa que nimiedades
+body        ZT_CORTESIA_ADMIN_01    /gracias\sadmin(?:istra(?:d|t)or(?:es)?)?\sdel?\ss(?:istema|ervicio|webmail|correo)/i
+describe    ZT_CORTESIA_ADMIN_01    Gracias por parte de administrador, hagánme el favor
+score       ZT_CORTESIA_ADMIN_01    0.3
+
+body        ZT_AGRADECE_USO         /gracias\spor\sus(?:o|a)r?(?:\s\w+){0,2}\s(?:correo|servicio|servidores|plataforma)/i
+describe    ZT_AGRADECE_USO         Gracias por el uso de nuestra plataforma
+score       ZT_AGRADECE_USO         0.3
+
+body        ZT_AGRADECE_COOPERA     /gracias por su cooperaci(?:ó|o|.)n/i
+describe    ZT_AGRADECE_COOPERA     Gracias por su cooperación
+score       ZT_AGRADECE_COOPERA     0.2
+
+body        ZT_DISCULPA_01          /disculpas\spor(?:\s\w+){0,2}\sinconveniente/i
+describe    ZT_DISCULPA_01          Disculpa por inconvenientes
+score       ZT_DISCULPA_01          0.2
+
+# Un par de HELPERS que describen "Mover un correo spam a la bandeja de entrada"
+body        __VT_MOVER                /(mu(e|é|.+)valo|mover)/
+describe    __VT_MOVER                Mover
+
+body        __VT_CORREO_ELECTRONICO   /(correo|mensaje)\selectr(o|ó|.)nic(a|o)/i
+describe    __VT_CORREO_ELECTRONICO   Correo electrónico
+score       __VT_CORREO_ELECTRONICO   0.1
+
+body        __VT_BANDEJA_DE_ENTRADA   /(carpeta|bandeja)s*(\sde)*\s(entrada|correo|principal)/i
+describe    __VT_BANDEJA_DE_ENTRADA   Bandeja de entrada
+score       __VT_BANDEJA_DE_ENTRADA   0.2
+
+body        __VT_BANDEJA_DE_SPAM      /(carpeta|bandeja)s*(\sde)*\s(spam|(correo\s)*basura)/i
+describe    __VT_BANDEJA_DE_SPAM      Bandeja de spam
+score       __VT_BANDEJA_DE_SPAM      0.2
+
+meta        VT_SPAM_A_BANDEJA       (__VT_CORREO_ELECTRONICO && __VT_BANDEJA_DE_SPAM && __VT_BANDEJA_DE_ENTRADA)
+describe    VT_SPAM_A_BANDEJA       Podría sugerir mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA       0.3
+
+meta        VT_SPAM_A_BANDEJA_ADV   (VT_SPAM_A_BANDEJA && __VT_MOVER)
+describe    VT_SPAM_A_BANDEJA_ADV   Sugiere mover el mensaje de Spam a Bandeja de Entrada        
+score       VT_SPAM_A_BANDEJA_ADV   0.3
+
+# Helpers que ayudan a las amenazas
+
+body        ZT_NEGARSE_01           /(?:n(?:iegan?|egarse)|rechaza(?:r|ndo)?)(?:\s(?:a|la))*\s(?:veri?fica|actualiza(?:r|ci(?:ó|o|.)n))/i
+describe    ZT_NEGARSE_01           Negarse a actualizar
+score       ZT_NEGARSE_01           0.3
+
+body        ZT_NEGARSE_02           /falta(\sde)*\sactualiza(?:r|ci(?:ó|o|.)n)/i
+describe    ZT_NEGARSE_02           Falta de actualización
+score       ZT_NEGARSE_02           0.2
+
+body        ZT_NEGARSE_03           /(?:no|negarse\sa)\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)a(?:r|ción)*)(?:\s(?:\w)+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_NEGARSE_03           Negarse a actualizar
+score       ZT_NEGARSE_03           0.3
+
+body        ZT_NEGARSE_04           /hasta(?:\s\w+){0,3}\s(?:(?:(?:re-*)*valid|renov|actualiz|verific|confirm|activ)(?:a|e)(?:r|ción)*)/i
+describe    ZT_NEGARSE_04           Hasta que vuelva a validar
+score       ZT_NEGARSE_04           0.2
+
+body        ZT_NEGARSE_05           /(?:cerrare|desconectare|cancelare)mos(\s\w*){0,3}\sa\smenos/i
+describe    ZT_NEGARSE_05           Cerraremos, a menos
+score       ZT_NEGARSE_05           0.4
+
+body        ZT_NEGARSE_06           /si\sno\s(?:verifica|valida|confirma|renueva)/i
+describe    ZT_NEGARSE_06           Si no verifica
+score       ZT_NEGARSE_06           0.1
+
+body        ZT_NEGARSE_07           /hacer\scaso\somiso/i
+describe    ZT_NEGARSE_07           Hacer caso omiso
+score       ZT_NEGARSE_07           0.2
+
+body        ZT_NEGARSE_08           /(?:ya|una\svez)\sactualizada/i
+describe    ZT_NEGARSE_08           Una vez actualizada
+score       ZT_NEGARSE_08           0.2
+
+body        ZT_NEGARSE_09           /no(?:\sse)?\s(ignore|niegue)/i
+describe    ZT_NEGARSE_09           No ignore
+score       ZT_NEGARSE_09           0.2
+
+meta        __ZT_NEGACION           (ZT_NEGARSE_01 || ZT_NEGARSE_02 || ZT_NEGARSE_03 || ZT_NEGARSE_04 || ZT_NEGARSE_05 || ZT_NEGARSE_06 || ZT_NEGARSE_07 || ZT_NEGARSE_08 || ZT_NEGARSE_09)
+describe    __ZT_NEGACION           Distintas formas de referirse a la no actualización por parte del usuario
+
+# Helpers que ayudan a dar claridad a los MEDIANTE requeridos
+
+# Carecen de cualquier contexto. No deben tener puntuación por si mismos
+body        __ZT_SIGA_INSTRUC_01    /s(?:e|i)g(?:a|uir)\sl(?:a|o)s?\ssiguientes?\s(detalles|instrucciones)/i
+describe    __ZT_SIGA_INSTRUC_01    Seguir los siguientes detalles
+
+body        __ZT_SIGA_INSTRUC_02    /(?:siga|le(?:er|a))\s(?:estas?|(?:las?\s)?siguientes?)(?:\s[\wáéíóú=]+){0,3}\s(?:instrucciones|informaci(?:(?:o|ó|.)n)?)/i
+describe    __ZT_SIGA_INSTRUC_02    Siga las siguientes instrucciones
+
+# Esta es una forma rara de dar a entender que se darán instrucciones, sospecho que se utilizará en el futuro
+body        __ZT_SIGA_INSTRUC_03    /(?:siga|lea)\sesta\slista\s.+?de\s\w+\s(?:informaci(?:ó|o|.)n|instrucciones)\simportante/i
+describe    __ZT_SIGA_INSTRUC_03    Lea las siguientes lista de información importante
+
+body        __ZT_SIGA_INSTRUC_04    /siga\sla\s?instrucci(?:ó|o|.)n\spara/i
+describe    __ZT_SIGA_INSTRUC_04    Siga las instrucciones para
+
+body        __ZT_SIGA_INSTRUC_05    /act(?:ú|u|.)e\sseg(?:ú|u|.)n\slas\sinstrucciones/i
+describe    __ZT_SIGA_INSTRUC_05    Actúe según las intrucciones
+
+meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03 || __ZT_SIGA_INSTRUC_04 || __ZT_SIGA_INSTRUC_05)
+describe    __ZT_SIGA_INSTRUCCIONES Distintas formas de referirse a seguir instrucciones
+
+# Helpers que describen plazos de tiempo
+ 
+body        ZT_PLAZO_DE_HORAS       /(?:(?:plazo|dentro)\sde|en)(?:\sl(?:a|o)s)*\s(?:24|36|48)\s*(?:horas|hours)/i
+describe    ZT_PLAZO_DE_HORAS       Tal plazo de horas a vencer
+score       ZT_PLAZO_DE_HORAS       0.3
+
+body        ZT_PLAZO_DE_DIAS        /((plazo|dentro)\sde|en)\s*([0-9]+|un|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\sd(i|í|.)as*/i
+describe    ZT_PLAZO_DE_DIAS        Tal plazo de días a vencer
+score       ZT_PLAZO_DE_DIAS        0.3
+
+# TODO: Terminar la secuencia de mes
+body        ZT_PLAZO_LIMITE_01      /(?:hoy|mañana|d(?:i|í|.)a|el)(?:\s*(?:,|:))*\s*[0-9]+(?:\sdel*|\/|\-)\s*(?:ene(?:ro)*|feb(?:rero)*|mar(?:zo)*|abr(?:il)*)\s*(?:\sdel*|\/|\-)\s*[0-9]+/i
+describe    ZT_PLAZO_LIMITE_01      Mañana, 20 de enero de 2017
+score       ZT_PLAZO_LIMITE_01      0.3
+
+body        ZT_PLAZO_LIMITE_02      /(?:uno?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|d.ez)\sd(?:í|.|i)as?\s(?:posterior|siguient)(?:es?)?/i
+describe    ZT_PLAZO_LIMITE_02      Siete días posteriores
+score       ZT_PLAZO_LIMITE_02      0.3
+
+body        ZT_PLAZO_LIMITE_03      /[0-9]{2}\:[0-9]{2}(?:\s?(?:A|P\.?)M)?\sde(\s\w+){0,2}\sma(?:ñ|.)ana/i
+describe    ZT_PLAZO_LIMITE_03      12:00 de mañana
+score       ZT_PLAZO_LIMITE_03      0.2
+
+body        ZT_PLAZO_LIMITE_04      /las\spr(?:o|ó|.)ximas\s(?:12|24|36|48)\shoras?/i
+describe    ZT_PLAZO_LIMITE_04      Las próximas 24 horas
+score       ZT_PLAZO_LIMITE_04      0.2
+
+meta        __ZT_PLAZO_TIEMPO       (ZT_PLAZO_DE_HORAS || ZT_PLAZO_DE_DIAS || ZT_PLAZO_LIMITE_01 || ZT_PLAZO_LIMITE_02 || ZT_PLAZO_LIMITE_03 || ZT_PLAZO_LIMITE_04)
+describe    __ZT_PLAZO_TIEMPO       Distintas formas de hacer plazos de tiempo
+
+# FIRMAS CONTENIDO
+
+meta        ZTE_SENTENCIA_01            (__ZT_PLAZO_TIEMPO && __ZT_PERDIDA_CUENTA)
+describe    ZTE_SENTENCIA_01            En un plazo de tiempo, perderá la cuenta
+score       ZTE_SENTENCIA_01            0.9
+
+meta        ZTE_SENTENCIA_02            (__ZT_PLAZO_TIEMPO && __ZT_RESTRIC_CUENTA)
+describe    ZTE_SENTENCIA_02            En un plazo de tiempo, habrán restricciones en su cuenta
+score       ZTE_SENTENCIA_02            0.6
+
+meta        ZT_SENTENCIA_03             (__ZT_SIGA_INSTRUCCIONES && __ZT_ACCIONES)
+describe    ZT_SENTENCIA_03             Siga las instrucciones, haga click
+score       ZT_SENTENCIA_03             0.6
+
+# TODO: Si los ZTE_NEGACION_ACTUALIZAR_* avanzan, tendrán que llevar a ZT_IMPEDIR_SUSPENSION. Creo
+meta        ZTE_NEGA_ACTUALIZAR_01      (__ZT_NEGACION && __ZT_PERDIDA_CUENTA)
+describe    ZTE_NEGA_ACTUALIZAR_01      Negarse a actualizar, perderá cuenta
+score       ZTE_NEGA_ACTUALIZAR_01      0.9
+
+meta        ZTE_NEGA_ACTUALIZAR_01_ADV  (__ZT_NEGACION && __ZT_PLAZO_TIEMPO && __ZT_PERDIDA_CUENTA)
+describe    ZTE_NEGA_ACTUALIZAR_01_ADV  Negarse a actualizar en un plazo de tiempo, perderá cuenta
+score       ZTE_NEGA_ACTUALIZAR_01_ADV  1.2
+
+meta        ZTE_NEGA_ACTUALIZAR_03      (__ZT_NEGACION && __ZT_RESTRIC_CUENTA)
+describe    ZTE_NEGA_ACTUALIZAR_03      Negarse a actualizar, habrán restricciones en su cuenta
+score       ZTE_NEGA_ACTUALIZAR_03      0.6
+
+meta        ZTE_NEGA_ACTUALIZAR_03_ADV  (__ZT_NEGACION && __ZT_PLAZO_TIEMPO && __ZT_RESTRIC_CUENTA)
+describe    ZTE_NEGA_ACTUALIZAR_03_ADV  Negarse a actualizar en un plazo de tiempo, habrán restricciones en su cuenta
+score       ZTE_NEGA_ACTUALIZAR_03_ADV  0.9
+
+# Fin de CONTENIDO

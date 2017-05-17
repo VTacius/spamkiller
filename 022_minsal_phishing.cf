@@ -1,0 +1,217 @@
+# RAZONES
+body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)?\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
+describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
+score       ZT_LIMIT_01             0.4
+
+body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)\ses(?:t(?:a|á|.))?\s(?:casi|por)\sllen(?:o|arse)/i
+describe    ZT_LIMIT_02             Buzón esta casi por llenarse
+score       ZT_LIMIT_02             0.2
+
+body        ZT_LIMIT_03             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\sde\s(?:correo|casilla))\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
+describe    ZT_LIMIT_03             Casilla de correo ha superado el límite
+score       ZT_LIMIT_03             0.5
+
+body        ZT_LIMIT_04             /(?:buz(?:ó|o|.)n(\sde\scorreo)*|casilla)\sha\s(?:excedido|superado)(?:\sel)*\sl(?:í|i.)mite\sde\salmacenamiento/i
+describe    ZT_LIMIT_04             Casilla de correo ha excedido límite de almacenamiento
+score       ZT_LIMIT_04             0.4
+
+# No hay  contexto con correo, pero es una frase demasiado rara para aparecer
+body        ZT_LIMIT_05             /(?:superado|excedido)(?:\sel)*\s(?:repositorio|l(?:í|i|&iacute;)mite|excedido)\sde\s(?:[0-9]+\.*)+\s*(?:buzones|(g|m|k)b)/i
+describe    ZT_LIMIT_05             Superado el repositorio de 24 buzones
+score       ZT_LIMIT_05             0.4
+
+body        ZT_LIMIT_06             /super(?:ó|o|a|.)\slos\s(?:[0-9]+(?:\s|\.|,)*)+\s(?:definido|configurado|buzones|mensajes)s*/i
+describe    ZT_LIMIT_06             Superó 23,467 definidos
+score       ZT_LIMIT_06             0.3
+
+body        ZT_LIMIT_07             /(?:supera?|excedi|llega?)(?:(?:ó|o|.)|do)\s(?:e|a)l\sl(?:i|í|.)mite\sde\s(?:almacenamiento|cuota|repositorio)/i
+describe    ZT_LIMIT_07             Superado el límite de almacenamiento
+score       ZT_LIMIT_07             0.3
+
+body        ZT_LIMIT_09             /(?:lleg|super)(?:ó|ado|.)\sal?\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:almacenamiento|(?:q|c)uota)/i
+describe    ZT_LIMIT_09             Llegado al limite de cuota
+score       ZT_LIMIT_09             0.2
+
+body        ZT_LIMIT_10             /se\sha\ssuperado\s(?:[0-9]+[,.]?)+\srepositorio/i
+describe    ZT_LIMIT_10             Se ha superado 23,456 respositorio
+score       ZT_LIMIT_10             0.4
+
+# No se parece a _09, es una versión reducida por decir algo
+body        ZT_LIMIT_11             /(?:lleg|super)(?:ó|ado|.)\s(?:el|su|al)\sl(?:í|i|.)mite/i
+describe    ZT_LIMIT_11             superó su límite
+score       ZT_LIMIT_11             0.1
+
+body        ZT_LIMIT_12             /est(?:a|á|.)\sejecutando\s[0-9,%.]+(?:\s\w+){0,2}\sl(?:í|i|.)mite(?:\s\w+){0,2}\scuota/i
+describe    ZT_LIMIT_12             Esta ejecutando 99.9% de su cuota
+score       ZT_LIMIT_12             0.4
+
+body        ZT_LIMIT_13             /ha\ssuperado\s[0-9]+\s(?:g|m|k)b/i
+describe    ZT_LIMIT_13             Ha superado 23 Gb
+score       ZT_LIMIT_13             0.2
+
+body        ZT_LIMIT_14             /superado\slos\s[0-9\.\,]+\sarchivos\sdel?\sbuz(?:o|ó|.)n(?:es)?/i
+describe    ZT_LIMIT_14             superado los 23,432 archivos de buzones
+score       ZT_LIMIT_14             0.5
+
+# Se parece un poco a _01, en realidad tiene diferencias sutiles y una búsqueda más holgada, de allí su menor puntaje
+body        ZT_LIMIT_15             /(?:buz(?:ó|o|.)n|cuenta|casilla)\sde\scorreo.+?es(?:t(?:a|á|.))?\s(?:limitad|excedid|superad)(?:a|o)/i
+describe    ZT_LIMIT_15             Cuenta de correo es limitada
+score       ZT_LIMIT_15             0.2
+
+body        ZT_LIMIT_16             /(?:el|la)\s(?:buz(?:ó|o|.)n|caja)\sde\scorreo\sest(?:á|a|.)\sllen(?:a|o)/i
+describe    ZT_LIMIT_16             La caja de correo está llena
+score       ZT_LIMIT_16             0.2
+
+# Había mucha discusión sobre si este era un DETALLE o precisamente un límite por derecho propio, y ha ganado esta última opción
+body        ZT_LIMIT_17             /cuota\sde\s(?:cuota|casilla|buz(?:ó|o|.)n|correo)(?:\sde\scorreo)?\selectr(?:ó|o|.)nic(?:a|o)\s\w+\sse\ssupera/i
+describe    ZT_LIMIT_17             Su cuota de correo electrónico casi se supera
+score       ZT_LIMIT_17             0.2
+
+body        ZT_LIMIT_18             /l(?:í|i|.)mite\sde\salmacenamiento\sdel?\sbuz(?:ó|o|.)n(?:es)?\s.+?super(?:ó|o|ado)/i
+describe    ZT_LIMIT_18             Límite de almacenamiento del buzón debió superar
+score       ZT_LIMIT_18             0.3
+
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
+describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
+
+body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
+describe    ZT_PROBLEMAS_ENVIO      Problemas de envío y control mientras envía correo
+score       ZT_PROBLEMAS_ENVIO      0.2
+
+body        ZT_MANTENIMIENTO_01     /mantenimiento\sde\snue(?:\=\s)*stros\scanales\sde\sservicio/i
+describe    ZT_MANTENIMIENTO_01     Mantenimiento de nuestros canales de servicio
+score       ZT_MANTENIMIENTO_01     0.2
+
+body        ZT_MANTENIMIENTO_02     /manteni(?:endo|miento)\sy\s(?:actualiza(?:ndo|ci(?:ó|o|.)n))(?:\sde)*(?:\stodas*)*(?:\sl(?:a|o)s*)*\s(?:cuenta|buzone|seguridad)s*/i
+describe    ZT_MANTENIMIENTO_02     Mantenimiento y actualización de todos los buzones
+score       ZT_MANTENIMIENTO_02     0.4
+
+body        ZT_MANTENIMIENTO_03     /haciendo\sun\smantenimiento\s(?:a|en)\snuestros?\sservidor(?:es)?/i
+describe    ZT_MANTENIMIENTO_03     Haciendo un mantenimiento a nuestros servidores
+score       ZT_MANTENIMIENTO_03     0.3
+
+meta        __ZT_MANTENIMIENTO      (ZT_MANTENIMIENTO_01 || ZT_MANTENIMIENTO_02 || ZT_MANTENIMIENTO_03)
+describe    __ZT_MANTENIMIENTO      Distintas formas de decir mantenimiento como razón frente al usuario
+
+body        ZT_VERSION_VIEJA        /operando\sen\snuestra\sversi(?:ó|o|.)n\santerior/i
+describe    ZT_VERSION_VIEJA        Operando en nuestra versión anterior
+score       ZT_VERSION_VIEJA        0.2
+
+# Pensé que era una amenaza en tiempo pasada, de hecho es el tiempo verbal quién la configura como RAZON
+body        ZT_CUENTAS_EXPIRARON    /su\scuenta\sde\scorreo.+?expir(?:ó|o|.)/i
+describe    ZT_CUENTAS_EXPIRARON    Cuenta de correo expiró
+score       ZT_CUENTAS_EXPIRARON    0.2
+
+body        ZT_POR_ACTUALIZAC_01    /(?:por|debido)(\s\w+){0,3}\sactualizaci(?:o|ó|.|=C3=B3)n\sdel?(?:\sla)?\s(?:sistema|base|correo|webmail)/i
+describe    ZT_POR_ACTUALIZAC_01    Debido a actualización de
+score       ZT_POR_ACTUALIZAC_01    0.4
+
+body        ZT_POR_ACTUALIZAC_02    /(?:cambia|migra)(?:ndo|r(?:emos)?)(?:\s\w+){0,1}\snuestros?(?:\s\w+){0,1}\ssistemas?(?:\s\w+){0,1}\scorreo/i
+describe    ZT_POR_ACTUALIZAC_02    Estaremos cambiando nuestros sistemas de correo
+score       ZT_POR_ACTUALIZAC_02    0.4
+
+body        ZT_POR_ACTUALIZAC_03    /(?:por|debido)\sa(?:\sla)?(?:\snuestra)?\s?(?:reciente|nueva)\sactualizaci(?:o|ó|.)n/i
+describe    ZT_POR_ACTUALIZAC_03    Debido a la reciente actualización
+score       ZT_POR_ACTUALIZAC_03    0.2
+
+body        ZT_POR_ACTUALIZAC_04    /migrando\sa\sla\snueva\s(?:interfaz|versi(?:ó|o|.)n)\sde\s.+?(?:servidor|zimbra)/i
+describe    ZT_POR_ACTUALIZAC_04    Migrando a la nueva versión de zimbra
+score       ZT_POR_ACTUALIZAC_04    0.5
+
+body        ZT_POR_ACTUALIZAC_05    /debido\sa(?:\sla)?\sactualizaci(?:o|ó|.)n\s(?:reciente|nueva)/i
+describe    ZT_POR_ACTUALIZAC_05    Debido a la actualización reciente
+score       ZT_POR_ACTUALIZAC_05    0.4
+
+body        ZT_POR_ACTUALIZAC_06    /estamos\sactualizando/i
+describe    ZT_POR_ACTUALIZAC_06    Estamos actualizando
+score       ZT_POR_ACTUALIZAC_06    0.2
+
+meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03 || ZT_POR_ACTUALIZAC_04 || ZT_POR_ACTUALIZAC_05 || ZT_POR_ACTUALIZAC_06)
+describe    __ZT_POR_ACTUALIZACION  Distintas formas de dar como razón a la actualización del servicio
+
+body        ZT_COMPROMETIDA_CUENTA  /resultado\sde(?:\sla)?\s\w+\scomprometida(?:\s\w+){0,3}\scuenta/i
+describe    ZT_COMPROMETIDA_CUENTA  Resultado de su cuenta comprometida
+score       ZT_COMPROMETIDA_CUENTA  0.3
+
+body        ZT_REQUIERE_VALIDAR     /(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\s(?:requiere|necesita)\sv(?:alida|erifica)(?:r|ci(?:o|.|ó)n)/i
+describe    ZT_REQUIERE_VALIDAR     Tu cuenta requiere validar
+score       ZT_REQUIERE_VALIDAR     0.4
+
+body        ZT_NO_ACTUALIZABLE      /cuenta(?:\sde)?(?:\scorreo)?(?:\selectr(?:ó|o|.|=F3)nico)?\sno(?:\s\w+){0,2}\s(?:pue?d(?:o|e))\s(?:actualiz|valid)ar/i
+describe    ZT_NO_ACTUALIZABLE      Cuenta de correo electrónico no se puede actualizar
+score       ZT_NO_ACTUALIZABLE      0.4
+
+body        ZT_NUEVA_POLITICA       /(?:parte|debido|por)(?:\s(?:de|a))*\sla\snueva\s(?:(?:pol(?:í|i|.)tica)|norma|medida)s*/i
+describe    ZT_NUEVA_POLITICA       Debido a las nuevas políticas
+score       ZT_NUEVA_POLITICA       0.2
+
+body        ZT_NUESTRAS_POLITICAS   /(?:parte|debido|por)(?:\s(?:de|a))*(\sla)*\s(?:nueva|nuestras)\s(?:(?:pol(?:í|i|.)tica)|norma|medida)s*\sde\sseguridad/i
+describe    ZT_NUESTRAS_POLITICAS   Debido a nuestras políticas
+score       ZT_NUESTRAS_POLITICAS   0.3
+
+meta        __ZT_POLITICAS          (ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS)
+describe    __ZT_POLITICAS          Diferentes formas de especificar a "Nuestras políticas"
+
+body        ZT_ACCESO_REMOTO        /acceden*\sa\s(?:su|est(?:a|e))\s(?:buz.n|cuenta)\sde(?:sde)*\s(?:diferentes|distintas)\s(?:ubicaciones|locaciones|localidades)/i
+describe    ZT_ACCESO_REMOTO        Acceden a esta cuenta desde distintas localidades
+score       ZT_ACCESO_REMOTO        0.2
+
+body        ZT_USADO_SPAMMER        /(?:empleado|utilizado|usado)\s(?:para|por)\s(?:env(?:i|í|.)(?:o|ar))\s(?:(?:mensaje|correo)s*(\sde)*\s(?:spam|basura)|(de\s)*spam)/i
+describe    ZT_USADO_SPAMMER        Usado para envío de spam
+score       ZT_USADO_SPAMMER        0.3
+
+body        ZT_CUENTA_INACTIVA      /(?:cuenta|correo|usuario|buz(?:ó|o|.)n|(?:e-*)*mail)s*\s(?:no\s(usada|utilizada|requerida)|inactiv(?:a|o))s*/i
+describe    ZT_CUENTA_INACTIVA      Cuenta no usada
+score       ZT_CUENTA_INACTIVA      0.2
+
+body        ZT_ENVIAMOS_CORREO      /(?:mand|envi)(?:ado|amos|é|e|.)\s(?:varios|un(?:a|o))*\s(?:carta|mensaje|correo)s*(\s(?:\w|á|é|í|ó|ú)+){0,2}\sp(?:or|ara)/i
+describe    ZT_ENVIAMOS_CORREO      Enviamos un mensaje para
+score       ZT_ENVIAMOS_CORREO      0.3
+
+body        ZT_LUCHA_ANTISPAM       /trabaja(?:ndo|mos)(?:\s\w+){0,2}\s(?:eliminar|borrar|luchar)(\s(?:\w|á|é|í|ó|ú)+){0,4}\ss(?:p|c)am/i
+describe    ZT_LUCHA_ANTISPAM       Trabajando para eliminar spam
+score       ZT_LUCHA_ANTISPAM       0.3
+
+# Discutí mucho si tenía que ser una razón por si mismo en lugar de una DETALLE, incluso así funciona en el correo que lo hallé.
+body        ZT_TASA_SPAM            /(?:porque|debido)(?:\s\w+)+?\sta(?:s|x)a\sde\scorreos?.+?\s(?:basura|spam).+?(?:basura|spam)/i
+describe    ZT_TASA_SPAM            Debido a la alta tasa de correos basura / spam
+score       ZT_TASA_SPAM            0.2
+
+# Esta es pobre, pero muy pobre
+body        ZT_LE_INFORMA           /(?:para|le)\sinforma(?:rle|mos)\sque/i
+describe    ZT_LE_INFORMA           Para informale
+score       ZT_LE_INFORMA           0.1
+
+# Esta otra fue para un correo especifico de hacienda
+body        ZT_PENDIENTES           /presenta\sdeclaraciones\spendientes/i
+describe    ZT_PENDIENTES           Presenta declaraciones pendientes
+score       ZT_PENDIENTES           0.2
+
+# Esta otra es pobre, pero muy pobre
+body        ZT_ESTE_PDF             /(?:archivo|fichero|adjunto)\sPDF/s
+describe    ZT_ESTE_PDF             Archivo PDF
+score       ZT_ESTE_PDF             0.1
+
+body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á|a|.)\sda(?:ñ|.)ada\s(?:con|por)(?:\sun)\svirus/i
+describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
+score       ZT_DANIO_VIRUS          0.3
+
+meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_COMPROMETIDA_CUENTA || ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
+describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
+
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
+describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
+score       ZT_DOS_RAZONES          0.9
+
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
+describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
+score       ZT_TRES_RAZONES         0.6
+
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
+describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
+score       ZT_CUATRO_RAZONES       0.3
+
+# Fin de RAZONES
+
+
+

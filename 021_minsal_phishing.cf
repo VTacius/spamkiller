@@ -1,0 +1,85 @@
+# HEADERS
+
+header      ZT_SUB_ESTIMADA_CUENTA  subject =~ /estimad(?:o|a)\s(?:cuenta|usuari(?:o|a))/i
+describe    ZT_SUB_ESTIMADA_CUENTA  Estimada cuenta de usuario
+score       ZT_SUB_ESTIMADA_CUENTA  0.1
+
+header      ZT_SUB_CORREO           subject =~ /correo|cuenta/i
+describe    ZT_SUB_CORREO           Estimada cuenta de usuario
+score       ZT_SUB_CORREO           0.1
+
+header      ZT_SUB_ATENCION_PERSO   subject =~ /atenci(ó|o|.)n\s(?:personal|empleados)/i
+describe    ZT_SUB_ATENCION_PERSO   Atención personal
+score       ZT_SUB_ATENCION_PERSO   0.3
+
+header      ZT_SUB_MAILBOX          subject =~ /mailbox/i
+describe    ZT_SUB_MAILBOX          Mailbox
+score       ZT_SUB_MAILBOX          1.2
+
+header      ZT_SUB_CUOTA            subject =~ /cuota|l.mite/i
+describe    ZT_SUB_CUOTA            Estimada cuenta de usuario
+score       ZT_SUB_CUOTA            0.1
+
+header      ZT_SUB_ADVERTENCIA      subject =~ /advertencia/i
+describe    ZT_SUB_ADVERTENCIA      Advertencia
+score       ZT_SUB_ADVERTENCIA      0.1
+
+header      ZT_SUB_ACTUALIZACION    subject =~ /(?:vali|actuali)(?:(?:d|z)a(?:r|ci(?:o|ó|.)n)|(?:c|d)e)/i
+describe    ZT_SUB_ACTUALIZACION    Actualización
+score       ZT_SUB_ACTUALIZACION    0.2
+
+header      ZT_SUB_SEGURIDAD        subject =~ /segur(?:o|idad)/i
+describe    ZT_SUB_SEGURIDAD        seguridad
+score       ZT_SUB_SEGURIDAD        0.1
+
+header      ZT_SUB_ZIMBRA           subject =~ /zimbra/i
+describe    ZT_SUB_ZIMBRA           zimbra
+score       ZT_SUB_ZIMBRA           0.3
+
+header      ZT_SUB_CORREO_ELECTRO   subject =~ /(?:buz(?:ó|o|.)n|correo)\selectr(?:ó|o|.)nico/i
+describe    ZT_SUB_CORREO_ELECTRO   Correo electrónico
+score       ZT_SUB_CORREO_ELECTRO   0.4
+
+header      ZT_SUB_ADMIN            subject =~ /administra(?:d|t)or(?:es)?/i
+describe    ZT_SUB_ADMIN            Administrador
+score       ZT_SUB_ADMIN            0.4
+
+header      ZT_SUB_VERIFICACION     subject =~ /verifica(?:ci(?:o|ó|.)n|r)/i
+describe    ZT_SUB_VERIFICACION     Verificación
+score       ZT_SUB_VERIFICACION     0.1
+
+header      ZT_SUB_SISTEMA          subject =~ /sistema/i
+describe    ZT_SUB_SISTEMA          Sistema
+score       ZT_SUB_SISTEMA          0.1
+
+header      ZT_SUB_FECHA            subject =~ /[0-9]+(?:\s?(?:de|\/|-))?\s?(?:ene(?:ro)?|feb(?:rero)?|mar(?:zo)?|abr(?:il)?|may(?:o)?|jun(?:io)?|jul(?:io)?|ago(?:sto)?|sept(?:iembre)?|oct(?:ubre)?|nov(?:iembre)?|dic(?:iembre)?)/i
+describe    ZT_SUB_FECHA            02 de enero
+score       ZT_SUB_FECHA            0.2
+
+meta        ZT_SUB_ESTIMADO_CORREO  (ZT_SUB_ESTIMADA_CUENTA && (ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_CORREO_ELECTRO))
+describe    ZT_SUB_ESTIMADO_CORREO  Estimado usuario de correo electrónico
+score       ZT_SUB_ESTIMADO_CORREO  0.5
+
+meta        ZT_SUB_ACTUALIZANDO     (ZT_SUB_ACTUALIZACION &&(ZT_SUB_CORREO_ELECTRO || ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_ADMIN))
+describe    ZT_SUB_ACTUALIZANDO     Actualizar correo, actualización administrador
+score       ZT_SUB_ACTUALIZANDO     0.3
+
+meta        ZT_SUB_ADVIRTIENDO      (ZT_SUB_ADVERTENCIA && (ZT_SUB_CORREO || ZT_SUB_CORREO_ELECTRO || ZT_SUB_MAILBOX || ZT_SUB_ADMIN || ZT_SUB_FECHA))
+describe    ZT_SUB_ADVIRTIENDO      Esta es una forma certera de llamar la atención
+score       ZT_SUB_ADVIRTIENDO      0.5
+
+meta        ZT_SUB_CUOTA_CORREO     (ZT_SUB_CUOTA && (ZT_SUB_CUOTA || ZT_SUB_CORREO || ZT_SUB_MAILBOX))
+describe    ZT_SUB_CUOTA_CORREO     Cuota de correo
+score       ZT_SUB_CUOTA_CORREO     0.4
+
+meta        ZT_SUB_ZIMBRA_ADV       (ZT_SUB_ZIMBRA && (ZT_SUB_ADVERTENCIA || ZT_SUB_CORREO || ZT_SUB_MAILBOX || ZT_SUB_CUOTA || ZT_SUB_SEGURIDAD))
+describe    ZT_SUB_ZIMBRA_ADV       Las más dedicadas formas de atribular
+score       ZT_SUB_ZIMBRA_ADV       0.4
+
+meta        __ZT_SUB_VERIF_SISTEM   (ZT_SUB_VERIFICACION && ZT_SUB_SISTEMA)
+describe    __ZT_SUB_VERIF_SISTEM   Verificación del sistema
+
+meta        __ZT_SUB                (ZT_SUB_ESTIMADO_CORREO || ZT_SUB_ACTUALIZANDO || ZT_SUB_ADVIRTIENDO || ZT_SUB_CUOTA || ZT_SUB_ZIMBRA_ADV || __ZT_SUB_VERIF_SISTEM)
+describe    __ZT_SUB                Distintas formas de subject que no están nada bien
+
+# Fin de HEADERS

@@ -94,7 +94,7 @@ score       VTE_CANCEL_REQUEST_01       0.9
 
 body        VTE_CANCEL_REQUEST_02       /requested\s.+?account\sto\sbe\s(?:inactive|expire|close|blocked|deactivate)d/i
 describe    VTE_CANCEL_REQUEST_02       Requested your e-mail account to be closed
-score       VTE_CANCEL_REQUEST_02
+score       VTE_CANCEL_REQUEST_02       0.8
 
 body        VTE_CANCEL_ADVISED          /advised\sto\scancel\sthe\srequest/i
 describe    VTE_CANCEL_ADVISED          Advised to cancel the request

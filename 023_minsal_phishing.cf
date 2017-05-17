@@ -1,0 +1,124 @@
+# DETALLES
+body        ZT_SENDO_RECHAZADOS_01  /est(?:á|a|.|&aacute;)n\ssiendo\srechazados/
+describe    ZT_SENDO_RECHAZADOS_01  [Correos] están siendo rechazados
+score       ZT_SENDO_RECHAZADOS_01  0.1
+
+body        ZT_SENDO_RECHAZADOS_02  /entrantes(\sse)*\s(?:puso|pusieron|est(?:á|a|.)n)\sen\s(?:espera|cola)/i
+describe    ZT_SENDO_RECHAZADOS_02  Entrantes se puso en espera
+score       ZT_SENDO_RECHAZADOS_02  0.1
+
+body        ZT_SENDO_RECHAZADOS_03  /(?:correo|mensaje)s?(?:\s[\w.áéíóú]+){0,2}\sest(?:á|a|.)n?(?:\s[\w.áéíóú]+){0,3}\s(?:espera|pendiente)s?/i
+describe    ZT_SENDO_RECHAZADOS_03  Correos están en espera
+score       ZT_SENDO_RECHAZADOS_03  0.5
+
+body        ZT_SENDO_RECHAZADOS_04  /(?:correo|mensaje)s?(?:\s[\wáéíóú0-9\=]+){0,3}\sest(?:á|a|.|=C3=A1)n?(?:\s[\wáéíóú0-9\=]+){0,3}\s(?:espera|pendiente)s?/i
+describe    ZT_SENDO_RECHAZADOS_04  Correos están en espera
+score       ZT_SENDO_RECHAZADOS_04  0.5
+
+body        ZT_SENDO_RECHAZADOS_05  /mensajes?\srecibidos?(?:\s?,)?\sse\shan?\ssuspendido/i
+describe    ZT_SENDO_RECHAZADOS_05  Mensajes recibidos se han suspendido
+score       ZT_SENDO_RECHAZADOS_05  0.4
+
+body        ZT_SENDO_RECHAZADOS_06  /han\srechazado\slos\smensajes\sentrantes/i
+describe    ZT_SENDO_RECHAZADOS_06  Han rechazados los mensajes entrantes
+score       ZT_SENDO_RECHAZADOS_06  0.5
+
+body        ZT_SENDO_RECHAZADOS_07  /mensajes\spendientes/i
+describe    ZT_SENDO_RECHAZADOS_07  Mensajes pendientes
+score       ZT_SENDO_RECHAZADOS_07  0.2
+
+meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06 || ZT_SENDO_RECHAZADOS_07)
+describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipíco detalle en excusa spammer
+
+body        ZT_NUEVA_VERSION        /nueva\sversi(?:o|ó|.)n\sde\s(?:servidor|servicio|outlook)/i
+describe    ZT_NUEVA_VERSION        Nueva versión de Outlook
+score       ZT_NUEVA_VERSION        0.2
+
+body        ZT_MEJORAR_SERVICIO     /(?:\sun)*\smejor(?:ar)*(?:\s(?:el|los))*\sservi(?:cio|dores*)\sde\scorreo/i
+describe    ZT_MEJORAR_SERVICIO     [Para] mejorar el servicio de correo
+score       ZT_MEJORAR_SERVICIO     0.2
+
+body        ZT_AVISO_FINAL          /aviso\sfinal/i
+describe    ZT_AVISO_FINAL          Aviso final
+score       ZT_AVISO_FINAL          0.2
+
+body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec|cre)(?:e|i|a)(?:do)?\spor(?:\sel)?\s(?:admin(?:istra(?:d|t)or)*|webmaster)/i
+describe    ZT_CONFIGURADO_ADMIN    Definido por administrador
+score       ZT_CONFIGURADO_ADMIN    0.1
+
+body        ZT_ESTABLECIDO_ADMIN    /l(?:í|i|.)mite(?:\s[\w\,]+){0,3}\s(?:establec|configur|defin)(?:[aeiou])(?:do)?(?:\spor)?(?:\sel)?\sadministrador/i
+describe    ZT_ESTABLECIDO_ADMIN    Límite definido por el administrador
+score       ZT_ESTABLECIDO_ADMIN    0.5
+
+body        ZT_CUOTA_ENVIO          /(?:l(?:í|i.)mite|cuota)\sde\s(?:recepci(?:ó|o|.)n|env(?:í|i|.)o)\sde\s(?:correo|mensaje)s?.+?hoy/i
+describe    ZT_CUOTA_ENVIO          Cuota de envío de correos por hoy
+score       ZT_CUOTA_ENVIO          0.4
+
+body        ZT_ROL_CONFIGURADO      /repositorio(?:\s(?:\w+)\s*){1}(?:\s*de)*\s(?:web|internet|navegaci(?:ó|o|.)n)/i
+describe    ZT_ROL_CONFIGURADO      Repositorio de Servicio web
+score       ZT_ROL_CONFIGURADO      0.2
+
+body        ZT_BUZON_DEFINIDO_01    /(?:[0-9]+[,|\.|\s]*)+(?:buzones|repositorios|mailbox)\sdefinidos/i
+describe    ZT_BUZON_DEFINIDO_01    23,465 buzones definido
+score       ZT_BUZON_DEFINIDO_01    0.4
+
+body        ZT_BUZON_DEFINIDO_02    /(?:[0-9]+[,|\.|\s]*)+\s(?:defini|configura)dos(\sen\slos)*\s(?:buzones|repositorios|mailbox)/i
+describe    ZT_BUZON_DEFINIDO_02    23,465 definidos en los buzones
+score       ZT_BUZON_DEFINIDO_02    0.4
+
+body        ZT_BUZON_DEFINIDO_03    /repositorio\s.+?(?:\s\w+){1,2}\s\/(?:\s\w+){1,2}/i
+describe    ZT_BUZON_DEFINIDO_03    repositorio Web Services / manager
+score       ZT_BUZON_DEFINIDO_03    0.2
+
+meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03)
+describe    __ZT_BUZON_DEFINIDO     Distintas formas sobre buzón definido
+
+body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\scon)*\sregular(?:idad|mente)/i
+describe    ZT_VERIFICAMOS_REGULAR  Verficamos regularmente [nuestras cuentas]
+score       ZT_VERIFICAMOS_REGULAR  0.2
+
+body        ZT_SISTEMA_CORREO_MW    /nuevo\ssistema\sde\scorreo.+?microsoft/i
+describe    ZT_SISTEMA_CORREO_MW    Nuevos sistema de correo de Microsoft
+score       ZT_SISTEMA_CORREO_MW    0.4
+
+# Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
+body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
+describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
+score       ZT_LIMITE_ALMACENA      0.2
+
+# Es un poco controversial que sea DETALLE y no razón, pero por ahora tendrá que funcionar
+body        ZT_RECIBIDO_SPAM        /(?:correo|mensaje)s?(?:\sde)?\s(?:basura|spam)\srecibidos?/i
+describe    ZT_RECIBIDO_SPAM        Mensajes de SPAM Recibidos
+score       ZT_RECIBIDO_SPAM        0.4
+
+# TODO: ¿En serio revisamos esto como DETALLE?
+body        ZT_POLITICAS_WHY        /pol(?:í|i|.)ticas*\spara\s(?:asegurar|proteger)(?:\sy\s(?:proteger|asegurar))*\s(?:s|t)u\s(?:cuenta|mailbox|correo|informaci(?:ó|o|.)n)/i
+describe    ZT_POLITICAS_WHY        Políticas para asegurar tu cuenta
+score       ZT_POLITICAS_WHY        0.1
+
+body        ZT_RAZONES_SEGURIDAD    /por\s(?:motivo|razone)s\sde\sseguridad/i
+describe    ZT_RAZONES_SEGURIDAD    Por motivos de seguridad
+score       ZT_RAZONES_SEGURIDAD    0.1
+
+body        ZT_HORA_INICIO          /(?:empe|comen)zando(?:\s\w+){0,3}\s[0-9]{2}\:[0-9]{2}(?:\s?(?:A|P\.?)M)?/i
+describe    ZT_HORA_INICIO          Empezando alrededor de las 12:00 AM
+score       ZT_HORA_INICIO          0.1
+
+# Por la forma holgada en que buscan, corresponden con formas avanzadas del objetivos ZT_ACTUALIZAR_*
+body        ZT_ACTUALICE_ADV_01     /(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?.+?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-?)?mail).+?(?:(?:inmediat|urgent)(?:o|a|i|e)(?:mente)?|ahora)/i
+describe    ZT_ACTUALICE_ADV_01     Actualice su cuenta de inmediato
+score       ZT_ACTUALICE_ADV_01     0.4
+
+body        ZT_ACTUALICE_ADV_02     /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
+describe    ZT_ACTUALICE_ADV_02     Para actualizar su cuenta de correo, una forma muy especifíca y mortal
+score       ZT_ACTUALICE_ADV_02     0.4
+
+body        ZT_ACTUALICE_ADV_03     /(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?\sy\s(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?/i
+describe    ZT_ACTUALICE_ADV_03     Actualice su cuenta de inmediato
+score       ZT_ACTUALICE_ADV_03     0.4
+
+body        ZT_LIMITE_ADV_01        /(?:l(?:í|i.)mite|cuota)\s?del?\s?(?:su)?(?:almacenamiento|cuota|repositorio)/i
+describe    ZT_LIMITE_ADV_01        Límite de cuota
+score       ZT_LIMITE_ADV_01        0.2
+# Fin de DETALLES
+

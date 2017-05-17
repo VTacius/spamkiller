@@ -1,0 +1,132 @@
+# MEDIANTES
+body        ZT_HAGA_CLICK_01        /ha(?:ga|cer)\sclick*\s(?:aqu(?:í|i|.)|en|(?:el|a)|y)/i
+describe    ZT_HAGA_CLICK_01        Nos hace suponer una orden
+score       ZT_HAGA_CLICK_01        0.1
+
+# Carecen de contexto especifico por si mismo
+body        ZT_HAGA_CLICK_02        /ha(ga|cer)\sclick*\s(aqu(i|í|.)|(en\s)*((el|la)\s)*(siguiente\s)*)(enlace|URL|link)/i
+describe    ZT_HAGA_CLICK_02        Haga click en el siguiente enlace
+score       ZT_HAGA_CLICK_02        0.3
+
+body        ZT_HAGA_CLICK_03        /haga\sclick?\sahor(?:ro|a)/i
+describe    ZT_HAGA_CLICK_03        Haga click ahora
+score       ZT_HAGA_CLICK_03        0.3
+
+# Su contexto real ocurre cuando se le combina con otros
+body        __ZT_HAGA_CLICK_04      /ha(?:ga|cer)\sclick?\s(?:y|o)/i
+describe    __ZT_HAGA_CLICK_04      Haga click o
+
+body        ZT_HAGA_CLICK_05        /(?:actualiz|verific)ar(?:\sal)?\shac(?:er|iendo)\sclick?/i
+describe    ZT_HAGA_CLICK_05        Actualizar haciendo click
+score       ZT_HAGA_CLICK_05        0.3
+
+body        ZT_HAGA_CLICK_06        /click?\sen\sel\senlace\s(?:de\sabajo|abajo|siguiente)/i
+describe    ZT_HAGA_CLICK_06        Click en el enlace abajo
+score       ZT_HAGA_CLICK_06        0.2
+
+# Me parece que hay usos bastantes válidos para usar esta frase
+body        __ZT_HAGA_CLICK_07      /entrar\saqu(?:í|i|.)/i
+describe    __ZT_HAGA_CLICK_07      Entrar aquí
+
+# TODO: Vale le pena revisar todos estos click
+# TODO: Solapa con _01
+body        ZT_HAGA_CLICK_08        /(?:click?|utilice|use)\s(?:(?:(?:el|la)\s)*(?:a\scontinuación|siguiente\s)*)(?:enlace|URL|link)/i
+describe    ZT_HAGA_CLICK_08        utilice el siguiente enlace
+score       ZT_HAGA_CLICK_08        0.2
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07)
+describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
+
+body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
+describe    ZT_HAGA_COPIE_LINK_01   Copie enlace en navegaor
+score       ZT_HAGA_COPIE_LINK_01   0.3
+
+body        ZT_HAGA_COPIE_LINK_02   /copie\s(?:el|los)\ssiguientes?\senlaces?\spara/i
+describe    ZT_HAGA_COPIE_LINK_02   Copie el siguiente enlace para
+score       ZT_HAGA_COPIE_LINK_02   0.2
+
+body        ZT_HAGA_COPIE_LINK_03   /copie(?:\sy)?\speg(?:ue|ar)\s(?:a|en)\s(?:su|el)\snavegador/i
+describe    ZT_HAGA_COPIE_LINK_03   Copie y pegue en su navegador
+score       ZT_HAGA_COPIE_LINK_03   0.2
+
+# TODO: Agregar (y\spegue)?
+meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_FORMULARIO_03)
+describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
+
+meta        ZT_CLICK_Y_COPIAR       (__ZT_HAGA_CLICK_04 && __ZT_HAGA_COPIE_LINK)
+describe    ZT_CLICK_Y_COPIAR       Haga clic o copie el enlace
+score       ZT_CLICK_Y_COPIAR       0.3
+
+body        ZT_UPDATE_AQUI          /(?:actualizar|update)\s(?:here|a(?:c(?:a|á|.)|qu(?:i|í|.)))/i
+describe    ZT_UPDATE_AQUI          Update aquí
+score       ZT_UPDATE_AQUI          0.6
+
+body        ZT_HAGA_FORMULARIO_01   /(?:re-*)*(llen|complet|envi)(?:e|ar)\sel\sformulario/i
+describe    ZT_HAGA_FORMULARIO_01   Rellene el formulario
+score       ZT_HAGA_FORMULARIO_01   0.1
+
+body        ZT_HAGA_FORMULARIO_02   /haber\sllena(?:do|r)(\s\w+){0,2}\sformulario/i
+describe    ZT_HAGA_FORMULARIO_02   Haber llenado el formulario
+score       ZT_HAGA_FORMULARIO_02   0.2
+
+body        ZT_HAGA_FORMULARIO_03   /favor\s(?:re-*)*(llen|complet|envi)(?:e|ar)\sel\sformulario/i
+describe    ZT_HAGA_FORMULARIO_03   Rellene el formulario
+score       ZT_HAGA_FORMULARIO_03   0.3
+
+meta        __ZT_HAGA_FORMULARIO    (ZT_HAGA_FORMULARIO_01 || ZT_HAGA_FORMULARIO_02 || ZT_HAGA_FORMULARIO_03)
+describe    __ZT_HAGA_FORMULARIO    Distintas formas de referirse a llenado de formulario
+
+body        ZT_HAGA_INFORMACION     /(?:complet|rellen)(?:e|a)(?:ndo)?(?:\s(?:la|lo|su)s?)?\s(?:datos|informaci(?:ó|o|.)n)/i
+describe    ZT_HAGA_INFORMACION     Complete la información. Completando la información
+score       ZT_HAGA_INFORMACION     0.1
+
+body        ZT_HAGA_INGRESO         /in(?:grese|troduzca)\ssus\sdatos\sa\scontinuaci(?:ó|o|.)n/i
+describe    ZT_HAGA_INGRESO         Introduzca sus datos a continuación
+score       ZT_HAGA_INGRESO         0.1
+
+body        ZT_HAGA_REVISION        /revi(?:s|c)(?:e|ar)\ssus?\s(?:informaci(?:ó|o|.)n|registros|datos)/i
+describe    ZT_HAGA_REVISION        Revise sus registros
+score       ZT_HAGA_REVISION        0.1
+
+body        ZT_HAGA_SITIO           /(?:acceda|abra)\sel(?:\s\w+){0,2}\ssitio/i
+describe    ZT_HAGA_SITIO           Abra el sitio
+score       ZT_HAGA_SITIO           0.1
+
+# TODO: Verificar, verificar mucho
+# Es la configuración y el condicional lo que le hace así según \#39
+body        ZT_HAGA_ACTUALIZAC_01   /actualizar?\s(?:t|s)u\s(?:cuenta|correo|usuario|buz(?:ó|o|.)n|(?:e-*)*mail)\ssi/i
+describe    ZT_HAGA_ACTUALIZAC_01   Actualiza tu cuenta si
+score       ZT_HAGA_ACTUALIZAC_01   0.3
+
+body        ZT_HAGA_ACTUALIZAC_02   /(?:actualice|verifique)\s(?:t|s)u\s(?:cuenta|buz(?:ó|o|.)n)\s(?:mediante|usando)/i
+describe    ZT_HAGA_ACTUALIZAC_02   Actualiza tu cuenta si
+score       ZT_HAGA_ACTUALIZAC_02   0.3
+
+body        ZT_HAGA_ACTUALIZAC_03   /ahora\sdebes\sactualizar/i
+describe    ZT_HAGA_ACTUALIZAC_03   Ahora debes actualizar
+score       ZT_HAGA_ACTUALIZAC_03   0.2
+
+body        ZT_HAGA_ACTUALIZAC_04   /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)(?:cuenta|buz(?:ó|o|.)n)/i
+describe    ZT_HAGA_ACTUALIZAC_04   
+score       ZT_HAGA_ACTUALIZAC_04   0.2
+
+meta        __ZT_HAGA_ACTUALIZAC    (ZT_HAGA_ACTUALIZAC_01 || ZT_HAGA_ACTUALIZAC_02 || ZT_HAGA_ACTUALIZAC_03 || ZT_HAGA_ACTUALIZAC_04)
+describe    __ZT_HAGA_ACTUALIZAC    Distintas formas de hacer actualización
+
+body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:mensaje|correo)/i
+describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
+score       ZT_RESPONDER_MENSAJE    0.1
+
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
+
+meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO  || ZT_HAGA_REVISION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
+describe    ZT_CLICK_ACCION         Distintas acciones a realizar por el usuario Por medio de click
+score       ZT_CLICK_ACCION         0.3
+
+meta        ZT_RESPONDER_ACCION     ((ZT_RESPONDER_MENSAJE) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION))
+describe    ZT_RESPONDER_ACCION     Distintas acciones a realizar por el usuario por medio de la respuesta de su mensaje
+score       ZT_RESPONDER_ACCION     0.3
+
+# Fin de MEDIANTES
+

@@ -1,0 +1,53 @@
+# OBJETIVOS
+
+# Es engloba las formas simples en sus acepciones más raras
+body        ZT_ACTUALIZAR_01        /(?:para|y|requieren)\s(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
+score       ZT_ACTUALIZAR_01        0.6
+
+body        ZT_ACTUALIZAR_04        /para\s(?:recibir|obtener|tener)(\s\w+)?\s(?:actualiza|verifica)ci(?:ó|o|.)n/i
+describe    ZT_ACTUALIZAR_04        Para recibir actualización
+score       ZT_ACTUALIZAR_04        0.4
+
+body        ZT_ACTUALIZAR_05        /(?:complet|termin)ar\s(?:esta|la)\sactualizaci(?:o|ó|.)n/i
+describe    ZT_ACTUALIZAR_05        Completar esta actualización
+score       ZT_ACTUALIZAR_05        0.3
+
+body        ZT_ACTUALIZAR_06        /para\sactualizar\s(?:manual|autom[\wáéíóú\=]{0,3}tica)mente/i
+describe    ZT_ACTUALIZAR_06        Para actualizar manualmente
+score       ZT_ACTUALIZAR_06        0.2
+
+body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snuev(?:a|o)(?:\s\w+)?\s(?:cuenta|correo|webmail)/i
+describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
+score       ZT_ACTUALIZAR_07        0.2
+
+# En realidad tengo poco contexto con el siguiente en específico. 
+# TODO: En realidad, este no es objetivo
+body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
+score       ZT_ACTUALIZAR_CUENTA    0.2
+
+body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
+describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
+score       ZT_AUMENTAR_CUOTA       0.4
+
+# TODO. Revisar contra #81. Extender
+body        ZT_CONTINUAR_USO        /para\scontinuar\susando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_CONTINUAR_USO        Para continuar usando su cuenta
+score       ZT_CONTINUAR_USO        0.3
+
+body        ZT_RENOVAR_CERTS        /certificado\sde\s(?:cuenta|webmail)\sse\svolver(?:á|a|.)\sa\screar/i
+describe    ZT_RENOVAR_CERTS        Certificados de webmail se volverán a crear
+score       ZT_RENOVAR_CERTS        0.2
+
+body        ZT_DESBLOQUEO_CUENTA    /desbloquear\slos\smensajes\sentrantes/i
+describe    ZT_DESBLOQUEO_CUENTA    Desbloquear los mensajes entrantes
+score       ZT_DESBLOQUEO_CUENTA    0.3
+
+body        ZT_DESBLOQUEO_CUENTA_02 /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sse\s(?:desbloque|restaurar)(?:á|a|.)/i
+describe    ZT_DESBLOQUEO_CUENTA_02 Cuenta se desbloqueará
+score       ZT_DESBLOQUEO_CUENTA_02 0.3
+
+meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_AUMENTAR_CUOTA || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02)
+describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
+# Fin de OBJETIVOS
