@@ -3,7 +3,7 @@ body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)?\
 describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
 score       ZT_LIMIT_01             0.4
 
-body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)\ses(?:t(?:a|á|.))?\s(?:casi|por)\sllen(?:o|arse)/i
+body        ZT_LIMIT_02             /(?:cuota|casilla|buz(?:ó|o|.)n)\ses(?:t(?:a|á|.))?(?:\s(?:casi|por))?\sllen(?:o|arse)/i
 describe    ZT_LIMIT_02             Buzón esta casi por llenarse
 score       ZT_LIMIT_02             0.2
 

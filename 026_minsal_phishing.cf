@@ -110,7 +110,11 @@ body        ZT_HAGA_ACTUALIZAC_04   /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|
 describe    ZT_HAGA_ACTUALIZAC_04   
 score       ZT_HAGA_ACTUALIZAC_04   0.2
 
-meta        __ZT_HAGA_ACTUALIZAC    (ZT_HAGA_ACTUALIZAC_01 || ZT_HAGA_ACTUALIZAC_02 || ZT_HAGA_ACTUALIZAC_03 || ZT_HAGA_ACTUALIZAC_04)
+body        ZT_HAGA_ACTUALIZAC_05   /neces(?:ita|ario)(?:\s\w+)?\svalida(?:do|r)\spara\s(?:evitar|impedir|revertir)/i
+describe    ZT_HAGA_ACTUALIZAC_05   Necesita validar para evitar
+score       ZT_HAGA_ACTUALIZAC_05   0.4
+
+meta        __ZT_HAGA_ACTUALIZAC    (ZT_HAGA_ACTUALIZAC_01 || ZT_HAGA_ACTUALIZAC_02 || ZT_HAGA_ACTUALIZAC_03 || ZT_HAGA_ACTUALIZAC_04 || ZT_HAGA_ACTUALIZAC_05)
 describe    __ZT_HAGA_ACTUALIZAC    Distintas formas de hacer actualización
 
 body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:mensaje|correo)/i

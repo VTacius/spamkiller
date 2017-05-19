@@ -80,7 +80,7 @@ describe    ZT_PROMESA_PARAISO_01   Tal razón, le premia con tal cosa
 score       ZT_PROMESA_PARAISO_01   0.6
 
 # Esta implica que ZT_AMOR_BIBLICO_01 ha sido aplicada, así que más bien estamos sumando a un caso particular de ella
-meta        ZT_AMOR_BIBLICO_03      (__ZT_OBJETIVOS && ZT_IMPEDIR_SUSPENSION)
+meta        ZT_AMOR_BIBLICO_03      (__ZT_OBJETIVOS && __ZT_EVITAR_CANCELA)
 describe    ZT_AMOR_BIBLICO_03      Actualice su cuenta, o le dan formas avanzadas de amenazas sobre su cuenta
 score       ZT_AMOR_BIBLICO_03      0.6
 

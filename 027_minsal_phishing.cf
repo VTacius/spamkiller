@@ -35,7 +35,7 @@ body        ZT_ADMIN_SISTEMA_06     /equipo\st(?:é|e|.)cnico/i
 describe    ZT_ADMIN_SISTEMA_06     Equipo técnico
 score       ZT_ADMIN_SISTEMA_06     0.3
 
-body        ZT_ADMIN_SISTEMA_07     /equipo\sde\s(?:soporte|apoyo)\st(?:é|e|.)cnico/i
+body        ZT_ADMIN_SISTEMA_07     /(?:equipo|soporte)\sde\s(?:soporte|apoyo)\st(?:é|e|.)cnico/i
 describe    ZT_ADMIN_SISTEMA_07     Equipo de apoyo técnico
 score       ZT_ADMIN_SISTEMA_07     0.2
 
@@ -47,11 +47,15 @@ body        ZT_ADMIN_SISTEMA_09     /servicios\sde\shelpdesk/i
 describe    ZT_ADMIN_SISTEMA_09     Servicios de HelpDesk
 score       ZT_ADMIN_SISTEMA_09     0.2
 
+body        ZT_ADMIN_SISTEMA_10     /(?:equipo|soporte)\sde\sadministraci(?:o|ó|.)n/i
+describe    ZT_ADMIN_SISTEMA_10     Soporte de administración
+score       ZT_ADMIN_SISTEMA_10     0.2
+
 body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
 describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
 score       ZT_ADMIN_WEBMAIL        0.5
 
-meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_WEBMAIL)
+meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_SISTEMA_10  || ZT_ADMIN_WEBMAIL)
 describe    __ZT_FIRMA_ADMIN        Distintas formas de referirse a si mismos como administradores de sistemas
 
 # Estamos dando las gracias por nimiedades. Pocas cosas configuran mejor una estafa que nimiedades

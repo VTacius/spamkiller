@@ -7,6 +7,10 @@ body        VTE_UPDATE_SYSTEM_02        /(upgrading|updating)\sy*our\slogin\spag
 describe    VTE_UPDATE_SYSTEM_02        Upgrading our login page
 score       VTE_UPDATE_SYSTEM_02        0.7
 
+body        VTE_UPDATE_SYSTEM_03        /due(?:\s\w+)+?\supdated(?:\s\w+)+?\szimbra/i
+describe    VTE_UPDATE_SYSTEM_03        Due to the newly updated deployed Zimbra
+score       VTE_UPDATE_SYSTEM_03        0.6
+
 body        VTE_UPDATE_ZIMBRA           /zimbra.{0,3}\sha(s|ve)(\sbeen)*\s(update|upgrade)d/
 describe    VTE_UPDATE_ZIMBRA           Zimbra has been update
 score       VTE_UPDATE_ZIMBRA           1.2
@@ -19,7 +23,7 @@ body        VTE_NO_AUTO_UPGRADED        /not\sbe\sautomatically\sup(?:dat|grad)e
 describe    VTE_NO_AUTO_UPGRADED        Not be automatically upgraded
 score       VTE_NO_AUTO_UPGRADED        2.1
 
-meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
+meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_SYSTEM_03 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
 describe    __VTE_UPDATE                Distintas maneras de dar a actualización como razón
 
 body        VTE_ACCESO_REMOTO_01        /(online|remote)\saccess/i

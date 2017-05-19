@@ -21,6 +21,9 @@ body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snue
 describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
 score       ZT_ACTUALIZAR_07        0.2
 
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 )
+describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
+
 # En realidad tengo poco contexto con el siguiente en específico. 
 # TODO: En realidad, este no es objetivo
 body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
@@ -32,7 +35,7 @@ describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
 # TODO. Revisar contra #81. Extender
-body        ZT_CONTINUAR_USO        /para\scontinuar\susando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+body        ZT_CONTINUAR_USO        /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CONTINUAR_USO        Para continuar usando su cuenta
 score       ZT_CONTINUAR_USO        0.3
 
@@ -48,6 +51,6 @@ body        ZT_DESBLOQUEO_CUENTA_02 /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mai
 describe    ZT_DESBLOQUEO_CUENTA_02 Cuenta se desbloqueará
 score       ZT_DESBLOQUEO_CUENTA_02 0.3
 
-meta        __ZT_OBJETIVOS          (ZT_ACTUALIZAR_01 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_AUMENTAR_CUOTA || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_AUMENTAR_CUOTA || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
