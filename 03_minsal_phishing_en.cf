@@ -268,7 +268,7 @@ body        VTE_ACTUALIZAR_CUENTA_02    /(?:upgrade|update)(?:\s(?:their|y?our?)
 describe    VTE_ACTUALIZAR_CUENTA_02    Update your account
 score       VTE_ACTUALIZAR_CUENTA_02    0.9
 
-body        VTE_ACTUALIZAR_CUENTA_03    /(?:upgrade|update)\syour\s(?:(?:e-*)*mail|system|mailbox)\s(?:account|mailbox|service)/i
+body        VTE_ACTUALIZAR_CUENTA_03    /(?:upgrade|update|confirm)(?:\s\w+)\syour\s(?:(?:e-*)*mail|system|mailbox)\s(?:account|mailbox|service)/i
 describe    VTE_ACTUALIZAR_CUENTA_03    Upgrade your email account
 score       VTE_ACTUALIZAR_CUENTA_03    0.6
 
@@ -406,6 +406,10 @@ score       VTE_PASIVO_AGRESIVO         1.2
 meta        VTE_PLAZO_AMENAZA           (__VTE_PLAZO_TIEMPO && __VTE_AMENAZA)
 describe    VTE_PLAZO_AMENAZA           La amenaza ha de cumplirse en un plazo tal de tiempo
 score       VTE_PLAZO_AMENAZA           1.2
+
+meta        VTE_PLAZO_ACCION            (__VTE_PLAZO_TIEMPO && __VTE_RECOMPENSA_FALSA)
+describe    VTE_PLAZO_ACCION            Tiene cierto tiempo para obtener una recompensa
+score       VTE_PLAZO_ACCION            1.0
 
 meta        VTE_RAZON_01                (__VTE_LIMITES && __VTE_DEFINIDO_POR_ADMIN)
 describe    VTE_RAZON_01                Límite, como ha sido definido por administrador

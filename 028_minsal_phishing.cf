@@ -113,6 +113,10 @@ meta        ZT_FIRMA_03             (__ZTD_HIT_GRACIAS && ZT_AVISO_FINAL && __ZT
 describe    ZT_FIRMA_03             Firma inspirada en \#83
 score       ZT_FIRMA_03             2.0
 
+meta        ZT_FIRMA_04             (ZT_LIMITE_ALMACENA && ZT_ACTUALIZAR_CUENTA && __ZT_LIMITES && __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
+describe    ZT_FIRMA_04             Firma inspirada en \#86
+score       ZT_FIRMA_04             4.0
+
 # Esta es una de mis mejores ideas, sin duda
 # Aún si hay distintas cosas que apoyen la idea de que no es spam (BAYES, DKIM, etc) este se comporta y exhibe contenido de uno
 # TODO: Pues que RAZOR2_CHECK debería trabajar en otro ámbito, me parece

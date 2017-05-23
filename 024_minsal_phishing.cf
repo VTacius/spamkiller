@@ -34,6 +34,10 @@ body        ZT_AUMENTAR_CUOTA       /(?:aumentar|incrementar)(?:\s(?:\w|&|;)+){0
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 
+body        ZT_AUMENTAR_CUOTA_02    /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)?\s(?:cuenta|buz(?:ó|o|.)n|almacenamiento)/i
+describe    ZT_AUMENTAR_CUOTA_02    Aumentar su capacidad de almacenamiento
+score       ZT_AUMENTAR_CUOTA_02    0.5
+
 # TODO. Revisar contra #81. Extender
 body        ZT_CONTINUAR_USO        /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CONTINUAR_USO        Para continuar usando su cuenta
@@ -51,6 +55,6 @@ body        ZT_DESBLOQUEO_CUENTA_02 /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mai
 describe    ZT_DESBLOQUEO_CUENTA_02 Cuenta se desbloqueará
 score       ZT_DESBLOQUEO_CUENTA_02 0.3
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_AUMENTAR_CUOTA || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

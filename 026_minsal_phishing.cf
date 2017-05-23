@@ -106,8 +106,9 @@ body        ZT_HAGA_ACTUALIZAC_03   /ahora\sdebes\sactualizar/i
 describe    ZT_HAGA_ACTUALIZAC_03   Ahora debes actualizar
 score       ZT_HAGA_ACTUALIZAC_03   0.2
 
-body        ZT_HAGA_ACTUALIZAC_04   /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)(?:cuenta|buz(?:ó|o|.)n)/i
-describe    ZT_HAGA_ACTUALIZAC_04   
+# TODO: Este esta precisamente repetido con ZT_AUMENTAR_CUOTA_02 como OBJETIVO
+body        ZT_HAGA_ACTUALIZAC_04   /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)?\s(?:cuenta|buz(?:ó|o|.)n|almacenamiento)/i
+describe    ZT_HAGA_ACTUALIZAC_04   Aumente la capacidad de su cuenta
 score       ZT_HAGA_ACTUALIZAC_04   0.2
 
 body        ZT_HAGA_ACTUALIZAC_05   /neces(?:ita|ario)(?:\s\w+)?\svalida(?:do|r)\spara\s(?:evitar|impedir|revertir)/i

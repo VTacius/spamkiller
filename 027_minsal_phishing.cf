@@ -153,7 +153,8 @@ describe    __ZT_SIGA_INSTRUC_02    Siga las siguientes instrucciones
 body        __ZT_SIGA_INSTRUC_03    /(?:siga|lea)\sesta\slista\s.+?de\s\w+\s(?:informaci(?:ó|o|.)n|instrucciones)\simportante/i
 describe    __ZT_SIGA_INSTRUC_03    Lea las siguientes lista de información importante
 
-body        __ZT_SIGA_INSTRUC_04    /siga\sla\s?instrucci(?:ó|o|.)n\spara/i
+# TODO: Esta en específico podría corresponderse según #86 a una forma de dar órdenes
+body        __ZT_SIGA_INSTRUC_04    /(?:atienda|complete|siga)\slas?\s?ins?trucci(?:ó|o|.)n(?:es)?\spara/i
 describe    __ZT_SIGA_INSTRUC_04    Siga las instrucciones para
 
 body        __ZT_SIGA_INSTRUC_05    /act(?:ú|u|.)e\sseg(?:ú|u|.)n\slas\sinstrucciones/i
