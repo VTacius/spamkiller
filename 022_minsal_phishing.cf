@@ -1,5 +1,5 @@
 # RAZONES
-body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n)(?:\s\w+)?\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
+body        ZT_LIMIT_01             /(?:cuota|casilla|buz(?:ó|o|.)n|correo)(?:\s\w+)?\sha(?:ber)?\s(?:excedido|superado)(?:\s(?:el|la|su)){0,2}\s(?:l(?:í|i.)mite|cuota)/i
 describe    ZT_LIMIT_01             Límite de almacenamiento de su buzón se ha excedido 
 score       ZT_LIMIT_01             0.4
 
@@ -36,8 +36,8 @@ body        ZT_LIMIT_10             /se\sha\ssuperado\s(?:[0-9]+[,.]?)+\sreposit
 describe    ZT_LIMIT_10             Se ha superado 23,456 respositorio
 score       ZT_LIMIT_10             0.4
 
-# No se parece a _09, es una versión reducida por decir algo
-body        ZT_LIMIT_11             /(?:lleg|super)(?:ó|ado|.)\s(?:el|su|al)\sl(?:í|i|.)mite/i
+# No se parece a _09, es una versión reducida por decir algo, y es la única que sirve para algunos casos concretos
+body        ZT_LIMIT_11             /(?:lleg|super|excedid)(?:ó|ado|.)\s(?:el|su|al)\sl(?:í|i|.)mite/i
 describe    ZT_LIMIT_11             superó su límite
 score       ZT_LIMIT_11             0.1
 
@@ -70,6 +70,11 @@ score       ZT_LIMIT_17             0.2
 body        ZT_LIMIT_18             /l(?:í|i|.)mite\sde\salmacenamiento\sdel?\sbuz(?:ó|o|.)n(?:es)?\s.+?super(?:ó|o|ado)/i
 describe    ZT_LIMIT_18             Límite de almacenamiento del buzón debió superar
 score       ZT_LIMIT_18             0.3
+
+# Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
+body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
+describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
+score       ZT_LIMITE_ALMACENA      0.2
 
 meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta

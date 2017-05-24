@@ -63,6 +63,13 @@ body        ZT_CORTESIA_ADMIN_01    /gracias\sadmin(?:istra(?:d|t)or(?:es)?)?\sd
 describe    ZT_CORTESIA_ADMIN_01    Gracias por parte de administrador, hagánme el favor
 score       ZT_CORTESIA_ADMIN_01    0.3
 
+body        ZT_CORTESIA_ADMIN_02    /gracias(?:\.|,)?(?:\s\w+){0,3}\smicrosoft\se?xchange/i
+describe    ZT_CORTESIA_ADMIN_02    Gracias de Microsoft Exchange
+score       ZT_CORTESIA_ADMIN_02    0.3
+
+meta        __ZT_CORTESIA_ADMIN     (ZT_CORTESIA_ADMIN_01 || ZT_CORTESIA_ADMIN_02)
+describe    __ZT_CORTESIA_ADMIN     Distintas formas de referirse al agradecimiento por parte del administrador
+
 body        ZT_AGRADECE_USO         /gracias\spor\sus(?:o|a)r?(?:\s\w+){0,2}\s(?:correo|servicio|servidores|plataforma)/i
 describe    ZT_AGRADECE_USO         Gracias por el uso de nuestra plataforma
 score       ZT_AGRADECE_USO         0.3

@@ -70,7 +70,11 @@ body        ZT_BUZON_DEFINIDO_03    /repositorio\s.+?(?:\s\w+){1,2}\s\/(?:\s\w+)
 describe    ZT_BUZON_DEFINIDO_03    repositorio Web Services / manager
 score       ZT_BUZON_DEFINIDO_03    0.2
 
-meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03)
+body        ZT_BUZON_DEFINIDO_04    /capacidad\sde\salmacenamiento\sde\s[0-9]+\s(?:k|m|g|t)b/i
+describe    ZT_BUZON_DEFINIDO_04    Capacidad de almacenamiento de 4 Gb
+score       ZT_BUZON_DEFINIDO_04    0.2
+
+meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03 || ZT_BUZON_DEFINIDO_04)
 describe    __ZT_BUZON_DEFINIDO     Distintas formas sobre buzón definido
 
 body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\scon)*\sregular(?:idad|mente)/i
