@@ -104,19 +104,30 @@ body        VTE_CANCEL_ADVISED          /advised\sto\scancel\sthe\srequest/i
 describe    VTE_CANCEL_ADVISED          Advised to cancel the request
 score       VTE_CANCEL_ADVISED          0.9
 
+body        VTE_MISSING_MAIL            /your\s(?:e-?)?mails\sare\snot\s(?:reaching|arriving)\s(?:your|the).+?(?:account|mailbox)/i
+describe    VTE_MISSING_MAIL            Your mails are not reaching your mailbox
+score       VTE_MISSING_MAIL            0.8
+
 # Este es una FIRMA, en algún momento 
 meta        VTE_LIMITE_SIZE             (__VTE_ACCOUNT_LIMIT && VTE_ACCOUNT_SIZE && __VTE_HACER_CLICK_ENLACE)
 describe    VTE_LIMITE_SIZE             Conocida firma spammer
 score       VTE_LIMITE_SIZE             1.2
 
-body        VTE_SECURITY_ACCOUNT        /for\s(?:the|your)\s(?:safety|security)(?:\s\w+){0,2}\s(?:information|account)/i
-describe    VTE_SECURITY_ACCOUNT        for your security account
-score       VTE_SECURITY_ACCOUNT        0.9
+body        VTE_SECURITY_ACCOUNT_01     /for\s(?:the|your)\s(?:safety|security)(?:\s\w+){0,2}\s(?:information|account)/i
+describe    VTE_SECURITY_ACCOUNT_01     for your security account
+score       VTE_SECURITY_ACCOUNT_01     0.9
+
+body        VTE_SECURITY_ACCOUNT_02     /for\syour\saccount\ssecurity/i
+describe    VTE_SECURITY_ACCOUNT_02     For your account security
+score       VTE_SECURITY_ACCOUNT_02     0.5
+
+meta        __VTE_SECURITY_ACCOUNT      (VTE_SECURITY_ACCOUNT_01 || VTE_SECURITY_ACCOUNT_02)
+describe    __VTE_SECURITY_ACCOUNT      Distintas formas de referirse a Seguridad de la Cuenta
 
 meta        __VTE_LIMITES               (__VTE_ACCOUNT_LIMIT || VTE_LIMITE_SIZE )
 describe    __VTE_LIMITES               Distintas formas de referirse a límite de la cuota como una razon
 
-meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE_01 || VTE_MAINTENANCE_02 || VTE_MAINTENANCE_03 || VTE_ACCOUNT_SIZE || VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED || VTE_ACCOUNT_CANCELED)
+meta        __VTE_RAZONES               (__VTE_UPDATE || __VTE_ACCESO_REMOTO || VTE_SUSPECT_ACTIVITY_01 || VTE_SUSPECT_ACTIVITY_02 || VTE_MAINTENANCE_01 || VTE_MAINTENANCE_02 || VTE_MAINTENANCE_03 || VTE_ACCOUNT_SIZE || __VTE_SECURITY_ACCOUNT || __VTE_LIMITES || VTE_CANCEL_REQUEST_01 || VTE_CANCEL_REQUEST_02 || VTE_CANCEL_ADVISED || VTE_ACCOUNT_CANCELED || VTE_MISSING_MAIL)
 describe    __VTE_RAZONES               Sobre las razones que espeta el correo para que se atienda su llamado
 
 # Fin de RAZONES
@@ -303,6 +314,10 @@ body        VTE_VALID_CUENTA_05         /to\s(?:update|verify)\sand\s(?:update|v
 describe    VTE_VALID_CUENTA_05         To update and verify your account
 score       VTE_VALID_CUENTA_05         0.3
 
+body        VTE_ENHANCE_ACCOUNT         /account\swill\sbe\ssafe(?:\s\w+)+?\sagain/i
+describe    VTE_ENHANCE_ACCOUNT         Account will be safe again
+score       VTE_ENHANCE_ACCOUNT         0.5
+
 meta        __VTE_VALIDAR_CUENTA        (VTE_VALID_CUENTA_01 || VTE_VALID_CUENTA_02 || VTE_VALID_CUENTA_03 || VTE_VALID_CUENTA_04 || VTE_VALID_CUENTA_05)
 describe    __VTE_VALIDAR_CUENTA        Distintas formas de hablar sobre validación de cuenta
 
@@ -317,7 +332,11 @@ score       VTE_AUMENTAR_CUOTA_02       0.9
 meta        __VTE_AUMENTAR_CUOTA        (VTE_AUMENTAR_CUOTA_01 || VTE_AUMENTAR_CUOTA_01)
 describe    __VTE_AUMENTAR_CUOTA        Distintas formas de referirse al aumento de cuota como objetivo
 
-meta        __VTE_RECOMPENSA_FALSA      (__VTE_ACTUALIZAR_CUENTA || __VTE_VALIDAR_CUENTA || __VTE_AUMENTAR_CUOTA)
+body        VTE_EXTRA_FEATURES          /extra\s\w+\sfeatures\swill\sbe\sactivated/i
+describe    VTE_EXTRA_FEATURES          Extra features will be activated
+score       VTE_EXTRA_FEATURES          0.7
+
+meta        __VTE_RECOMPENSA_FALSA      (__VTE_ACTUALIZAR_CUENTA || __VTE_VALIDAR_CUENTA || __VTE_AUMENTAR_CUOTA || VTE_EXTRA_FEATURES || VTE_ENHANCE_ACCOUNT)
 describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, en Inglés
 
 

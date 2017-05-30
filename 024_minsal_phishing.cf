@@ -5,6 +5,10 @@ body        ZT_ACTUALIZAR_01        /(?:para|y|requieren)\s(?:(?:re-*)*valid|ren
 describe    ZT_ACTUALIZAR_01        Las instrucciones le dicen que el final de esto es actualizar su cuenta
 score       ZT_ACTUALIZAR_01        0.6
 
+body        ZT_ACTUALIZAR_02        /para\s(?:actualiz|valid|renov|verific)ar\sahora/i
+describe    ZT_ACTUALIZAR_02        Para actualizar ahora
+score       ZT_ACTUALIZAR_02        0.6
+
 body        ZT_ACTUALIZAR_04        /para\s(?:recibir|obtener|tener)(\s\w+)?\s(?:actualiza|verifica)ci(?:ó|o|.)n/i
 describe    ZT_ACTUALIZAR_04        Para recibir actualización
 score       ZT_ACTUALIZAR_04        0.4
@@ -21,7 +25,7 @@ body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snue
 describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
 score       ZT_ACTUALIZAR_07        0.2
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 )
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 )
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 # En realidad tengo poco contexto con el siguiente en específico. 

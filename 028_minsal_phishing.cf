@@ -117,7 +117,11 @@ meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && ZT_
 describe    ZT_FIRMA_04             Firma inspirada en \#86
 score       ZT_FIRMA_04             4.0
 
-meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04)
+meta        ZT_FIRMA_05             (ZT_ACTUALIZAR_02 && ZT_SIGA_INSTRUCCIONES && ZT_REQUIERE_ACCION)
+describe    ZT_FIRMA_05             Firma, casi de emergencia, inspirada en \#88
+score       ZT_FIRMA_05             2.0
+
+meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 
 # Esta es una de mis mejores ideas, sin duda

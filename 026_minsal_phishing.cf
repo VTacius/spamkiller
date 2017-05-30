@@ -49,6 +49,11 @@ body        ZT_HAGA_COPIE_LINK_03   /copie(?:\sy)?\speg(?:ue|ar)\s(?:a|en)\s(?:s
 describe    ZT_HAGA_COPIE_LINK_03   Copie y pegue en su navegador
 score       ZT_HAGA_COPIE_LINK_03   0.2
 
+# \#85, de allí el alto valor
+body        ZT_SIGA_INSTRUCCIONES   /(?:atienda|complete|siga)\slas?\s?ins?trucci(?:ó|o|.)n(?:es)?\spara\sactualizar/i
+describe    ZT_SIGA_INSTRUCCIONES   Siga las instrucciones para actualizar
+score       ZT_SIGA_INSTRUCCIONES   1.5
+
 # TODO: Agregar (y\spegue)?
 meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_FORMULARIO_03)
 describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
