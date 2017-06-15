@@ -28,6 +28,10 @@ body        ZT_LIMIT_07             /(?:supera?|excedi|llega?)(?:(?:ó|o|.)|do)\
 describe    ZT_LIMIT_07             Superado el límite de almacenamiento
 score       ZT_LIMIT_07             0.3
 
+body        ZT_LIMIT_08             /(?:casilla|buz(?:ó|o|.)n|servi(?:dor|cio))(?:\sde)?\s(?:correo|(?:web)?mail)(?:\sweb)?\ses(?:t(?:á|a|.))?\s(?:repleto|congestionad(?:a|o))/i
+describe    ZT_LIMIT_08             Servidor de correo web esta congestionado
+score       ZT_LIMIT_08             0.3
+
 body        ZT_LIMIT_09             /(?:lleg|super)(?:ó|ado|.)\sal?\sl(í|i|.|=C3=AD)mite\sde(?:\sla)?\s(?:almacenamiento|(?:q|c)uota)/i
 describe    ZT_LIMIT_09             Llegado al limite de cuota
 score       ZT_LIMIT_09             0.2
@@ -76,7 +80,7 @@ body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|super
 describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
 score       ZT_LIMITE_ALMACENA      0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
