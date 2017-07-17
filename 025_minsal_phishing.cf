@@ -16,7 +16,7 @@ describe    ZT_CERRAREMOS_CUENTA    Cerraremos la cuenta
 score       ZT_CERRAREMOS_CUENTA    0.4
 
 # TODO. El punto puede ser una trampa
-body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n).+?(?:clausura|cerra|desactiva)(?:r(?:é|e|a|á|.)|da)/i
+body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n).+?(?:clausura|cerra|desactiva|inactiva)(?:r(?:é|e|a|á|.)|da)?/i
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.2
 
@@ -110,7 +110,7 @@ body        ZT_EVITAR_CANCELA_05    /evitar\s(?:la\sp(?:é|e|.)rdida\sde|perder)
 describe    ZT_EVITAR_CANCELA_05    Evitar perder su bandeja de entrada
 score       ZT_EVITAR_CANCELA_05    0.4
 
-body        ZT_EVITAR_CANCELA_06    /para\sevitar\sque\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail).+?desconect(?:e|ado)/i
+body        ZT_EVITAR_CANCELA_06    /para\sevitar\sque\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail).+?(?:deshabilit|desconect)(?:e|ad(?:a|o))/i
 describe    ZT_EVITAR_CANCELA_06    Evitar que su cuenta se desconecte
 score       ZT_EVITAR_CANCELA_06    0.3
 

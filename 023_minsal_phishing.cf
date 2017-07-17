@@ -42,6 +42,14 @@ body        ZT_AVISO_FINAL          /aviso\sfinal/i
 describe    ZT_AVISO_FINAL          Aviso final
 score       ZT_AVISO_FINAL          0.2
 
+body        ZT_NO_HAGA_CASO         /no\sha(?:cer|ga)\scaso\s(?:a|de)\seste\s(?:aviso|correo|mensaje)/i
+describe    ZT_NO_HAGA_CASO         No haga caso a este mensaje. En ese caso, mejor ni lo mande
+score       ZT_NO_HAGA_CASO         0.5
+
+body        ZT_CUENTA_WEBMASTER     /cuenta\spara\swebmaster/i
+describe    ZT_CUENTA_WEBMASTER     Cuenta para webmaster
+score       ZT_CUENTA_WEBMASTER     0.5
+
 body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec|cre)(?:e|i|a)(?:do)?\spor(?:\sel)?\s(?:admin(?:istra(?:d|t)or)*|webmaster)/i
 describe    ZT_CONFIGURADO_ADMIN    Definido por administrador
 score       ZT_CONFIGURADO_ADMIN    0.1

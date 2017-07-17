@@ -75,12 +75,16 @@ body        ZT_LIMIT_18             /l(?:í|i|.)mite\sde\salmacenamiento\sdel?\s
 describe    ZT_LIMIT_18             Límite de almacenamiento del buzón debió superar
 score       ZT_LIMIT_18             0.3
 
+body        ZT_LIMIT_19             /uso\sdel?\s(?:la\s)?(?:buz(?:ó|o|.)n|cuenta|casilla).+?super(?:ior|a)\sa\s[0-9]+\s(?:k|m|g)b/i
+describe    ZT_LIMIT_19             Uso del buzón es superior a 100 GB
+score       ZT_LIMIT_19             0.4
+
 # Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
 body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
 describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
 score       ZT_LIMITE_ALMACENA      0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18) 
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18 || ZT_LIMIT_19) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -166,9 +170,16 @@ score       ZT_NUESTRAS_POLITICAS   0.3
 meta        __ZT_POLITICAS          (ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS)
 describe    __ZT_POLITICAS          Diferentes formas de especificar a "Nuestras políticas"
 
-body        ZT_ACCESO_REMOTO        /acceden*\sa\s(?:su|est(?:a|e))\s(?:buz.n|cuenta)\sde(?:sde)*\s(?:diferentes|distintas)\s(?:ubicaciones|locaciones|localidades)/i
-describe    ZT_ACCESO_REMOTO        Acceden a esta cuenta desde distintas localidades
-score       ZT_ACCESO_REMOTO        0.2
+body        ZT_ACCESO_REMOTO_01     /acceden*\sa\s(?:su|est(?:a|e))\s(?:buz.n|cuenta)\sde(?:sde)*\s(?:diferentes|distintas)\s(?:ubicaciones|locaciones|localidades)/i
+describe    ZT_ACCESO_REMOTO_01     Acceden a esta cuenta desde distintas localidades
+score       ZT_ACCESO_REMOTO_01     0.2
+
+body        ZT_ACCESO_REMOTO_02     /intent(?:ado|o|ó)(?:\sde)?\sacce(?:der|so)\sa\ssu\scuenta\sdesde\s.+?frica/i
+describe    ZT_ACCESO_REMOTO_02     Intento de acceso a su cuenta desde Sudáfrica
+score       ZT_ACCESO_REMOTO_02     0.6
+
+meta        __ZT_ACCESO_REMOTO      (ZT_ACCESO_REMOTO_01 || ZT_ACCESO_REMOTO_02)
+describe    __ZT_ACCESO_REMOTO      Distintas formas de referirse a un intento de acceso remoto
 
 body        ZT_USADO_SPAMMER        /(?:empleado|utilizado|usado)\s(?:para|por)\s(?:env(?:i|í|.)(?:o|ar))\s(?:(?:mensaje|correo)s*(\sde)*\s(?:spam|basura)|(de\s)*spam)/i
 describe    ZT_USADO_SPAMMER        Usado para envío de spam
@@ -210,18 +221,18 @@ body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á
 describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
 score       ZT_DANIO_VIRUS          0.3
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_COMPROMETIDA_CUENTA || ZT_REQUIERE_VALIDAR || ZT_REQUIERE_ACCION || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
+meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_COMPROMETIDA_CUENTA || ZT_REQUIERE_VALIDAR || ZT_REQUIERE_ACCION || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || __ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 

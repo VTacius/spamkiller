@@ -47,7 +47,7 @@ body        ZT_ADMIN_SISTEMA_09     /servicios\sde\shelpdesk/i
 describe    ZT_ADMIN_SISTEMA_09     Servicios de HelpDesk
 score       ZT_ADMIN_SISTEMA_09     0.2
 
-body        ZT_ADMIN_SISTEMA_10     /(?:equipo|soporte)\sde\sadministraci(?:o|ó|.)n/i
+body        ZT_ADMIN_SISTEMA_10     /(?:equipo|soporte)\sde\s(?:administraci(?:o|ó|.)n|cuenta)/i
 describe    ZT_ADMIN_SISTEMA_10     Soporte de administración
 score       ZT_ADMIN_SISTEMA_10     0.2
 

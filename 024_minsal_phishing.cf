@@ -21,11 +21,15 @@ body        ZT_ACTUALIZAR_06        /para\sactualizar\s(?:manual|autom[\wáéí�
 describe    ZT_ACTUALIZAR_06        Para actualizar manualmente
 score       ZT_ACTUALIZAR_06        0.2
 
+body        ZT_ACTUALIZAR_07        /actualizar?\sla\sversión\sde\szimbra/i
+describe    ZT_ACTUALIZAR_07        Actualizar la versión de Zimbra
+score       ZT_ACTUALIZAR_07        0.4
+
 body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snuev(?:a|o)(?:\s\w+)?\s(?:cuenta|correo|webmail)/i
 describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
 score       ZT_ACTUALIZAR_07        0.2
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 )
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || ZT_ACTUALIZAR_07)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
@@ -46,6 +50,10 @@ body        ZT_AUMENTAR_CUOTA_02    /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|
 describe    ZT_AUMENTAR_CUOTA_02    Aumentar su capacidad de almacenamiento
 score       ZT_AUMENTAR_CUOTA_02    0.5
 
+body        ZT_PROTEGER_CUENTA      /para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i
+describe    ZT_PROTEGER_CUENTA      Para asegurar y proteger su cuenta
+score       ZT_PROTEGER_CUENTA      0.4
+
 # TODO. Revisar contra #81. Extender
 body        ZT_CONTINUAR_USO        /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CONTINUAR_USO        Para continuar usando su cuenta
@@ -63,6 +71,6 @@ body        ZT_DESBLOQUEO_CUENTA_02 /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mai
 describe    ZT_DESBLOQUEO_CUENTA_02 Cuenta se desbloqueará
 score       ZT_DESBLOQUEO_CUENTA_02 0.3
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
