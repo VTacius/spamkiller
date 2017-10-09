@@ -20,7 +20,7 @@ body        ZT_HAGA_CLICK_05        /(?:actualiz|verific)ar(?:\sal)?\shac(?:er|i
 describe    ZT_HAGA_CLICK_05        Actualizar haciendo click
 score       ZT_HAGA_CLICK_05        0.3
 
-body        ZT_HAGA_CLICK_06        /click?\sen\sel\senlace\s(?:de\sabajo|abajo|siguiente)/i
+body        ZT_HAGA_CLICK_06        /click?\sen\sel\s(?:v(?:í|i)nculo|enlace)\s(?:de\sabajo|abajo|siguiente)/i
 describe    ZT_HAGA_CLICK_06        Click en el enlace abajo
 score       ZT_HAGA_CLICK_06        0.2
 
@@ -34,7 +34,11 @@ body        ZT_HAGA_CLICK_08        /(?:click?|utilice|use)\s(?:(?:(?:el|la)\s)*
 describe    ZT_HAGA_CLICK_08        utilice el siguiente enlace
 score       ZT_HAGA_CLICK_08        0.2
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07)
+body        ZT_HAGA_CLICK_09        /ha(?:z|cer|ga)\sclick?\s(?:a\scontinuaci(?:o|ó|.)n|siguiente\s)/i
+describe    ZT_HAGA_CLICK_09        Haga click a continuación
+score       ZT_HAGA_CLICK_09        0.2
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
@@ -87,7 +91,10 @@ describe    __ZT_HAGA_FORMULARIO    Distintas formas de referirse a llenado de f
 
 body        ZT_HAGA_INFORMACION     /(?:complet|rellen)(?:e|a)(?:ndo)?(?:\s(?:la|lo|su)s?)?\s(?:datos|informaci(?:ó|o|.)n)/i
 describe    ZT_HAGA_INFORMACION     Complete la información. Completando la información
-score       ZT_HAGA_INFORMACION     0.1
+score       ZT_HAGA_INFORMACION     0.2
+
+body        __ZT_RELLENE_ENVIE      /rellene\sy\senv(?:i|í|.)e/i
+describe    __ZT_RELLENE_ENVIE      Rellene y envíe, es demasiado poco a menos que se establezca contexto
 
 body        ZT_HAGA_INGRESO         /in(?:grese|troduzca)\ssus\sdatos\sa\scontinuaci(?:ó|o|.)n/i
 describe    ZT_HAGA_INGRESO         Introduzca sus datos a continuación
@@ -131,7 +138,11 @@ body        ZT_RESPONDER_MENSAJE    /(?:conteste|responder)(?:\sa)?\seste\s(?:me
 describe    ZT_RESPONDER_MENSAJE    Responder este mensaje
 score       ZT_RESPONDER_MENSAJE    0.1
 
-meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE)
+body        ZT_CONTACTE_SERVICIO    /contact(?:e|o)\s(?:con\s)?(?:a|e)l\sservicio/i
+describe    ZT_CONTACTE_SERVICIO    Contacte al servicio
+score       ZT_CONTACTE_SERVICIO    0.1
+
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE || ZT_CONTACTE_SERVICIO)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
 meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO  || ZT_HAGA_REVISION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))

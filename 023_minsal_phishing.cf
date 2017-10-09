@@ -27,7 +27,12 @@ body        ZT_SENDO_RECHAZADOS_07  /mensajes\spendientes/i
 describe    ZT_SENDO_RECHAZADOS_07  Mensajes pendientes
 score       ZT_SENDO_RECHAZADOS_07  0.2
 
-meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06 || ZT_SENDO_RECHAZADOS_07)
+# Suena a AMENAZA, en #94 funciona como detalle
+body        ZT_SENDO_RECHAZADOS_08  /no\s(?:est(?:á|a)(?:r(?:á|a))?\s)?env(?:í|i)(?:e|ando)\scorreos/i
+describe    ZT_SENDO_RECHAZADOS_08  No está enviando correos
+score       ZT_SENDO_RECHAZADOS_08  0.2
+
+meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06 || ZT_SENDO_RECHAZADOS_07 || ZT_SENDO_RECHAZADOS_08)
 describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipíco detalle en excusa spammer
 
 body        ZT_NUEVA_VERSION        /nueva\sversi(?:o|ó|.)n\sde\s(?:servidor|servicio|outlook)/i
@@ -46,6 +51,10 @@ body        ZT_NO_HAGA_CASO         /no\sha(?:cer|ga)\scaso\s(?:a|de)\seste\s(?:
 describe    ZT_NO_HAGA_CASO         No haga caso a este mensaje. En ese caso, mejor ni lo mande
 score       ZT_NO_HAGA_CASO         0.5
 
+body        ZT_ALMACEN_CORREOS      /almacenamiento\sde\swebmail/i
+describe    ZT_ALMACEN_CORREOS      Almacenamiento de webmail
+score       ZT_ALMACEN_CORREOS      0.4
+
 body        ZT_CUENTA_WEBMASTER     /cuenta\spara\swebmaster/i
 describe    ZT_CUENTA_WEBMASTER     Cuenta para webmaster
 score       ZT_CUENTA_WEBMASTER     0.5
@@ -54,9 +63,13 @@ body        ZT_CONFIGURADO_ADMIN    /(?:configur|defin|establec|cre)(?:e|i|a)(?:
 describe    ZT_CONFIGURADO_ADMIN    Definido por administrador
 score       ZT_CONFIGURADO_ADMIN    0.1
 
-body        ZT_ESTABLECIDO_ADMIN    /l(?:í|i|.)mite(?:\s[\w\,]+){0,3}\s(?:establec|configur|defin)(?:[aeiou])(?:do)?(?:\spor)?(?:\sel)?\sadministrador/i
-describe    ZT_ESTABLECIDO_ADMIN    Límite definido por el administrador
-score       ZT_ESTABLECIDO_ADMIN    0.5
+body        ZT_ESTABLECIDO_ADMIN_01 /l(?:í|i|.)mite(?:\s[\w\,]+){0,3}\s(?:establec|configur|defin)(?:[aeiou])(?:do)?(?:\spor)?(?:\sel)?\sadministrador/i
+describe    ZT_ESTABLECIDO_ADMIN_01 Límite definido por el administrador
+score       ZT_ESTABLECIDO_ADMIN_01 0.5
+
+body        ZT_ESTABLECIDO_ADMIN_02 /(?:l(?:í|i|.)mite|almacenamiento).+?(?:establec|configur|defin|determin)(?:[aeiou])(?:do)?\spor\s(?:el\s)admin/i
+describe    ZT_ESTABLECIDO_ADMIN_02 Límite establecido por administrador
+score       ZT_ESTABLECIDO_ADMIN_02 0.4
 
 body        ZT_CUOTA_ENVIO          /(?:l(?:í|i.)mite|cuota)\sde\s(?:recepci(?:ó|o|.)n|env(?:í|i|.)o)\sde\s(?:correo|mensaje)s?.+?hoy/i
 describe    ZT_CUOTA_ENVIO          Cuota de envío de correos por hoy

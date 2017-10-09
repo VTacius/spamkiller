@@ -21,20 +21,30 @@ describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.2
 
 # Este se define en el pasado. Más bien, sólo tiene sentido con una negación, validar algo así es demasiado complejo en realidad
-body        ZT_CUENTA_BLOQUEADA     /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
-describe    ZT_CUENTA_BLOQUEADA     Cuenta se bloqueó
-score       ZT_CUENTA_BLOQUEADA     0.2
+body        ZT_CUENTA_BLOQUEADA_01     /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
+describe    ZT_CUENTA_BLOQUEADA_01     Cuenta se bloqueó
+score       ZT_CUENTA_BLOQUEADA_01     0.2
+
+# Este se define en el futuro. #95 lo usa como DETALLE, pero para otro habrá de servir
+body        ZT_CUENTA_BLOQUEADA_02   /cuenta\sestar(?:á|a|.)\s(?:restringi|bloquea)da/i
+describe    ZT_CUENTA_BLOQUEADA_02   Cuenta estará bloqueda
+score       ZT_CUENTA_BLOQUEADA_02   0.3
 
 # TODO: Este es un poco complicado de agregar por acá, sin embargo, funciona como una amenaza bien velada. De que cumplen la función tal, la cumple. Y gracias a <usuarios>, tiene contexto
 body        ZT_APAGAR_CUENTAS       /(?:estamos|nos\shan)\s(?:ordenado|pedido|obligado)s?(\s\w+){0,2}\s(?:cancel|apag)(?:uen|ar)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail|usuario)s?/i
 describe    ZT_APAGAR_CUENTAS       Han ordenado apagar cuentas
 score       ZT_APAGAR_CUENTAS       0.6
 
+# TODO: Podría contruirse una NEGACIÓN por parte del usuario, a futuro cuando tengas tiempo
+body        ZT_CORREOS_PENDIENTES   /(?:mensaje|correo)s\s(?:permanece|segui|continua)r(?:a|á|.)n\s(?:en\s)?estan?do\spendientes?/i
+describe    ZT_CORREOS_PENDIENTES   Correos permanecerán pendientes
+score       ZT_CORREOS_PENDIENTES   0.4
+
 body        ZT_CUENTAS_CERRARAN     /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)s*(\s\w*){0,3}\s(?:cerrar|desconectar|cancelar)(?:á|a|.)n/i
 describe    ZT_CUENTAS_CERRARAN     Cuentas cerarrán
 score       ZT_CUENTAS_CERRARAN     0.4
 
-body        ZT_CUENTAS_EXPIRARAN    /(contrase(?:ñ|.)a|password|cuenta)s*(\sva\sa)*\s(?:expirar|clausurar)(á|a|.)?n*/i
+body        ZT_CUENTAS_EXPIRARAN    /(?:contrase(?:ñ|.)a|password|cuenta)s*(?:\sva\sa)*\s(?:expirar|clausurar|caducar)(?:á|a|.)?n*/i
 describe    ZT_CUENTAS_EXPIRARAN    Cuenta expirará
 score       ZT_CUENTAS_EXPIRARAN    0.2
 
@@ -132,7 +142,7 @@ describe    __ZT_EVITAR_CANCELA     Distintas formas de referirse a Evitar cance
 meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA)
 describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
-meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA)
+meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA_01 || ZT_CUENTA_BLOQUEADA_02)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
 meta        __ZT_PERDIDA_CUENTA     (__ZT_EVITAR_CANCELA || ZT_MANTENER_CONTACTOS || ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN  || ZT_NO_ENVIO_01 || ZT_NO_ENVIO_02 || ZT_NO_ENVIO_03 || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
@@ -147,11 +157,11 @@ meta        ZT_VARIAS_AMENAZAS_02   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_0
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
-meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_RETRASO_FUTURO) > 1)
+meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_CORREOS_PENDIENTES + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_RETRASO_FUTURO) > 1)
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA_01 + ZT_CUENTA_BLOQUEADA_02 + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
 score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA

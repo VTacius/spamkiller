@@ -1,7 +1,7 @@
 # COMPORTAMENTALES
-meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || ZT_CUOTA_ENVIO || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN))
+meta        ZT_RAZON_LIMITE         (__ZT_LIMITES && (ZT_ROL_CONFIGURADO || ZT_CONFIGURADO_ADMIN || ZT_CUOTA_ENVIO || __ZT_BUZON_DEFINIDO || ZT_ESTABLECIDO_ADMIN_01 || ZT_ESTABLECIDO_ADMIN_02))
 describe    ZT_RAZON_LIMITE         Límite, tal como lo ha configurado admin
-score       ZT_RAZON_LIMITE         0.3
+score       ZT_RAZON_LIMITE         0.4
 
 meta        ZT_RAZON_POLITICA       (__ZT_POLITICAS && ZT_POLITICAS_WHY)
 describe    ZT_RAZON_POLITICA       Nuevas politicas para proteger la seguridad
@@ -101,6 +101,10 @@ meta        ZT_PREFIRMA_02          (__ZT_RAZONES && __ZT_ACCIONES && ZT_AGRADEC
 describe    ZT_PREFIRMA_02          Inspirada en \#55. Se trata sobre agradecer su cooperacion
 score       ZT_PREFIRMA_02          0.5
 
+meta        ZT_PREFIRMA_03          (__ZT_OBJETIVOS && ZT_MOTIVA_ACCION)
+describe    ZT_PREFIRMA_03          Inspirada en \#98
+score       ZT_PREFIRMA_03          0.5
+
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
 score       ZT_FIRMA_01             0.9
@@ -125,7 +129,15 @@ meta        ZT_FIRMA_06             (__ZT_ACCESO_REMOTO && ZT_NO_HAGA_CASO && __
 describe    ZT_FIRMA_06             Firma inspirada en \#93
 score       ZT_FIRMA_06             4.0
 
-meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05)
+meta        ZT_FIRMA_07             (__ZT_ACTUALIZAR && __ZT_FIRMA_ADMIN && ZT_AGRADECE_COOPERA && ZT_SISTEMA_WEBMAIL_01 && ZT_PREFIRMA_03)
+describe    ZT_FIRMA_07             Firma inspirada en \#98, de otra forma no se puede
+score       ZT_FIRMA_07             4.2
+
+meta        ZT_FIRMA_08             (ZT_ADMIN_SISTEMA_13 && ZT_ACTUALICE_ADV_01 && __ZT_RELLENE_ENVIE && __ZT_FIRMA_ADMIN)
+describe    ZT_FIRMA_08             Firma inspirada en \#99, de otra forma no fue posible
+score       ZT_FIRMA_08             4.0
+
+meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 
 # Esta es una de mis mejores ideas, sin duda

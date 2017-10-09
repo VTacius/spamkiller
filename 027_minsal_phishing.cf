@@ -9,6 +9,11 @@ body        ZT_QUERIDO_ZIMBRA       /(?:querid|estimad)(?:o|a)s?(?:\s\w+){0,4}\s
 describe    ZT_QUERIDO_ZIMBRA       Querido usuario zimbra
 score       ZT_QUERIDO_ZIMBRA       0.5
 
+# Efectivamente, busca ser una frase que atrape la atención del incauto usuario
+body        ZT_DISP_PARA_ACTUALIZAR /(?:abierto|disponible)\s(?:a|para)\sactualizar\s(?:ahora|hoy|inmediata)/i
+describe    ZT_DISP_PARA_ACTUALIZAR Disponible para actualizar ahora
+score       ZT_DISP_PARA_ACTUALIZAR 0.4
+
 # De alguna forma, nos denominamos administrador
 # TODO: Podríamos agruparlos en orden para crear firmas
 body        ZT_ADMIN_SISTEMA_01     /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\ss(?:istema|ervicio|ervidor)/i
@@ -51,11 +56,27 @@ body        ZT_ADMIN_SISTEMA_10     /(?:equipo|soporte)\sde\s(?:administraci(?:o
 describe    ZT_ADMIN_SISTEMA_10     Soporte de administración
 score       ZT_ADMIN_SISTEMA_10     0.2
 
+body        ZT_ADMIN_SISTEMA_11     /servicio\sde\satenci(?:o|ó)n\sal\scliente/i
+describe    ZT_ADMIN_SISTEMA_11     Servicio de atención al cliente
+score       ZT_ADMIN_SISTEMA_11     0.2
+
+body        ZT_ADMIN_SISTEMA_12     /equipo\sde\swebmail\sen\sl(?:i|í|.)nea/i
+describe    ZT_ADMIN_SISTEMA_12     Equipo de webmail en línea
+score       ZT_ADMIN_SISTEMA_12     0.3
+
+body        ZT_ADMIN_SISTEMA_13     /oficina\sde\sservicios\sde\stecnolog(?:í|i|.)a/i
+describe    ZT_ADMIN_SISTEMA_13     Oficina de servicios de tecnología
+score       ZT_ADMIN_SISTEMA_13     0.4
+
 body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
 describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
 score       ZT_ADMIN_WEBMAIL        0.5
 
-meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_SISTEMA_10  || ZT_ADMIN_WEBMAIL)
+body        ZT_SISTEMA_WEBMAIL_01   /sistema\sde\sgesti(?:o|ó|.)n\sde\scorreo/i
+describe    ZT_SISTEMA_WEBMAIL_01   Sistema de gestión de correo
+score       ZT_SISTEMA_WEBMAIL_01   0.4
+
+meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_SISTEMA_10 || ZT_ADMIN_SISTEMA_11 || ZT_ADMIN_SISTEMA_12 || ZT_ADMIN_SISTEMA_13 || ZT_ADMIN_WEBMAIL)
 describe    __ZT_FIRMA_ADMIN        Distintas formas de referirse a si mismos como administradores de sistemas
 
 # Estamos dando las gracias por nimiedades. Pocas cosas configuran mejor una estafa que nimiedades
@@ -81,6 +102,9 @@ score       ZT_AGRADECE_COOPERA     0.2
 body        ZT_DISCULPA_01          /disculpas\spor(?:\s\w+){0,2}\sinconveniente/i
 describe    ZT_DISCULPA_01          Disculpa por inconvenientes
 score       ZT_DISCULPA_01          0.2
+
+body        __ZT_PARA_INFORMARLE    /esto\ses\spara\s(?:informar|señalar)le/i
+describe    __ZT_PARA_INFORMARLE    Esto es para informarle
 
 # Un par de HELPERS que describen "Mover un correo spam a la bandeja de entrada"
 body        __VT_MOVER                /(mu(e|é|.+)valo|mover)/
