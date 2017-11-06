@@ -168,7 +168,11 @@ body        ZT_NEGARSE_09           /no(?:\sse)?\s(ignore|niegue)/i
 describe    ZT_NEGARSE_09           No ignore
 score       ZT_NEGARSE_09           0.2
 
-meta        __ZT_NEGACION           (ZT_NEGARSE_01 || ZT_NEGARSE_02 || ZT_NEGARSE_03 || ZT_NEGARSE_04 || ZT_NEGARSE_05 || ZT_NEGARSE_06 || ZT_NEGARSE_07 || ZT_NEGARSE_08 || ZT_NEGARSE_09)
+body        ZT_NEGARSE_10           /de\slo\scontrario.?\sno/i
+describe    ZT_NEGARSE_10           De lo contrario, no \[podrá hacer algo\]       
+score       ZT_NEGARSE_10           0.2
+
+meta        __ZT_NEGACION           (ZT_NEGARSE_01 || ZT_NEGARSE_02 || ZT_NEGARSE_03 || ZT_NEGARSE_04 || ZT_NEGARSE_05 || ZT_NEGARSE_06 || ZT_NEGARSE_07 || ZT_NEGARSE_08 || ZT_NEGARSE_09 || ZT_NEGARSE_10)
 describe    __ZT_NEGACION           Distintas formas de referirse a la no actualización por parte del usuario
 
 # Helpers que ayudan a dar claridad a los MEDIANTE requeridos

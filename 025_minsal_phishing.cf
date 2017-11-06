@@ -85,7 +85,8 @@ body        ZT_NO_ENVIO_RECEP_ADV   /no\sp(?:ued(?:a|e)|odr(?:ía|á))\s*(?:envi
 describe    ZT_NO_ENVIO_RECEP_ADV   No podrá enviar o recibir correos
 score       ZT_NO_ENVIO_RECEP_ADV   0.5
 
-body        ZT_NO_ENVIO_01          /no(\s\w+){0,3}\s(?:recibir|enviar)(\s[\w|áéíóú]+)*\s(?:correo|mensaje)/i
+# TODO: El último cuantificador * debería ser *?, ni modo
+body        ZT_NO_ENVIO_01          /no(?:\s[\w|áéíóú\=]+){0,3}\s(?:recibir|enviar)(?:\s[\w|áéíóú]+)*\s(?:correo|mensaje)/i
 describe    ZT_NO_ENVIO_01          No podrá enviar o recibir correo
 score       ZT_NO_ENVIO_01          0.4
 
