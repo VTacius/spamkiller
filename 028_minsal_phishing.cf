@@ -137,6 +137,11 @@ meta        ZT_FIRMA_08             (ZT_ADMIN_SISTEMA_13 && ZT_ACTUALICE_ADV_01 
 describe    ZT_FIRMA_08             Firma inspirada en \#99, de otra forma no fue posible
 score       ZT_FIRMA_08             4.0
 
+# TODO: Este es definitivamente una especie de punto de quiebre. Parece que necesito un nuevo esquema para correos de este tipo
+meta        ZT_FIRMA_09             (ZT_DESBLOQUEO_CUENTA_03 && ZT_CORREOS_PENDIENTES_02 && ZT_ADMIN_SISTEMA_10 && ZT_POR_ACTUALIZAC_07 && ZT_DEBIDO_A_RECIENTE)
+describe    ZT_FIRMA_09             Firma inspirada en \#101, que es evidente, pero no se ajusta a un esquema específico
+score       ZT_FIRMA_09             4.0
+
 meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 

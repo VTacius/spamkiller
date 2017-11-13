@@ -148,7 +148,11 @@ body        ZT_POR_ACTUALIZAC_06    /estamos\sactualizando/i
 describe    ZT_POR_ACTUALIZAC_06    Estamos actualizando
 score       ZT_POR_ACTUALIZAC_06    0.2
 
-meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03 || ZT_POR_ACTUALIZAC_04 || ZT_POR_ACTUALIZAC_05 || ZT_POR_ACTUALIZAC_06)
+body        ZT_POR_ACTUALIZAC_07    /reciente\sactualiza(?:r|ci(?:o|ó)n)\s(?:a|de)\s(?:\w+\s)?base/i
+describe    ZT_POR_ACTUALIZAC_07    Reciente actualización
+score       ZT_POR_ACTUALIZAC_07    0.3
+
+meta        __ZT_POR_ACTUALIZACION  (ZT_POR_ACTUALIZAC_01 || ZT_POR_ACTUALIZAC_02 || ZT_POR_ACTUALIZAC_03 || ZT_POR_ACTUALIZAC_04 || ZT_POR_ACTUALIZAC_05 || ZT_POR_ACTUALIZAC_06 || ZT_POR_ACTUALIZAC_07)
 describe    __ZT_POR_ACTUALIZACION  Distintas formas de dar como razón a la actualización del servicio
 
 body        ZT_COMPROMETIDA_CUENTA  /resultado\sde(?:\sla)?\s\w+\scomprometida(?:\s\w+){0,3}\scuenta/i

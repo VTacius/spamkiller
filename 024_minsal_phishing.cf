@@ -81,6 +81,14 @@ body        ZT_DESBLOQUEO_CUENTA_02 /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mai
 describe    ZT_DESBLOQUEO_CUENTA_02 Cuenta se desbloqueará
 score       ZT_DESBLOQUEO_CUENTA_02 0.3
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA)
+# TODO: Este no es uno de mis mejores momemtos
+body        ZT_DESBLOQUEO_CUENTA_03 /para\srecibir\s(?:los|sus)\s(?:mensaje|correo)s/i
+describe    ZT_DESBLOQUEO_CUENTA_03 Para recibir sus mensajes
+score       ZT_DESBLOQUEO_CUENTA_03 0.1
+
+body        __ZT_DESBLOQUEO_CUENTA_04   /para\siniciar\ssesi(?:ó|o)n/i
+describe    __ZT_DESBLOQUEO_CUENTA_04   Para recibir sus mensajes
+
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

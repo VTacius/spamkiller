@@ -106,6 +106,10 @@ body        ZT_SISTEMA_CORREO_MW    /nuevo\ssistema\sde\scorreo.+?microsoft/i
 describe    ZT_SISTEMA_CORREO_MW    Nuevos sistema de correo de Microsoft
 score       ZT_SISTEMA_CORREO_MW    0.4
 
+body        ZT_DEBIDO_A_RECIENTE    /(?:por|debido)\sa\sla\s(?:(?:u|ú)ltima|reciente)/i
+describe    ZT_DEBIDO_A_RECIENTE    Algo que cambio el estado normal del todo ha ocurrido
+score       ZT_DEBIDO_A_RECIENTE    0.2
+
 # Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
 body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
 describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
@@ -127,7 +131,7 @@ score       ZT_RAZONES_SEGURIDAD    0.1
 
 body        ZT_HORA_INICIO          /(?:empe|comen)zando(?:\s\w+){0,3}\s[0-9]{2}\:[0-9]{2}(?:\s?(?:A|P\.?)M)?/i
 describe    ZT_HORA_INICIO          Empezando alrededor de las 12:00 AM
-score       ZT_HORA_INICIO          0.1
+score       ZT_HORA_INICIO          0.2
 
 # Por la forma holgada en que buscan, corresponden con formas avanzadas del objetivos ZT_ACTUALIZAR_*
 body        ZT_ACTUALICE_ADV_01     /(?:(?:re-?)?valid|renov|actuali(?:z|c)|verifi(?:c|qu)|confirm|activ)(?:a|e)(?:r|ción|do)?.+?(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-?)?mail).+?(?:(?:inmediat|urgent)(?:o|a|i|e)(?:mente)?|ahora)/i

@@ -35,11 +35,6 @@ body        ZT_APAGAR_CUENTAS       /(?:estamos|nos\shan)\s(?:ordenado|pedido|ob
 describe    ZT_APAGAR_CUENTAS       Han ordenado apagar cuentas
 score       ZT_APAGAR_CUENTAS       0.6
 
-# TODO: Podría contruirse una NEGACIÓN por parte del usuario, a futuro cuando tengas tiempo
-body        ZT_CORREOS_PENDIENTES   /(?:mensaje|correo)s\s(?:permanece|segui|continua)r(?:a|á|.)n\s(?:en\s)?estan?do\spendientes?/i
-describe    ZT_CORREOS_PENDIENTES   Correos permanecerán pendientes
-score       ZT_CORREOS_PENDIENTES   0.4
-
 body        ZT_CUENTAS_CERRARAN     /(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)s*(\s\w*){0,3}\s(?:cerrar|desconectar|cancelar)(?:á|a|.)n/i
 describe    ZT_CUENTAS_CERRARAN     Cuentas cerarrán
 score       ZT_CUENTAS_CERRARAN     0.4
@@ -94,8 +89,7 @@ body        ZT_NO_ENVIO_02          /interrumpi(?:r|da)(?:\s\w+)\s(?:env(?:í|i|
 describe    ZT_NO_ENVIO_02          Interrupida el envío de correo
 score       ZT_NO_ENVIO_02          0.3
 
-# La cuestión es que la frase podría usarse en un contexto legítimo
-body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)a\sel\s(?:mensaje|correo)/i
+# La cuestión es que la frase podría usarse en un contexto legítimo body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)a\sel\s(?:mensaje|correo)/i
 describe    ZT_NO_ENVIO_03          Error cuando se envía el mensaje
 score       ZT_NO_ENVIO_03          0.1
 
@@ -103,11 +97,23 @@ body        ZT_SUSPENSION_ENVIO     /sus?pender(?:á|a|.)(?:\s\w+){0,2}\s(?:envi
 describe    ZT_SUSPENSION_ENVIO     Suspenderá para enviar o recibir mensajes
 score       ZT_SUSPENSION_ENVIO     0.9
 
+# TODO: Podría contruirse una NEGACIÓN por parte del usuario, a futuro cuando tengas tiempo
+body        ZT_CORREOS_PENDIENTES_01    /(?:mensaje|correo)s\s(?:permanece|segui|continua)r(?:a|á|.)n\s(?:en\s)?estan?do\spendientes?/i
+describe    ZT_CORREOS_PENDIENTES_01    Correos permanecerán pendientes
+score       ZT_CORREOS_PENDIENTES_01    0.4
+
+body        ZT_CORREOS_PENDIENTES_02    /(?:mensaje|correo)s\s(?:entra|salie)ntes\s(?:se\s(?:\w+)|est(?:ar)?(?:á|a)n)\sen\s\w+\spendiente/i
+describe    ZT_CORREOS_PENDIENTES_02    Correos salientes están en estado pendiente
+score       ZT_CORREOS_PENDIENTES_02    0.4
+
+# TODO: ¿Que otros podrían incluirse?
+meta        __ZT_SUSPENSION             (ZT_CORREOS_PENDIENTES_01 || ZT_CORREOS_PENDIENTES_02)
+describe    __ZT_SUSPENSION             Distintas formas de refererirse a que los correos no serán enviados   
+
 # Este fue de un problema especifico con Hacienda
 body        ZT_RETRASO_FUTURO       /retrasar(?:a|á|.)?\ssus\sfuturas?\sdeclaraci(?:o|ó|.)n(?:es)?/i
 describe    ZT_RETRASO_FUTURO       Retrasará sus futuras declaraciones
 score       ZT_RETRASO_FUTURO       0.2
-
 # Es díficil ver a los siguientes dentro de las amenazas, a menos que se advierta lo sutil que trabajan como amenaza
 body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|t)u\slista\sde\scontactos\s(?:segur|guardad)(?:a|o)s?/i
 describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
@@ -140,7 +146,7 @@ score       ZT_EVITAR_CANCELA_03    0.9
 meta        __ZT_EVITAR_CANCELA     (ZT_EVITAR_CANCELA_01 || ZT_EVITAR_CANCELA_02 || ZT_EVITAR_CANCELA_03 || ZT_EVITAR_CANCELA_04 || ZT_EVITAR_CANCELA_05 || ZT_EVITAR_CANCELA_06)
 describe    __ZT_EVITAR_CANCELA     Distintas formas de referirse a Evitar cancelación
 
-meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA)
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION)
 describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA_01 || ZT_CUENTA_BLOQUEADA_02)
@@ -158,7 +164,7 @@ meta        ZT_VARIAS_AMENAZAS_02   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_0
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
-meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_CORREOS_PENDIENTES + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_RETRASO_FUTURO) > 1)
+meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + ZT_NO_ENVIO_RECEP + ZT_CORREOS_PENDIENTES_01 + ZT_CORREOS_PENDIENTES_02 + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_RETRASO_FUTURO) > 1) 
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
