@@ -83,12 +83,20 @@ body        ZT_LIMIT_20             /l(?:i|í|.)mite\sdel?\sportapapeles/i
 describe    ZT_LIMIT_20             Límite de portapapeles
 score       ZT_LIMIT_20             0.4
 
+body        ZT_LIMIT_21             /(?:cuota|casilla|buz(?:ó|o)n)\sde\scorreo\sh?a\s(?:lleg|super)ado\s(?:a|los)\s\d+(?:\.\d+)?\s?(?:g|m|k)b/i
+describe    ZT_LIMIT_21             Buzón de correo ha superado a llegado a 23GB
+score       ZT_LIMIT_21             0.4
+
+body        ZT_LIMIT_22             /(?:por|debido)(?:\sa)?\s(?:el|los)\sl(?:í|i|.)mites\sde\ssu\s(?:buz(?:ó|o|.)n|(?:q|c)uota)/i
+describe    ZT_LIMIT_22             Debido a los límites de su buzón
+score       ZT_LIMIT_22             0.3
+
 # Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
 body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
 describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
 score       ZT_LIMITE_ALMACENA      0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18 || ZT_LIMIT_19) 
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18 || ZT_LIMIT_19 || ZT_LIMIT_20 || ZT_LIMIT_21 || ZT_LIMIT_22) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i

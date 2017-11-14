@@ -38,7 +38,10 @@ body        ZT_HAGA_CLICK_09        /ha(?:z|cer|ga)\sclick?\s(?:a\scontinuaci(?:
 describe    ZT_HAGA_CLICK_09        Haga click a continuación
 score       ZT_HAGA_CLICK_09        0.2
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09)
+body        __ZT_HAGA_CLICK_10      /click?\saqu(?:í|i)/i
+describe    __ZT_HAGA_CLICK_10      Click aquí
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09 || __ZT_HAGA_CLICK_10)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i

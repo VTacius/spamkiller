@@ -68,6 +68,10 @@ body        ZT_ADMIN_SISTEMA_13     /oficina\sde\sservicios\sde\stecnolog(?:í|i
 describe    ZT_ADMIN_SISTEMA_13     Oficina de servicios de tecnología
 score       ZT_ADMIN_SISTEMA_13     0.4
 
+body        ZT_ADMIN_SISTEMA_14     /admin(?:istrador)\sde\sacceso\sweb/i
+describe    ZT_ADMIN_SISTEMA_14     Administrador de acceso web
+score       ZT_ADMIN_SISTEMA_14     0.2
+
 body        ZT_ADMIN_WEBMAIL        /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\s(?:webmail|correo)/i
 describe    ZT_ADMIN_WEBMAIL        Administrador de Webmail
 score       ZT_ADMIN_WEBMAIL        0.5
@@ -76,7 +80,7 @@ body        ZT_SISTEMA_WEBMAIL_01   /sistema\sde\sgesti(?:o|ó|.)n\sde\scorreo/i
 describe    ZT_SISTEMA_WEBMAIL_01   Sistema de gestión de correo
 score       ZT_SISTEMA_WEBMAIL_01   0.4
 
-meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_SISTEMA_10 || ZT_ADMIN_SISTEMA_11 || ZT_ADMIN_SISTEMA_12 || ZT_ADMIN_SISTEMA_13 || ZT_ADMIN_WEBMAIL)
+meta        __ZT_FIRMA_ADMIN        (ZT_ADMIN_SISTEMA_01 || ZT_ADMIN_SISTEMA_02 || ZT_ADMIN_SISTEMA_03 || ZT_ADMIN_SISTEMA_04 || ZT_ADMIN_SISTEMA_05 || ZT_ADMIN_SISTEMA_06 || ZT_ADMIN_SISTEMA_07 || ZT_ADMIN_SISTEMA_08 || ZT_ADMIN_SISTEMA_09 || ZT_ADMIN_SISTEMA_10 || ZT_ADMIN_SISTEMA_11 || ZT_ADMIN_SISTEMA_12 || ZT_ADMIN_SISTEMA_13 || ZT_ADMIN_SISTEMA_14 || ZT_ADMIN_WEBMAIL)
 describe    __ZT_FIRMA_ADMIN        Distintas formas de referirse a si mismos como administradores de sistemas
 
 # Estamos dando las gracias por nimiedades. Pocas cosas configuran mejor una estafa que nimiedades
@@ -227,6 +231,16 @@ score       ZT_PLAZO_LIMITE_04      0.2
 
 meta        __ZT_PLAZO_TIEMPO       (ZT_PLAZO_DE_HORAS || ZT_PLAZO_DE_DIAS || ZT_PLAZO_LIMITE_01 || ZT_PLAZO_LIMITE_02 || ZT_PLAZO_LIMITE_03 || ZT_PLAZO_LIMITE_04)
 describe    __ZT_PLAZO_TIEMPO       Distintas formas de hacer plazos de tiempo
+
+body        __ZT_GRATUITO           /servicio(?:\s[\w+áéíóú]+){1,2}\sgratuito/i
+describe    __ZT_GRATUITO           Servicio será gratuito
+
+body        __ZT_NO_REQ_ACCION      /no\srequ(?:iere|erir(?:a|á|.))(?:\s[\wáéíóú]+){1,2}\sacci/i
+describe    __ZT_NO_REQ_ACCION      No requiere más acciones
+
+meta        ZT_SERVICIO_GRATUITO    (__ZT_GRATUITO && __ZT_NO_REQ_ACCION)
+describe    ZT_SERVICIO_GRATUITO    El servicio es gratuito y no requiere acciones
+score       ZT_SERVICIO_GRATUITO    0.2
 
 # FIRMAS CONTENIDO
 

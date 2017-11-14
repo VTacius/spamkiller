@@ -95,7 +95,12 @@ body        ZT_BUZON_DEFINIDO_04    /capacidad\sde\salmacenamiento\sde\s[0-9]+\s
 describe    ZT_BUZON_DEFINIDO_04    Capacidad de almacenamiento de 4 Gb
 score       ZT_BUZON_DEFINIDO_04    0.2
 
-meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03 || ZT_BUZON_DEFINIDO_04)
+# TODO: Me sigo preguntando si, aunque su significado en \#101 es tal, podría funcionar como RAZON
+body        ZT_BUZON_DEFINIDO_05    /(?:excede|super(?:a|ó|o))\sel\s\d+(?:\.\d+)?\%(?:\s\w+){1,2}\scuota/i
+describe    ZT_BUZON_DEFINIDO_05    Excede el 95% de su cuota
+score       ZT_BUZON_DEFINIDO_05    0.2
+
+meta        __ZT_BUZON_DEFINIDO     (ZT_BUZON_DEFINIDO_01 || ZT_BUZON_DEFINIDO_02 || ZT_BUZON_DEFINIDO_03 || ZT_BUZON_DEFINIDO_04 || ZT_BUZON_DEFINIDO_05)
 describe    __ZT_BUZON_DEFINIDO     Distintas formas sobre buzón definido
 
 body        ZT_VERIFICAMOS_REGULAR  /(?:verifica|actualiza|revisa)(?:r|mos)(?:\scon)*\sregular(?:idad|mente)/i

@@ -39,7 +39,11 @@ score       ZT_ACTUALIZAR_09        0.2
 body        __ZT_ACTUALIZAR_10      /debe\sactualizar/i
 describe    __ZT_ACTUALIZAR_10      Debe actualizar
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10)
+body        ZT_ACTUALIZAR_11        /actualizar\spara\s(?:v|le)er\slos\s(?:mensaje|correo)s/i
+describe    ZT_ACTUALIZAR_11        Actualizar para ver los mensajes
+score       ZT_ACTUALIZAR_11        0.3
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
@@ -52,7 +56,7 @@ body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|veri
 describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
 score       ZT_ACTUALIZAR_CUENTA    0.2
 
-body        ZT_AUMENTAR_CUOTA       /(?:aument|increment)(?:ar|e)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
+body        ZT_AUMENTAR_CUOTA       /(?:aument|increment|actualiz)(?:ar|e)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
 score       ZT_AUMENTAR_CUOTA       0.4
 

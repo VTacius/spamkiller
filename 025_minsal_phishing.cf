@@ -21,9 +21,9 @@ describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.2
 
 # Este se define en el pasado. Más bien, sólo tiene sentido con una negación, validar algo así es demasiado complejo en realidad
-body        ZT_CUENTA_BLOQUEADA_01     /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
-describe    ZT_CUENTA_BLOQUEADA_01     Cuenta se bloqueó
-score       ZT_CUENTA_BLOQUEADA_01     0.2
+body        ZT_CUENTA_BLOQUEADA_01  /cuenta\s(?:se|est(?:á|a|.))\sbloque(?:ó|o|.|a)(?:da)?/i
+describe    ZT_CUENTA_BLOQUEADA_01  Cuenta se bloqueó
+score       ZT_CUENTA_BLOQUEADA_01  0.2
 
 # Este se define en el futuro. #95 lo usa como DETALLE, pero para otro habrá de servir
 body        ZT_CUENTA_BLOQUEADA_02   /cuenta\sestar(?:á|a|.)\s(?:restringi|bloquea)da/i
@@ -89,7 +89,8 @@ body        ZT_NO_ENVIO_02          /interrumpi(?:r|da)(?:\s\w+)\s(?:env(?:í|i|
 describe    ZT_NO_ENVIO_02          Interrupida el envío de correo
 score       ZT_NO_ENVIO_02          0.3
 
-# La cuestión es que la frase podría usarse en un contexto legítimo body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)a\sel\s(?:mensaje|correo)/i
+# La cuestión es que la frase podría usarse en un contexto legítimo 
+body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)a\sel\s(?:mensaje|correo)/i
 describe    ZT_NO_ENVIO_03          Error cuando se envía el mensaje
 score       ZT_NO_ENVIO_03          0.1
 
@@ -106,8 +107,17 @@ body        ZT_CORREOS_PENDIENTES_02    /(?:mensaje|correo)s\s(?:entra|salie)nte
 describe    ZT_CORREOS_PENDIENTES_02    Correos salientes están en estado pendiente
 score       ZT_CORREOS_PENDIENTES_02    0.4
 
+# Este es el grupo que más se le acerca, por otro lado, observése cuán pasivo-agresiva es la amenaza
+body        ZT_CORREOS_PENDIENTES_03    /para\s(?:re)?stablecer\s(?:el|la)\s(?:entrega|env(?:í|i)o)\snormal\sde\s(?:correo|mensaje|(?:e-?)?mail)/i
+describe    ZT_CORREOS_PENDIENTES_03    Para reestablecer la entrega normal
+score       ZT_CORREOS_PENDIENTES_03    0.5
+
+body        ZT_CORREOS_PENDIENTES_04    /tienes?(?:\s[\w\(\)]+){1,2}\s(?:correo|mensaje)s?\s(?:bloqueado|pendiente)s?/i
+describe    ZT_CORREOS_PENDIENTES_04    Tienes cuatro (4) mensajes pendientes
+score       ZT_CORREOS_PENDIENTES_01    0.4
+
 # TODO: ¿Que otros podrían incluirse?
-meta        __ZT_SUSPENSION             (ZT_CORREOS_PENDIENTES_01 || ZT_CORREOS_PENDIENTES_02)
+meta        __ZT_SUSPENSION             (ZT_CORREOS_PENDIENTES_01 || ZT_CORREOS_PENDIENTES_02 || ZT_CORREOS_PENDIENTES_03 || ZT_CORREOS_PENDIENTES_04)
 describe    __ZT_SUSPENSION             Distintas formas de refererirse a que los correos no serán enviados   
 
 # Este fue de un problema especifico con Hacienda
