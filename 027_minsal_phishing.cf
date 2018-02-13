@@ -1,7 +1,7 @@
 # CONTENIDO
 
 # Titulos a usar para llamar atención del usuario
-body        ZT_QUERIDO_USUARIO      /(?:querid|estimad)(?:o|a)s?\s?(?:cuenta|usuario)?s?(\sde)?\s(?:usuario|correo|mailbox)/i
+body        ZT_QUERIDO_USUARIO      /(?:querid|estimad)(?:o|a)s?\s?(?:cuenta|usuario)?s?(?:\sde)?\s(?:usuario|correo|mailbox)/i
 describe    ZT_QUERIDO_USUARIO      Querido usuario
 score       ZT_QUERIDO_USUARIO      0.3
 

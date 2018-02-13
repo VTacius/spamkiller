@@ -43,7 +43,7 @@ score       ZT_LIMIT_10             0.4
 # No se parece a _09, es una versión reducida por decir algo, y es la única que sirve para algunos casos concretos
 body        ZT_LIMIT_11             /(?:lleg|super|excedid)(?:ó|ado|.)\s(?:el|su|al)\sl(?:í|i|.)mite/i
 describe    ZT_LIMIT_11             superó su límite
-score       ZT_LIMIT_11             0.1
+score       ZT_LIMIT_11             0.3
 
 body        ZT_LIMIT_12             /est(?:a|á|.)\sejecutando\s[0-9,%.]+(?:\s\w+){0,2}\sl(?:í|i|.)mite(?:\s\w+){0,2}\scuota/i
 describe    ZT_LIMIT_12             Esta ejecutando 99.9% de su cuota
@@ -176,6 +176,10 @@ body        ZT_REQUIERE_ACCION      /acci(?:ó|o|.)n\srequerida\sen(?:\s(?:su|la
 describe    ZT_REQUIERE_ACCION      Acción es requerida en su cuenta
 score       ZT_REQUIERE_ACCION      1.2
 
+body        ZT_SOLICITUD_BORRADO    /solicitud\spara\s(?:elimin|borr)ar\s(?:t|s)u\s(?:correo|buz(?:o|ó)n|cuenta)/i
+describe    ZT_SOLICITUD_BORRADO    Solicitud para borrar tu cuenta de correo 
+score       ZT_SOLICITUD_BORRADO    1.0
+
 body        ZT_NO_ACTUALIZABLE      /cuenta(?:\sde)?(?:\scorreo)?(?:\selectr(?:ó|o|.|=F3)nico)?\sno(?:\s\w+){0,2}\s(?:pue?d(?:o|e))\s(?:actualiz|valid)ar/i
 describe    ZT_NO_ACTUALIZABLE      Cuenta de correo electrónico no se puede actualizar
 score       ZT_NO_ACTUALIZABLE      0.4
@@ -233,6 +237,10 @@ body        ZT_LE_INFORMA_02        /(?:informar|señalar)le\s(?:\w+\s)+(?:contr
 describe    ZT_LE_INFORMA_02        Informarle que su contraseña caducará. 
 score       ZT_LE_INFORMA_02        0.3
 
+body        ZT_LE_INFORMA_03        /(?:hay|existe)\suna\s(?:alerta|advertencia)\sde\sseguridad\sen\ssu\s(?:cuenta|mailbox)/i
+describe    ZT_LE_INFORMA_03        Existe una alerta de seguridad en su cuenta
+score       ZT_LE_INFORMA_03        0.4
+
 # Esta otra fue para un correo especifico de hacienda
 body        ZT_PENDIENTES           /presenta\sdeclaraciones\spendientes/i
 describe    ZT_PENDIENTES           Presenta declaraciones pendientes
@@ -247,18 +255,19 @@ body        ZT_DANIO_VIRUS          /(?:cuenta|buz.n|mailbox)(?:\s\w+)\sest(?:á
 describe    ZT_DANIO_VIRUS          Cuenta esta dañada por un virus 
 score       ZT_DANIO_VIRUS          0.3
 
-meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_COMPROMETIDA_CUENTA || ZT_REQUIERE_VALIDAR || ZT_REQUIERE_ACCION || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || __ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA_01 || ZT_LE_INFORMA_02|| ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS || ZT_CUENTA_RESTRINGIDA)
+meta        __ZT_RAZONES            (__ZT_LIMITES || ZT_PROBLEMAS_ENVIO || __ZT_MANTENIMIENTO || ZT_VERSION_VIEJA  || ZT_CUENTAS_EXPIRARON || __ZT_POR_ACTUALIZACION || ZT_COMPROMETIDA_CUENTA || ZT_REQUIERE_VALIDAR || ZT_REQUIERE_ACCION || ZT_SOLICITUD_BORRADO || ZT_NO_ACTUALIZABLE || ZT_NUEVA_POLITICA || ZT_NUESTRAS_POLITICAS || __ZT_ACCESO_REMOTO || ZT_USADO_SPAMMER || ZT_CUENTA_INACTIVA || ZT_ENVIAMOS_CORREO || ZT_LUCHA_ANTISPAM || ZT_TASA_SPAM || ZT_LE_INFORMA_01 || ZT_LE_INFORMA_02 || ZT_LE_INFORMA_03 || ZT_ESTE_PDF || ZT_PENDIENTES || ZT_DANIO_VIRUS || ZT_CUENTA_RESTRINGIDA)
 describe    __ZT_RAZONES            Distintas razones que se le suelen ofrecer a los usuarios
 
-meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 1)
+# TODO: ¿Es que hacen faltan algunas razones en las cuentas de razones?
+meta        ZT_DOS_RAZONES          ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_SOLICITUD_BORRADO + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 1)
 describe    ZT_DOS_RAZONES          Puntuamos según cuantas razones le da al usuario
 score       ZT_DOS_RAZONES          0.9
 
-meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 2)
+meta        ZT_TRES_RAZONES         ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_SOLICITUD_BORRADO + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 2)
 describe    ZT_TRES_RAZONES         Puntuamos según cuantas razones le da al usuario
 score       ZT_TRES_RAZONES         0.6
 
-meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 3)
+meta        ZT_CUATRO_RAZONES       ((__ZT_LIMITES + ZT_PROBLEMAS_ENVIO + __ZT_MANTENIMIENTO + ZT_VERSION_VIEJA + ZT_CUENTAS_EXPIRARON + __ZT_POR_ACTUALIZACION + ZT_COMPROMETIDA_CUENTA + ZT_REQUIERE_VALIDAR + ZT_REQUIERE_ACCION + ZT_SOLICITUD_BORRADO + ZT_NO_ACTUALIZABLE + ZT_NUEVA_POLITICA + ZT_NUESTRAS_POLITICAS + __ZT_ACCESO_REMOTO + ZT_USADO_SPAMMER + ZT_CUENTA_INACTIVA + ZT_ENVIAMOS_CORREO + ZT_LUCHA_ANTISPAM + ZT_TASA_SPAM + ZT_ESTE_PDF + ZT_PENDIENTES + ZT_DANIO_VIRUS + ZT_CUENTA_RESTRINGIDA) > 3)
 describe    ZT_CUATRO_RAZONES       Puntuamos según cuantas razones le da al usuario
 score       ZT_CUATRO_RAZONES       0.3
 

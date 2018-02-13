@@ -43,7 +43,11 @@ body        ZT_ACTUALIZAR_11        /actualizar\spara\s(?:v|le)er\slos\s(?:mensa
 describe    ZT_ACTUALIZAR_11        Actualizar para ver los mensajes
 score       ZT_ACTUALIZAR_11        0.3
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11)
+# Es tan mala que precisamente no tiene valor por si misma
+body        __ZT_ACTUALIZAR_12      /completar\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    __ZT_ACTUALIZAR_12      "Completar" su buzón, que acá sabe a "actualizar"
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
@@ -69,9 +73,21 @@ describe    ZT_PROTEGER_CUENTA      Para asegurar y proteger su cuenta
 score       ZT_PROTEGER_CUENTA      0.4
 
 # TODO. Revisar contra #81. Extender
-body        ZT_CONTINUAR_USO        /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_CONTINUAR_USO        Para continuar usando su cuenta
-score       ZT_CONTINUAR_USO        0.3
+body        ZT_CONTINUAR_USO_01     /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_CONTINUAR_USO_01     Para continuar usando su cuenta
+score       ZT_CONTINUAR_USO_01     0.3
+
+# TODO: ¿Estás seguro de que este pertenece acá?
+body        ZT_CONTINUAR_USO_02     /para\s(?:conserva|mantene)r\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_CONTINUAR_USO_02     Para conservar su cuenta
+score       ZT_CONTINUAR_USO_02     0.3
+
+body        ZT_CONTINUAR_USO_03     /(?:segui|continua)r\su(?:tiliz|s)ando\snuestros\sservi(?:cio|dore)s/i
+describe    ZT_CONTINUAR_USO_03     Para seguir usando nuestros servicios
+score       ZT_CONTINUAR_USO_03     0.2
+
+meta        __ZT_CONTINUAR_USO      (ZT_CONTINUAR_USO_01 || ZT_CONTINUAR_USO_02 || ZT_CONTINUAR_USO_03)
+describe    __ZT_CONTINUAR_USO      Diversas formas sobre mantener su cuenta
 
 body        ZT_RENOVAR_CERTS        /certificado\sde\s(?:cuenta|webmail)\sse\svolver(?:á|a|.)\sa\screar/i
 describe    ZT_RENOVAR_CERTS        Certificados de webmail se volverán a crear
@@ -90,9 +106,13 @@ body        ZT_DESBLOQUEO_CUENTA_03 /para\srecibir\s(?:los|sus)\s(?:mensaje|corr
 describe    ZT_DESBLOQUEO_CUENTA_03 Para recibir sus mensajes
 score       ZT_DESBLOQUEO_CUENTA_03 0.1
 
+body        ZT_RESOLVER_PROBLEMA    /para\s(?:soluciona|resolver)\se(?:l|ste)\sproblema/i
+describe    ZT_RESOLVER_PROBLEMA    Para resolver este problema
+score       ZT_RESOLVER_PROBLEMA    0.3
+
 body        __ZT_DESBLOQUEO_CUENTA_04   /para\siniciar\ssesi(?:ó|o)n/i
 describe    __ZT_DESBLOQUEO_CUENTA_04   Para recibir sus mensajes
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

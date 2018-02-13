@@ -61,7 +61,7 @@ body        VTE_ACCOUNT_SIZE            /(account|quota|mailbox)\s(size|limit)/i
 describe    VTE_ACCOUNT_SIZE            Account size
 score       VTE_ACCOUNT_SIZE            0.9
 
-body        VTE_ACCOUNT_LIMIT_01        /has\sexceeded(\sit)*\squota/i
+body        VTE_ACCOUNT_LIMIT_01        /has\sexceeded(?:\s(?:it|the))*\s(?:storage|quota)/i
 describe    VTE_ACCOUNT_LIMIT_01        Excedido cuota
 score       VTE_ACCOUNT_LIMIT_01        0.8
 
@@ -142,7 +142,11 @@ body        VTE_DEFINIDO_POR_ADMIN_02   /[0-9\.]+\s?(?:g|m|k)b\sset\sby(?:\s\w+)
 describe    VTE_DEFINIDO_POR_ADMIN_02   20GB, set by admin
 score       VTE_DEFINIDO_POR_ADMIN_02   0.4
 
-meta        __VTE_DEFINIDO_POR_ADMIN    (VTE_DEFINIDO_POR_ADMIN_01 || VTE_DEFINIDO_POR_ADMIN_02)
+body        VTE_DEFINIDO_POR_ADMIN_03   /defined\sby(?:\sthe)?\sadmin(?:istrator)?/i
+describe    VTE_DEFINIDO_POR_ADMIN_03   Defined by admin
+score       VTE_DEFINIDO_POR_ADMIN_03   0.3
+
+meta        __VTE_DEFINIDO_POR_ADMIN    (VTE_DEFINIDO_POR_ADMIN_01 || VTE_DEFINIDO_POR_ADMIN_02 || VTE_DEFINIDO_POR_ADMIN_03)
 describe    __VTE_DEFINIDO_POR_ADMIN    Distintas formas de referirse a la definición del tamaño del buzón por parte de admin
 
 body        VTE_PROCESADO_EN_BREVE      /request\swill\sbe\sprocessed\sshortly/i
@@ -383,11 +387,18 @@ score       VTE_SUSPENSION_CORREO_09    0.9
 meta        __VTE_SUSPENDERAN_CORREO    (VTE_SUSPENSION_CORREO_01 || VTE_SUSPENSION_CORREO_02 || VTE_SUSPENSION_CORREO_03 || VTE_SUSPENSION_CORREO_04 || VTE_SUSPENSION_CORREO_05 || VTE_SUSPENSION_CORREO_06 || VTE_SUSPENSION_CORREO_07 || VTE_SUSPENSION_CORREO_08)
 describe    __VTE_SUSPENDERAN_CORREO    Distintas formas de referirse a la inactivación de la cuenta
 
-body        VTE_INCAPACIDAD_CORREO      /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i
-describe    VTE_INCAPACIDAD_CORREO      Don't able to send o receive 
-score       VTE_INCAPACIDAD_CORREO      0.9
+body        VTE_INCAPACIDAD_CORREO_01   /(not\sbe|not|don.*t)\s(((cap)*able)|competent)\sto\s(send|receive)\sor*\s(receive|send)/i
+describe    VTE_INCAPACIDAD_CORREO_01   Don't able to send o receive 
+score       VTE_INCAPACIDAD_CORREO_01   0.9
 
-meta        __VTE_AMENAZA               (__VTE_SUSPENDERAN_CORREO || VTE_INCAPACIDAD_CORREO)
+body        VTE_INCAPACIDAD_CORREO_02   /can(?:\snot|.t)\ssend\sor\sreceive/i
+describe    VTE_INCAPACIDAD_CORREO_02   Can not send 
+score       VTE_INCAPACIDAD_CORREO_02   0.9
+
+meta        __VTE_INCAPACIDAD_CORREO    (VTE_INCAPACIDAD_CORREO_01 || VTE_INCAPACIDAD_CORREO_02)
+describe    __VTE_INCAPACIDAD_CORREO    Distintas formas para referirse a no ser capaz de enviar correo
+
+meta        __VTE_AMENAZA               (__VTE_SUSPENDERAN_CORREO || __VTE_INCAPACIDAD_CORREO)
 describe    __VTE_AMENAZA               Distintas amenazas dadas al usuario respecto al futuro de su cuenta
 
 # Fin de AMENAZA
