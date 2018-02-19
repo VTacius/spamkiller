@@ -47,7 +47,11 @@ score       ZT_ACTUALIZAR_11        0.3
 body        __ZT_ACTUALIZAR_12      /completar\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    __ZT_ACTUALIZAR_12      "Completar" su buzón, que acá sabe a "actualizar"
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12)
+body        ZT_ACTUALIZAR_13        /obten(?:er|ga)\s(?:n(?:ueva|ovedosa)|reciente)s\scaracter(?:í|i)sticas/i
+describe    ZT_ACTUALIZAR_13        Obtenga nuevas características
+score       ZT_ACTUALIZAR_13        0.3
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
@@ -67,6 +71,13 @@ score       ZT_AUMENTAR_CUOTA       0.4
 body        ZT_AUMENTAR_CUOTA_02    /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)?\s(?:cuenta|buz(?:ó|o|.)n|almacenamiento)/i
 describe    ZT_AUMENTAR_CUOTA_02    Aumentar su capacidad de almacenamiento
 score       ZT_AUMENTAR_CUOTA_02    0.5
+
+body        ZT_AUMENTAR_CUOTA_03    /obten(?:er|ga)\s(?:un\sgran|m(?:a|á)s|una\sampliaci(?:o|ó)n)(?:\sde)?\sespacio/i
+describe    ZT_AUMENTAR_CUOTA_03    Obtenga más espacio
+score       ZT_AUMENTAR_CUOTA_03    0.4
+
+meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03)
+describe    __ZT_AUMENTAR_CUOTA     Distintas formas de referirse a Aumentar cuota
 
 body        ZT_PROTEGER_CUENTA      /para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i
 describe    ZT_PROTEGER_CUENTA      Para asegurar y proteger su cuenta
@@ -113,6 +124,6 @@ score       ZT_RESOLVER_PROBLEMA    0.3
 body        __ZT_DESBLOQUEO_CUENTA_04   /para\siniciar\ssesi(?:ó|o)n/i
 describe    __ZT_DESBLOQUEO_CUENTA_04   Para recibir sus mensajes
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

@@ -111,7 +111,7 @@ body        ZT_NO_ENVIO_03          /error\scuando\sse\s(?:env(?:í|i|.)|entreg)
 describe    ZT_NO_ENVIO_03          Error cuando se envía el mensaje
 score       ZT_NO_ENVIO_03          0.1
 
-body        ZT_SUSPENSION_ENVIO     /sus?pender(?:á|a|.)(?:\s\w+){0,2}\s(?:enviar|recibir)\s(?:y|o)\s(?:enviar|recibir)\s(?:mensaje|correo)s?/i
+body        ZT_SUSPENSION_ENVIO     /sus?pender(?:á|a|.)(?:\s\w+){0,2}\s(?:env(?:i|í)(?:o|ar)|rec(?:epción|ibir))\s(?:y|o)(?:\s(?:el|la))?\s(?:env(?:i|í)(?:o|ar)|rec(?:epción|ibir))(?:\sde)?\s(?:mensaje|correo)s?/i
 describe    ZT_SUSPENSION_ENVIO     Suspenderá para enviar o recibir mensajes
 score       ZT_SUSPENSION_ENVIO     0.9
 

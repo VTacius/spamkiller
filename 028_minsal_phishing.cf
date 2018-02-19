@@ -142,7 +142,11 @@ meta        ZT_FIRMA_09             (ZT_DESBLOQUEO_CUENTA_03 && ZT_CORREOS_PENDI
 describe    ZT_FIRMA_09             Firma inspirada en \#101, que es evidente, pero no se ajusta a un esquema específico
 score       ZT_FIRMA_09             4.0
 
-meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08)
+meta        ZT_FIRMA_10             (ZT_ACTUALIZAR_13 && ZT_AUMENTAR_CUOTA_03 && ZT_COMPLETE_ENVIO)
+describe    ZT_FIRMA_10             Firma inspirada en \#110, 
+score       ZT_FIRMA_10             3.0
+
+meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08 || ZT_FIRMA_09 || ZT_FIRMA_10)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 
 # Esta es una de mis mejores ideas, sin duda
