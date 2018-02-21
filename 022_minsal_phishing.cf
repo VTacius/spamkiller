@@ -91,12 +91,16 @@ body        ZT_LIMIT_22             /(?:por|debido)(?:\sa)?\s(?:el|los)\sl(?:í|
 describe    ZT_LIMIT_22             Debido a los límites de su buzón
 score       ZT_LIMIT_22             0.3
 
+body        ZT_LIMIT_23             /(?:super|excedi)(?:ó|o)\s(?:[0-9]+[,.]?)+\s(?:repositorio|conjunto)s(?:\s\w+){0,3}\sbuzones/i
+describe    ZT_LIMIT_23             Superó 23,456 conjuntos de buzones
+score       ZT_LIMIT_23             0.4
+
 # Sólo le estamos agregando 0.2 por el hecho de que la frase se complete con almacenamiento
 body        ZT_LIMITE_ALMACENA      /(?:buz.n|casilla|cuota).+?(?:excedido|superado).+?almacenamiento/i
 describe    ZT_LIMITE_ALMACENA      Buzón excede el límite
 score       ZT_LIMITE_ALMACENA      0.2
 
-meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18 || ZT_LIMIT_19 || ZT_LIMIT_20 || ZT_LIMIT_21 || ZT_LIMIT_22) 
+meta        __ZT_LIMITES            (ZT_LIMIT_01 || ZT_LIMIT_02 || ZT_LIMIT_03 || ZT_LIMIT_04 || ZT_LIMIT_05 || ZT_LIMIT_06 || ZT_LIMIT_07 || ZT_LIMIT_08 ||ZT_LIMIT_09 || ZT_LIMIT_10 || ZT_LIMIT_11 || ZT_LIMIT_12 || ZT_LIMIT_13 || ZT_LIMIT_14 || ZT_LIMIT_15 || ZT_LIMIT_16 || ZT_LIMIT_17 || ZT_LIMIT_18 || ZT_LIMIT_19 || ZT_LIMIT_20 || ZT_LIMIT_21 || ZT_LIMIT_22 || ZT_LIMIT_23) 
 describe    __ZT_LIMITES            Las distintas formas de hablar sobre el límite alcanzado por la cuenta
 
 body        ZT_PROBLEMAS_ENVIO      /problemas\sde\senv(?:i|í|.)o\sy\s\w+\smientras\s\w+\scorreo/i
@@ -203,7 +207,11 @@ body        ZT_ACCESO_REMOTO_02     /intent(?:ado|o|ó)(?:\sde)?\sacce(?:der|so)
 describe    ZT_ACCESO_REMOTO_02     Intento de acceso a su cuenta desde Sudáfrica
 score       ZT_ACCESO_REMOTO_02     0.6
 
-meta        __ZT_ACCESO_REMOTO      (ZT_ACCESO_REMOTO_01 || ZT_ACCESO_REMOTO_02)
+body        ZT_ACCESO_REMOTO_03     /acceso\sno\saprobado\sdesde\suna\subicaci(?:ó|o|.)n\s(?:diferente|desconocida)?/i
+describe    ZT_ACCESO_REMOTO_03     Acceso no aprobado desde una ubicación desconocida
+score       ZT_ACCESO_REMOTO_03     0.6
+
+meta        __ZT_ACCESO_REMOTO      (ZT_ACCESO_REMOTO_01 || ZT_ACCESO_REMOTO_02 || ZT_ACCESO_REMOTO_03)
 describe    __ZT_ACCESO_REMOTO      Distintas formas de referirse a un intento de acceso remoto
 
 body        ZT_ACTIV_SOSPECHOSA     /actividades\smasivas\srecientes/i

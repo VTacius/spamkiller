@@ -149,7 +149,7 @@ body        ZT_CANCELE_SOLICITUD    /cancele\s(?:su|la)\ssolicitud/i
 describe    ZT_CANCELE_SOLICITUD    Cancele la solicitud
 score       ZT_CANCELE_SOLICITUD    0.2
 
-body        ZT_COMPLETE_ENVIO       /complete\sel\senv(?:í|i)o/i
+body        ZT_COMPLETE_ENVIO       /complete\s(?:el|su)\s(?:env(?:í|i)o|verificaci(?:(?:o|ó)n)?)/i
 describe    ZT_COMPLETE_ENVIO       Complete el envío
 score       ZT_COMPLETE_ENVIO       0.2
 
