@@ -31,7 +31,7 @@ meta        __ZT_CERRAREMOS_CUENTA  (ZT_CERRAREMOS_CUENTA_01 || ZT_CERRAREMOS_CU
 describe    __ZT_CERRAREMOS_CUENTA  Distintas (Y bastantes distintas) formas de referirse a que se va a cerrar una cuenta
 
 # TODO. El punto puede ser una trampa
-body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n).+?(?:clausura|cerra|desactiva|inactiva)(?:r(?:é|e|a|á|.)|da)?/i
+body        ZT_CUENTA_CERRARA       /(?:cuenta|correo|casilla|buz(?:ó|o|.)n).+?(?:clausura|cerra|desactiva|inactiva|deshabilita)(?:r(?:é|e|a|á|.)|da)?/i
 describe    ZT_CUENTA_CERRARA       Cuenta se cerrará
 score       ZT_CUENTA_CERRARA       0.2
 

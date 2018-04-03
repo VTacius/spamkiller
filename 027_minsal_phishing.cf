@@ -156,9 +156,9 @@ body        ZT_NEGARSE_05           /(?:cerrare|desconectare|cancelare)mos(\s\w*
 describe    ZT_NEGARSE_05           Cerraremos, a menos
 score       ZT_NEGARSE_05           0.4
 
-body        ZT_NEGARSE_06           /si\sno\s(?:verifica|valida|confirma|renueva)/i
+body        ZT_NEGARSE_06           /si\sno\s(?:verifica|valida|confirma|renueva|env(?:í|i|.)a\slos\sdatos)/i
 describe    ZT_NEGARSE_06           Si no verifica
-score       ZT_NEGARSE_06           0.1
+score       ZT_NEGARSE_06           0.2
 
 body        ZT_NEGARSE_07           /hacer\scaso\somiso/i
 describe    ZT_NEGARSE_07           Hacer caso omiso

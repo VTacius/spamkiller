@@ -41,7 +41,11 @@ score       ZT_HAGA_CLICK_09        0.2
 body        __ZT_HAGA_CLICK_10      /click?\saqu(?:í|i)/i
 describe    __ZT_HAGA_CLICK_10      Click aquí
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09 || __ZT_HAGA_CLICK_10)
+body        ZT_HAGA_CLICK_11        /haciendo\sclick?\sen/i
+describe    ZT_HAGA_CLICK_11        Haciendo click en
+score       ZT_HAGA_CLICK_11        0.3
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09 || __ZT_HAGA_CLICK_10 || ZT_HAGA_CLICK_11)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i
@@ -52,7 +56,7 @@ body        ZT_HAGA_COPIE_LINK_02   /copie\s(?:el|los)\ssiguientes?\senlaces?\sp
 describe    ZT_HAGA_COPIE_LINK_02   Copie el siguiente enlace para
 score       ZT_HAGA_COPIE_LINK_02   0.2
 
-body        ZT_HAGA_COPIE_LINK_03   /copie(?:\sy)?\speg(?:ue|ar)\s(?:a|en)\s(?:su|el)\snavegador/i
+body        ZT_HAGA_COPIE_LINK_03   /copi(?:e|arlo)(?:\sy)?\speg(?:ue|ar)(?:lo)?\s(?:a|en)\s(?:su|el|un)(?:\snuevo)?\snavegador/i
 describe    ZT_HAGA_COPIE_LINK_03   Copie y pegue en su navegador
 score       ZT_HAGA_COPIE_LINK_03   0.2
 
@@ -62,7 +66,7 @@ describe    ZT_SIGA_INSTRUCCIONES   Siga las instrucciones para actualizar
 score       ZT_SIGA_INSTRUCCIONES   1.5
 
 # TODO: Agregar (y\spegue)?
-meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_FORMULARIO_03)
+meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_COPIE_LINK_03)
 describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
 
 meta        ZT_CLICK_Y_COPIAR       (__ZT_HAGA_CLICK_04 && __ZT_HAGA_COPIE_LINK)
