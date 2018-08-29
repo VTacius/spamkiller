@@ -93,7 +93,11 @@ body        ZT_HAGA_FORMULARIO_04   /ingrese\s(?:lo|su)s\sdetalles\sdel?(?:\ssu)
 describe    ZT_HAGA_FORMULARIO_04   Ingrese los detalles de su cuenta 
 score       ZT_HAGA_FORMULARIO_04   0.4
 
-meta        __ZT_HAGA_FORMULARIO    (ZT_HAGA_FORMULARIO_01 || ZT_HAGA_FORMULARIO_02 || ZT_HAGA_FORMULARIO_03 || ZT_HAGA_FORMULARIO_04)
+body        ZT_HAGA_FORMULARIO_05   /complet(?:e|ar)\s(?:el|su)\sformulario/i
+describe    ZT_HAGA_FORMULARIO_05   Complete el formulario
+score       ZT_HAGA_FORMULARIO_05   0.2
+
+meta        __ZT_HAGA_FORMULARIO    (ZT_HAGA_FORMULARIO_01 || ZT_HAGA_FORMULARIO_02 || ZT_HAGA_FORMULARIO_03 || ZT_HAGA_FORMULARIO_04 || ZT_HAGA_FORMULARIO_05)
 describe    __ZT_HAGA_FORMULARIO    Distintas formas de referirse a llenado de formulario
 
 body        ZT_HAGA_INFORMACION     /(?:complet|rellen)(?:e|a)(?:ndo)?(?:\s(?:la|lo|su)s?)?\s(?:datos|informaci(?:ó|o|.)n)/i

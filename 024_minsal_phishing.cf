@@ -29,7 +29,7 @@ body        ZT_ACTUALIZAR_07        /para\s(?:obtener|volver)(?:\s\w+)?\ssu\snue
 describe    ZT_ACTUALIZAR_07        Para obtener su nueva cuenta
 score       ZT_ACTUALIZAR_07        0.2
 
-body        __ZT_ACTUALIZAR_08      /para\s(?:actualiz|verific)arlo/i
+body        __ZT_ACTUALIZAR_08      /para\s(?:actualiz|verific)ar(?:lo)?/i
 describe    __ZT_ACTUALIZAR_08      Para verficarlo
 
 body        ZT_ACTUALIZAR_09        /actualice\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
@@ -121,13 +121,21 @@ body        ZT_DESBLOQUEO_CUENTA_03 /para\srecibir\s(?:los|sus)\s(?:mensaje|corr
 describe    ZT_DESBLOQUEO_CUENTA_03 Para recibir sus mensajes
 score       ZT_DESBLOQUEO_CUENTA_03 0.1
 
+body        __ZT_DESBLOQUEO_CUENTA_04   /para\siniciar\ssesi(?:ó|o)n/i
+describe    __ZT_DESBLOQUEO_CUENTA_04   Para recibir sus mensajes
+
+body        ZT_DESBLOQUEO_CUENTA_05 /para\sdesbloquear(?:la)?/i
+describe    ZT_DESBLOQUEO_CUENTA_05 Para desbloquear
+score       ZT_DESBLOQUEO_CUENTA_05 0.2
+
 body        ZT_RESOLVER_PROBLEMA    /para\s(?:soluciona|resolver)\se(?:l|ste)\sproblema/i
 describe    ZT_RESOLVER_PROBLEMA    Para resolver este problema
 score       ZT_RESOLVER_PROBLEMA    0.3
 
-body        __ZT_DESBLOQUEO_CUENTA_04   /para\siniciar\ssesi(?:ó|o)n/i
-describe    __ZT_DESBLOQUEO_CUENTA_04   Para recibir sus mensajes
+body        ZT_MOTIVOS_SEGURIDAD    /por\s(?:razone|motivo)s\sde\sseguridad/i
+describe    ZT_MOTIVOS_SEGURIDAD    Por motivos de seguridad
+score       ZT_MOTIVOS_SEGURIDAD    0.2
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA)
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS
