@@ -76,11 +76,15 @@ body        ZT_AUMENTAR_CUOTA_02    /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|
 describe    ZT_AUMENTAR_CUOTA_02    Aumentar su capacidad de almacenamiento
 score       ZT_AUMENTAR_CUOTA_02    0.5
 
-body        ZT_AUMENTAR_CUOTA_03    /obten(?:er|ga)\s(?:un\sgran|m(?:a|á)s|una\sampliaci(?:o|ó)n)(?:\sde)?\sespacio/i
+body        ZT_AUMENTAR_CUOTA_03    /obten(?:er|ga)\s(?:un\sgran|m(?:a|á|.)s|una\sampliaci(?:o|ó|.)n)(?:\sde)?\sespacio/i
 describe    ZT_AUMENTAR_CUOTA_03    Obtenga más espacio
 score       ZT_AUMENTAR_CUOTA_03    0.4
 
-meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03)
+body        ZT_AUMENTAR_CUOTA_04    /obtener\sm(?:á|a)s\sespacio/i
+describe    ZT_AUMENTAR_CUOTA_04    Obtener más espacio
+score       ZT_AUMENTAR_CUOTA_04    0.4
+
+meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03 || ZT_AUMENTAR_CUOTA_04)
 describe    __ZT_AUMENTAR_CUOTA     Distintas formas de referirse a Aumentar cuota
 
 body        ZT_PROTEGER_CUENTA      /para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i
@@ -88,7 +92,7 @@ describe    ZT_PROTEGER_CUENTA      Para asegurar y proteger su cuenta
 score       ZT_PROTEGER_CUENTA      0.4
 
 # TODO. Revisar contra #81. Extender
-body        ZT_CONTINUAR_USO_01     /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+body        ZT_CONTINUAR_USO_01     /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\s(?:esta|su)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CONTINUAR_USO_01     Para continuar usando su cuenta
 score       ZT_CONTINUAR_USO_01     0.3
 
@@ -136,6 +140,13 @@ body        ZT_MOTIVOS_SEGURIDAD    /por\s(?:razone|motivo)s\sde\sseguridad/i
 describe    ZT_MOTIVOS_SEGURIDAD    Por motivos de seguridad
 score       ZT_MOTIVOS_SEGURIDAD    0.2
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD)
+body        ZT_MEJORAR_CUENTA       /se\s(?:añadi|agrega|adiciona)rán\snuevas\sfunciones/i
+describe    ZT_MEJORAR_CUENTA       Se agregarán nuevas funciones
+score       ZT_MEJORAR_CUENTA       0.2
+
+body        ZT_EVITAR_SUSPENSION    /evitar\s(?:la|que)(?:\sse)?\s(?:cancele|suspen(?:da|sión))\s(?:d)?el\s(?:centro\sde\sasistencia|servicio)/i
+describe    ZT_EVITAR_SUSPENSION    Evitar que se suspenda del centro de servicio
+
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD || ZT_MEJORAR_CUENTA || ZT_EVITAR_SUSPENSION)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

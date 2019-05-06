@@ -150,5 +150,9 @@ score       ZT_ACTUALICE_ADV_03     0.4
 body        ZT_LIMITE_ADV_01        /(?:l(?:í|i.)mite|cuota)\s?del?\s?(?:su)?(?:almacenamiento|cuota|repositorio)/i
 describe    ZT_LIMITE_ADV_01        Límite de cuota
 score       ZT_LIMITE_ADV_01        0.2
+
+body        ZT_USO_OTRA_CUENTA      /(?:usar|utilizar)\sotr(?:o|a)\s(?:cuenta|sistema)\sde\scorreo/i
+describe    ZT_USO_OTRA_CUENTA      [Los usuarios prefieren] usar otra cuenta de correo
+score       ZT_USO_OTRA_CUENTA      0.3
 # Fin de DETALLES
 

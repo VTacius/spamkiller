@@ -65,6 +65,8 @@ body        ZT_SIGA_INSTRUCCIONES   /(?:atienda|complete|siga)\slas?\s?ins?trucc
 describe    ZT_SIGA_INSTRUCCIONES   Siga las instrucciones para actualizar
 score       ZT_SIGA_INSTRUCCIONES   1.5
 
+body        /
+
 # TODO: Agregar (y\spegue)?
 meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_COPIE_LINK_03)
 describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
@@ -161,7 +163,11 @@ body        ZT_COMPLETE_ENVIO       /complete\s(?:el|su)\s(?:env(?:í|i)o|verifi
 describe    ZT_COMPLETE_ENVIO       Complete el envío
 score       ZT_COMPLETE_ENVIO       0.2
 
-meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE || ZT_CONTACTE_SERVICIO || ZT_CANCELE_SOLICITUD || ZT_COMPLETE_ENVIO)
+body        ZT_SEGUIR_PROCED        /seguir\sel\s(?:procedimiento|instrucciones)\sdel\senlace/i
+describe    ZT_SEGUIR_PROCED        Seguir el procedimiento del enlace
+score       ZT_SEGUIR_PROCED        0.2
+
+meta        __ZT_ACCIONES           (__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || __ZT_HAGA_FORMULARIO || ZT_UPDATE_AQUI || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO || ZT_HAGA_REVISION || __ZT_HAGA_ACTUALIZAC || ZT_HAGA_SITIO || ZT_RESPONDER_MENSAJE || ZT_CONTACTE_SERVICIO || ZT_CANCELE_SOLICITUD || ZT_COMPLETE_ENVIO || ZT_SEGUIR_PROCED)
 describe    __ZT_ACCIONES           Distintas acciones a realizar por el usuario
 
 meta        ZT_CLICK_ACCION         ((__ZT_HAGA_CLICK || __ZT_HAGA_COPIE_LINK || ZT_UPDATE_AQUI || ZT_HAGA_SITIO) && (__ZT_HAGA_FORMULARIO || ZT_HAGA_INFORMACION || ZT_HAGA_INGRESO  || ZT_HAGA_REVISION || ZT_RESPONDER_MENSAJE || __ZT_HAGA_ACTUALIZAC))
