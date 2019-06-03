@@ -65,8 +65,6 @@ body        ZT_SIGA_INSTRUCCIONES   /(?:atienda|complete|siga)\slas?\s?ins?trucc
 describe    ZT_SIGA_INSTRUCCIONES   Siga las instrucciones para actualizar
 score       ZT_SIGA_INSTRUCCIONES   1.5
 
-body        /
-
 # TODO: Agregar (y\spegue)?
 meta        __ZT_HAGA_COPIE_LINK    (ZT_HAGA_COPIE_LINK_01 || ZT_HAGA_COPIE_LINK_02 || ZT_HAGA_COPIE_LINK_03)
 describe    __ZT_HAGA_COPIE_LINK    Distintas formas de referirse a copiar enlace
@@ -112,6 +110,10 @@ describe    __ZT_RELLENE_ENVIE      Rellene y envíe, es demasiado poco a menos 
 body        ZT_HAGA_INGRESO         /in(?:grese|troduzca)\ssus\sdatos\sa\scontinuaci(?:ó|o|.)n/i
 describe    ZT_HAGA_INGRESO         Introduzca sus datos a continuación
 score       ZT_HAGA_INGRESO         0.1
+
+body        ZT_INICIE_SESION        /inicie\ssesi(?:ó|o)n\sen\s(?:la|el)\s(?:p(?:á|a)gina|web|sitio)\sde\sactualizaci(?:ó|o)n/i
+describe    ZT_INICIE_SESION        Inicie sesión en la página de actualización
+score       ZT_INICIE_SESION        0.1
 
 body        ZT_HAGA_REVISION        /revi(?:s|c)(?:e|ar)\ssus?\s(?:informaci(?:ó|o|.)n|registros|datos)/i
 describe    ZT_HAGA_REVISION        Revise sus registros

@@ -2,7 +2,12 @@
 
 # Propias amenazas
 
-#TODO: Verificar que estos siempre trabajen sin solaparse
+# TODO: Es bastante débil, pero cumple perfectamente con los requisitos
+body        ZT_ACCION_OBLIGATORIA   /esto\ses\sobligatorio\spara\stodos\slos\susuarios/i
+describe    ZT_ACCION_OBLIGATORIA   Esto es obligatorio para todos los usuarios
+score       ZT_ACCION_OBLIGATORIA   0.1
+
+# TODO: Verificar que estos siempre trabajen sin solaparse
 body        ZT_PERDERAN_CUENTA      /(?:perd|suspend)(?:i|e)(?:r(?:á|a|.)n*|d(?:a|o))\s(?:su|tu|la)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_PERDERAN_CUENTA      Perderán la cuenta. Suspendido tu cuenta
 score       ZT_PERDERAN_CUENTA      0.6
@@ -195,7 +200,7 @@ score       ZT_EVITAR_CANCELA_07    0.4
 meta        __ZT_EVITAR_CANCELA     (ZT_EVITAR_CANCELA_01 || ZT_EVITAR_CANCELA_02 || ZT_EVITAR_CANCELA_03 || ZT_EVITAR_CANCELA_04 || ZT_EVITAR_CANCELA_05 || ZT_EVITAR_CANCELA_06 || ZT_EVITAR_CANCELA_07)
 describe    __ZT_EVITAR_CANCELA     Distintas formas de referirse a Evitar cancelación
 
-meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION)
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION || ZT_ACCION_OBLIGATORIA)
 describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || __ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_CUENTA_RESTRICTIRA || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA_01 || ZT_CUENTA_BLOQUEADA_02)

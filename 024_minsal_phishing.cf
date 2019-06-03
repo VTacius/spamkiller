@@ -55,18 +55,18 @@ body        ZT_ACTUALIZAR_14        /neces(?:ita|ario)\sactualizar(?:se)?/i
 describe    ZT_ACTUALIZAR_14        Necesario actualizar
 score       ZT_ACTUALIZAR_14        0.3
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14)
+# En realidad tengo poco contexto con el siguiente en específico. 
+# TODO: En realidad, este no es objetivo
+body        ZT_ACTUALIZAR_15        /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_ACTUALIZAR_15        Validar su cuenta
+score       ZT_ACTUALIZAR_15        0.2
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14 || ZT_ACTUALIZAR_15)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
 describe    ZT_RENOVAR_CUENTA       Para actualizar su cuenta de correo, una forma muy especifíca y mortal
 score       ZT_RENOVAR_CUENTA       0.4
-
-# En realidad tengo poco contexto con el siguiente en específico. 
-# TODO: En realidad, este no es objetivo
-body        ZT_ACTUALIZAR_CUENTA    /(?:(?:re-*)*valid|renov|actuali(?:z|c)|verific|confirm|activ)(?:a|e)r*\s(?:su|tu|la|el)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_ACTUALIZAR_CUENTA    Validar su cuenta
-score       ZT_ACTUALIZAR_CUENTA    0.2
 
 body        ZT_AUMENTAR_CUOTA       /(?:aument|increment|actualiz)(?:ar|e)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
 describe    ZT_AUMENTAR_CUOTA       Aumentar cuota

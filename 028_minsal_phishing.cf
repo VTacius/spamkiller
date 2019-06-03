@@ -20,11 +20,11 @@ describe    ZT_RAZON_03             Por una razón, sus correos están siendo re
 score       ZT_RAZON_03             0.9
 
 # TODO: Verificar que sea correcto
-meta        ZT_RAZON_04             (ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
+meta        ZT_RAZON_04             (__ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
 describe    ZT_RAZON_04             Cuenta inactiva por correo spam recibido
 score       ZT_RAZON_04             0.9
 
-meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
+meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || __ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
 describe    ZT_RAZON_05             Por motivos de seguridad, requiere validar
 score       ZT_RAZON_05             0.9
 
