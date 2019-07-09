@@ -45,7 +45,17 @@ body        ZT_HAGA_CLICK_11        /haciendo\sclick?\sen/i
 describe    ZT_HAGA_CLICK_11        Haciendo click en
 score       ZT_HAGA_CLICK_11        0.3
 
-meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09 || __ZT_HAGA_CLICK_10 || ZT_HAGA_CLICK_11)
+body		__ZT_HAGA_CLICK_12		/a\s(?:mediante|(?:trav(?:e|é)(?:s|z)))\sd?el\senlace/i
+describe	__ZT_HAGA_CLICK_12		A travéz del enlace
+
+body		ZT_HAGA_CLICK_13		/siga(?:\s\w+)?\sel\ssiguiente\senlace/i
+describe	ZT_HAGA_CLICK_13		Siga el siguiente mensaje
+score		ZT_HAGA_CLICK_13		0.3
+
+body		__ZT_HAGA_CLICK_14		/verificar\saqu(?:í|i)/i
+describe	__ZT_HAGA_CLICK_14		Verificar aquí (Es un enlace)
+
+meta        __ZT_HAGA_CLICK         (ZT_HAGA_CLICK_01 || ZT_HAGA_CLICK_02 || ZT_HAGA_CLICK_03 || __ZT_HAGA_CLICK_04 || ZT_HAGA_CLICK_05 || ZT_HAGA_CLICK_06 || __ZT_HAGA_CLICK_07 || ZT_HAGA_CLICK_08 || ZT_HAGA_CLICK_09 || __ZT_HAGA_CLICK_10 || ZT_HAGA_CLICK_11 || __ZT_HAGA_CLICK_12 || ZT_HAGA_CLICK_13 || __ZT_HAGA_CLICK_14)
 describe    __ZT_HAGA_CLICK         Distintas formas de ordenar al usuario a que haga click
 
 body        ZT_HAGA_COPIE_LINK_01   /copie(?:\sel)?\senlace\s(?:a|en)(?:\sel|\ssu)?\snavegador/i

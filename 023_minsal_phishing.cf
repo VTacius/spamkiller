@@ -27,13 +27,37 @@ body        ZT_SENDO_RECHAZADOS_07  /mensajes\spendientes/i
 describe    ZT_SENDO_RECHAZADOS_07  Mensajes pendientes
 score       ZT_SENDO_RECHAZADOS_07  0.2
 
+body		ZT_LOS_USUARIOS_01		/todos\slos\susuarios\sactivos/i
+describe	ZT_LOS_USUARIOS_01		Todos los usuarios activos
+score		ZT_LOS_USUARIOS_01		0.2
+
+body		ZT_LOS_USUARIOS_02		/los\susuarios\sen\sl(?:í|i)nea/i
+describe	ZT_LOS_USUARIOS_02		Los usuarios en línea
+score		ZT_LOS_USUARIOS_02		0.2
+
 # Suena a AMENAZA, en #94 funciona como detalle
 body        ZT_SENDO_RECHAZADOS_08  /no\s(?:est(?:á|a)(?:r(?:á|a))?\s)?env(?:í|i)(?:e|ando)\scorreos/i
 describe    ZT_SENDO_RECHAZADOS_08  No está enviando correos
 score       ZT_SENDO_RECHAZADOS_08  0.2
 
+body		ZT_MULETILLA_01			/abierto: (?:correo|actualizar)/i
+describe	ZT_MULETILLA_01			Abierto: corre
+score		ZT_MULETILLA_01			0.5
+
+body		ZT_MULETILLA_02			/cuenta\sde\swebmail/i
+describe	ZT_MULETILLA_02			Cuenta de webmail
+score		ZT_MULETILLA_02			0.4
+
 meta        __ZT_SENDO_RECHAZADOS   (ZT_SENDO_RECHAZADOS_01 || ZT_SENDO_RECHAZADOS_02 || ZT_SENDO_RECHAZADOS_03 || ZT_SENDO_RECHAZADOS_04 || ZT_SENDO_RECHAZADOS_05 || ZT_SENDO_RECHAZADOS_06 || ZT_SENDO_RECHAZADOS_07 || ZT_SENDO_RECHAZADOS_08)
 describe    __ZT_SENDO_RECHAZADOS   Distintas formas sobre "[correo] siendo rechazados", tipíco detalle en excusa spammer
+
+# No sé como no se me había ocurrido antes
+body		ZT_LLAMAR_ATENCION_01	/has\svisto.+?(?:p.gina|sitio).*?zimbra/i
+describe	ZT_LLAMAR_ATENCION_01	Has visto el nuevo sitio zimbra?
+score		ZT_LLAMAR_ATENCION_01	0.2
+
+meta		__ZT_LLAMAR_ATENCION	(ZT_LLAMAR_ATENCION_01)
+describe	__ZT_LLAMAR_ATENCION	Distintias formas de querer llamar la atencion del usuario
 
 body        ZT_NUEVA_VERSION        /nueva\sversi(?:o|ó|.)n\sde\s(?:servidor|servicio|outlook)/i
 describe    ZT_NUEVA_VERSION        Nueva versión de Outlook

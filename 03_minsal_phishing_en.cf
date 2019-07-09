@@ -15,6 +15,10 @@ body        VTE_UPDATE_ZIMBRA           /zimbra.{0,3}\sha(s|ve)(\sbeen)*\s(updat
 describe    VTE_UPDATE_ZIMBRA           Zimbra has been update
 score       VTE_UPDATE_ZIMBRA           1.2
 
+body		VTE_UPDATE_ZIMBRA_02		/(?:mailbox|account)\shas\sreach(?:ed)?\sa(?:n)?\supgrade\sstage/i
+describe	VTE_UPDATE_ZIMBRA_02		Account has reached an Upgrade stage
+score		VTE_UPDATE_ZIMBRA_02		1.2
+
 body        VTE_UPDATE_ZIMBRA_VERSION   /(update|upgrade)(\sthe)*(\sversion)(\sof)*\szimbra/i
 describe    VTE_UPDATE_ZIMBRA_VERSION   Update the version of zimbra
 score       VTE_UPDATE_ZIMBRA_VERSION   1.2
@@ -23,7 +27,7 @@ body        VTE_NO_AUTO_UPGRADED        /not\sbe\sautomatically\sup(?:dat|grad)e
 describe    VTE_NO_AUTO_UPGRADED        Not be automatically upgraded
 score       VTE_NO_AUTO_UPGRADED        2.1
 
-meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_SYSTEM_03 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
+meta        __VTE_UPDATE                (VTE_UPDATE_SYSTEM_01 || VTE_UPDATE_SYSTEM_02 || VTE_UPDATE_SYSTEM_03 || VTE_UPDATE_ZIMBRA || VTE_UPDATE_ZIMBRA_02 || VTE_UPDATE_ZIMBRA_VERSION || VTE_NO_AUTO_UPGRADED)
 describe    __VTE_UPDATE                Distintas maneras de dar a actualización como razón
 
 body        VTE_ACCESO_REMOTO_01        /(online|remote)\saccess/i
@@ -167,13 +171,17 @@ score       VTE_PETICION_ACCIDENTAL_02  0.2
 
 body        VTE_LE_NOTIFICAMOS_01       /this(?:\s\w+){0,2}\snotify(?:\s\w+){0,2}\sthat/i
 describe    VTE_LE_NOTIFICAMOS_01       This is for notify
-score       VTE_LE_NOTIFICAMOS_01       0.1
+score       VTE_LE_NOTIFICAMOS_01       0.4
 
 body        VTE_LE_NOTIFICAMOS_02       /take\s(?:attention|note)\s(?:about|of)\sthis/i
 describe    VTE_LE_NOTIFICAMOS_02       Take attention of this
-score       VTE_LE_NOTIFICAMOS_02       0.2
+score       VTE_LE_NOTIFICAMOS_02       0.4
 
-meta        __VTE_NOTIFICACION          (VTE_LE_NOTIFICAMOS_01 || VTE_LE_NOTIFICAMOS_02)
+body		VTE_LE_NOTIFICAMOS_03		/this\sis\s(?:to|for)\s(?:communicating|inform)/i
+describe	VTE_LE_NOTIFICAMOS_03		This is to inform
+score		VTE_LE_NOTIFICAMOS_03		0.4
+
+meta        __VTE_NOTIFICACION          (VTE_LE_NOTIFICAMOS_01 || VTE_LE_NOTIFICAMOS_02 || VTE_LE_NOTIFICAMOS_03)
 describe    __VTE_NOTIFICACION          Distintas formas de señalar que el correo notifica algo al usuario
 
 body        VTE_ACCOUNT                 /\w+@(\w+\.*)+\s(account|mailbox)/i
@@ -249,9 +257,9 @@ body        VTE_HACER_FORM              /(download|see|check)(\sin)*(\sthe)\s(in
 describe    VTE_HACER_FORM              Download the attached form
 score       VTE_HACER_FORM              0.9
 
-body        VTE_HACER_UPDATE_RECORDS    /update\syour\srecords/i
-describe    VTE_HACER_UPDATE_RECORDS    Update your records
-score       VTE_HACER_UPDATE_RECORDS    0.8
+body        VTE_HACER_UPDATE	    	/update\syour\s(?:account|records|mailbox)/i
+describe    VTE_HACER_UPDATE    		Update your records
+score       VTE_HACER_UPDATE    		0.8
 
 body        VTE_LOGIN_ACTIVATING        /login\sfor\sactivation/i
 describe    VTE_LOGIN_ACTIVATING        Login for activation
@@ -269,7 +277,7 @@ body        VTE_FOLLOW_INSTRUCC         /follow(\sthe)*\sinstructions*/i
 describe    VTE_FOLLOW_INSTRUCC         Follow instrucction
 score       VTE_FOLLOW_INSTRUCC         0.3
 
-meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS || VTE_FOLLOW_INSTRUCC || VTE_HACER_UPDATE_RECORDS)
+meta        __VTE_META_MEDIANTES        (__VTE_HACER_CLICK_ENLACE || VTE_HACER_FORM || VTE_LOGIN_ACTIVATING || VTE_ADJUNTO_AL_MENSAJE || VTE_COMPLETAR_DATOS || VTE_FOLLOW_INSTRUCC || VTE_HACER_UPDATE)
 describe    __VTE_META_MEDIANTES        Formas básicas en inglés para MEDIANTES
 
 # Fin MEDIANTES
@@ -322,6 +330,10 @@ body        VTE_ENHANCE_ACCOUNT         /account\swill\sbe\ssafe(?:\s\w+)+?\saga
 describe    VTE_ENHANCE_ACCOUNT         Account will be safe again
 score       VTE_ENHANCE_ACCOUNT         0.5
 
+body		VTE_ENHANCE_ACCOUNT_02		/faster,\ssafer.+?experience/i
+describe	VTE_ENHANCE_ACCOUNT_02		Faster, safer experiencience
+score		VTE_ENHANCE_ACCOUNT_02		0.8
+
 meta        __VTE_VALIDAR_CUENTA        (VTE_VALID_CUENTA_01 || VTE_VALID_CUENTA_02 || VTE_VALID_CUENTA_03 || VTE_VALID_CUENTA_04 || VTE_VALID_CUENTA_05)
 describe    __VTE_VALIDAR_CUENTA        Distintas formas de hablar sobre validación de cuenta
 
@@ -340,7 +352,7 @@ body        VTE_EXTRA_FEATURES          /extra\s\w+\sfeatures\swill\sbe\sactivat
 describe    VTE_EXTRA_FEATURES          Extra features will be activated
 score       VTE_EXTRA_FEATURES          0.7
 
-meta        __VTE_RECOMPENSA_FALSA      (__VTE_ACTUALIZAR_CUENTA || __VTE_VALIDAR_CUENTA || __VTE_AUMENTAR_CUOTA || VTE_EXTRA_FEATURES || VTE_ENHANCE_ACCOUNT)
+meta        __VTE_RECOMPENSA_FALSA      (__VTE_ACTUALIZAR_CUENTA || __VTE_VALIDAR_CUENTA || __VTE_AUMENTAR_CUOTA || VTE_EXTRA_FEATURES || VTE_ENHANCE_ACCOUNT || VTE_ENHANCE_ACCOUNT_02)
 describe    __VTE_RECOMPENSA_FALSA      Ofrece algún beneficio para su cuenta, en Inglés
 
 

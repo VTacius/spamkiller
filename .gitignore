@@ -1,1 +1,7 @@
 .*.swp
+salocal.cf
+sauser.cf
+local.cf
+init.pre
+*.pre
+sa-update-keys/

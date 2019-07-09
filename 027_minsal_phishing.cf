@@ -14,6 +14,17 @@ body        ZT_DISP_PARA_ACTUALIZAR /(?:abierto|disponible)\s(?:a|para)\sactuali
 describe    ZT_DISP_PARA_ACTUALIZAR Disponible para actualizar ahora
 score       ZT_DISP_PARA_ACTUALIZAR 0.4
 
+body		ZT_SEGURIDAD_01			/proporciona\sseguridad/i
+describe	ZT_SEGURIDAD_01			Proporciona seguridad
+score		ZT_SEGURIDAD_01			0.4
+
+body		ZT_SEGURIDAD_02			/servicio\sde\sseguridad/i
+describe	ZT_SEGURIDAD_02			Servicio de seguridad
+score		ZT_SEGURIDAD_02			0.4
+
+meta		__ZT_SEGURIDAD			(ZT_SEGURIDAD_01 || ZT_SEGURIDAD_02)
+describe	__ZT_SEGURIDAD			Sobre poner la seguridad como razón
+
 # De alguna forma, nos denominamos administrador
 # TODO: Podríamos agruparlos en orden para crear firmas
 body        ZT_ADMIN_SISTEMA_01     /admin(?:istra(?:d|t)or(?:es)?)?\sdel?\ss(?:istema|ervicio|ervidor)/i
@@ -140,7 +151,7 @@ score       VT_SPAM_A_BANDEJA_ADV   0.3
 
 # Helpers que ayudan a las amenazas
 
-body        ZT_NEGARSE_01           /(?:n(?:iegan?|egarse)|rechaza(?:r|ndo)?)(?:\s(?:a|la))*\s(?:veri?fica|actualiza(?:r|ci(?:ó|o|.)n))/i
+body        ZT_NEGARSE_01           /(?:n(?:iegan?|egarse|ieguen)|rechaza(?:r|ndo)?)(?:\s(?:a|la))*\s(?:veri?fica|actualiza(?:r|ci(?:ó|o|.)n))/i
 describe    ZT_NEGARSE_01           Negarse a actualizar
 score       ZT_NEGARSE_01           0.3
 
@@ -203,12 +214,15 @@ describe    __ZT_SIGA_INSTRUC_04    Siga las instrucciones para
 body        __ZT_SIGA_INSTRUC_05    /act(?:ú|u|.)e\sseg(?:ú|u|.)n\slas\sinstrucciones/i
 describe    __ZT_SIGA_INSTRUC_05    Actúe según las intrucciones
 
-meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03 || __ZT_SIGA_INSTRUC_04 || __ZT_SIGA_INSTRUC_05)
+body		__ZT_SIGA_INSTRUC_06	/siga\slas\sinstrucciones/i
+describe	__ZT_SIGA_INSTRUC_06	Siga las instrucciones
+
+meta        __ZT_SIGA_INSTRUCCIONES (__ZT_SIGA_INSTRUC_01 || __ZT_SIGA_INSTRUC_02 || __ZT_SIGA_INSTRUC_03 || __ZT_SIGA_INSTRUC_04 || __ZT_SIGA_INSTRUC_05 || __ZT_SIGA_INSTRUC_06)
 describe    __ZT_SIGA_INSTRUCCIONES Distintas formas de referirse a seguir instrucciones
 
 # Helpers que describen plazos de tiempo
  
-body        ZT_PLAZO_DE_HORAS       /(?:(?:plazo|dentro)\sde|en)(?:\sl(?:a|o)s)*\s(?:24|36|48)\s*(?:horas|hours)/i
+body        ZT_PLAZO_DE_HORAS       /(?:(?:plazo|dentro)\sde|en)(?:\sl(?:a|o)s)*\s(?:4|24|36|48)\s*(?:horas|hours)/i
 describe    ZT_PLAZO_DE_HORAS       Tal plazo de horas a vencer
 score       ZT_PLAZO_DE_HORAS       0.3
 

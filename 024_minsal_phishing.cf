@@ -32,7 +32,7 @@ score       ZT_ACTUALIZAR_07        0.2
 body        __ZT_ACTUALIZAR_08      /para\s(?:actualiz|verific)ar(?:lo)?/i
 describe    __ZT_ACTUALIZAR_08      Para verficarlo
 
-body        ZT_ACTUALIZAR_09        /actualice\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+body        ZT_ACTUALIZAR_09        /actuali(?:za|ce)\s(?:t|s)u\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_ACTUALIZAR_09        Actualice su cuenta
 score       ZT_ACTUALIZAR_09        0.2
 
@@ -61,7 +61,37 @@ body        ZT_ACTUALIZAR_15        /(?:(?:re-*)*valid|renov|actuali(?:z|c)|veri
 describe    ZT_ACTUALIZAR_15        Validar su cuenta
 score       ZT_ACTUALIZAR_15        0.2
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14 || ZT_ACTUALIZAR_15)
+body		__ZT_ACTUALIZAR_16		/actualizar\ssu\sperfil/i
+describe	__ZT_ACTUALIZAR_16		Actualizar su perfil
+
+body		__ZT_ACTUALIZAR_17		/actualizar\saqu(?:i|í)/i
+describe	__ZT_ACTUALIZAR_17		Actualizar aquí
+
+body		ZT_ACTUALIZAR_18		/para\sla\sactualizaci(?:ó|o)n\smanual/i
+describe	ZT_ACTUALIZAR_18		Actualización manual
+score		ZT_ACTUALIZAR_18		0.2
+
+# Necesito un puntaje así debido a \#222
+body		ZT_ACTUALIZAR_19		/para\sactualizar(?:\slos)?\sdetalles\sde\sla\scuenta/i
+describe	ZT_ACTUALIZAR_19		Para actualizar los detalles de la cuenta
+score		ZT_ACTUALIZAR_19		1.5
+
+body		ZT_ACTUALIZAR_20		/actuali(?:ce|zar)\ssu\sacceso/i
+describe	ZT_ACTUALIZAR_20		Actualice su acceso
+score		ZT_ACTUALIZAR_20		0.2
+
+body		ZT_MEJORAR_CUENTA_01	/(?:disfrute|goce)\sde\s(?:nueva|reciente)s.*?(?:funcione|caracter.stica)s/i
+describe 	ZT_MEJORAR_CUENTA_01	disfrute de nuevas y emocionates funciones
+score		ZT_MEJORAR_CUENTA_01	0.3
+
+body        ZT_MEJORAR_CUENTA_02   	/se\s(?:añadi|agrega|adiciona)rán\snuevas\sfunciones/i
+describe    ZT_MEJORAR_CUENTA_02   	Se agregarán nuevas funciones
+score       ZT_MEJORAR_CUENTA_02   	0.2
+
+meta 		__ZT_MEJORAR_CUENTA		(ZT_MEJORAR_CUENTA_01 || ZT_MEJORAR_CUENTA_02)
+describe	__ZT_MEJORAR_CUENTA		Distintas maneras de referirse a mejorar la cuenta
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14 || ZT_ACTUALIZAR_15 || __ZT_ACTUALIZAR_16 || __ZT_ACTUALIZAR_17 || ZT_ACTUALIZAR_18 || ZT_ACTUALIZAR_19 || ZT_ACTUALIZAR_20)
 describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
 
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
@@ -87,26 +117,22 @@ score       ZT_AUMENTAR_CUOTA_04    0.4
 meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03 || ZT_AUMENTAR_CUOTA_04)
 describe    __ZT_AUMENTAR_CUOTA     Distintas formas de referirse a Aumentar cuota
 
-body        ZT_PROTEGER_CUENTA      /para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i
-describe    ZT_PROTEGER_CUENTA      Para asegurar y proteger su cuenta
-score       ZT_PROTEGER_CUENTA      0.4
+body        ZT_PROTEGER_CUENTA_01	/para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i
+describe    ZT_PROTEGER_CUENTA_01  	Para asegurar y proteger su cuenta
+score       ZT_PROTEGER_CUENTA_01  	0.4
+
+# Parece que no, pero tiene todo el sentido necesario
+body		ZT_PROtEGER_CUENTA_02	/favor\sproteja\ssu\scuenta/i
+describe	ZT_PROTEGER_CUENTA_02	Favor proteja su cuenta
+score		ZT_PROTEGER_CUENTA_02	0.4
+
+meta	   	__ZT_PROTEGER_CUENTA 	(ZT_PROTEGER_CUENTA_01 || ZT_PROTEGER_CUENTA_02)
+describe	__ZT_PROTEGER_CUENTA	Distintas formas de referirse a proteger la cuenta como fin último
 
 # TODO. Revisar contra #81. Extender
 body        ZT_CONTINUAR_USO_01     /para\s(?:continuar|seguir)\su(?:tiliz|s)ando\s(?:esta|su)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CONTINUAR_USO_01     Para continuar usando su cuenta
 score       ZT_CONTINUAR_USO_01     0.3
-
-# TODO: ¿Estás seguro de que este pertenece acá?
-body        ZT_CONTINUAR_USO_02     /para\s(?:conserva|mantene)r\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_CONTINUAR_USO_02     Para conservar su cuenta
-score       ZT_CONTINUAR_USO_02     0.3
-
-body        ZT_CONTINUAR_USO_03     /(?:segui|continua)r\su(?:tiliz|s)ando\snuestros\sservi(?:cio|dore)s/i
-describe    ZT_CONTINUAR_USO_03     Para seguir usando nuestros servicios
-score       ZT_CONTINUAR_USO_03     0.2
-
-meta        __ZT_CONTINUAR_USO      (ZT_CONTINUAR_USO_01 || ZT_CONTINUAR_USO_02 || ZT_CONTINUAR_USO_03)
-describe    __ZT_CONTINUAR_USO      Diversas formas sobre mantener su cuenta
 
 body        ZT_RENOVAR_CERTS        /certificado\sde\s(?:cuenta|webmail)\sse\svolver(?:á|a|.)\sa\screar/i
 describe    ZT_RENOVAR_CERTS        Certificados de webmail se volverán a crear
@@ -140,13 +166,34 @@ body        ZT_MOTIVOS_SEGURIDAD    /por\s(?:razone|motivo)s\sde\sseguridad/i
 describe    ZT_MOTIVOS_SEGURIDAD    Por motivos de seguridad
 score       ZT_MOTIVOS_SEGURIDAD    0.2
 
-body        ZT_MEJORAR_CUENTA       /se\s(?:añadi|agrega|adiciona)rán\snuevas\sfunciones/i
-describe    ZT_MEJORAR_CUENTA       Se agregarán nuevas funciones
-score       ZT_MEJORAR_CUENTA       0.2
+# TODO: ¿Estás seguro de que este pertenece acá?
+body        ZT_CONTINUAR_USO_02     /para\s(?:conserva|mantene)r\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_CONTINUAR_USO_02     Para conservar su cuenta
+score       ZT_CONTINUAR_USO_02     0.3
 
-body        ZT_EVITAR_SUSPENSION    /evitar\s(?:la|que)(?:\sse)?\s(?:cancele|suspen(?:da|sión))\s(?:d)?el\s(?:centro\sde\sasistencia|servicio)/i
-describe    ZT_EVITAR_SUSPENSION    Evitar que se suspenda del centro de servicio
+body        ZT_CONTINUAR_USO_03     /(?:segui|continua)r\su(?:tiliz|s)ando\snuestros\sservi(?:cio|dore)s/i
+describe    ZT_CONTINUAR_USO_03     Para seguir usando nuestros servicios
+score       ZT_CONTINUAR_USO_03     0.2
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD || ZT_MEJORAR_CUENTA || ZT_EVITAR_SUSPENSION)
+meta        __ZT_CONTINUAR_USO      (ZT_CONTINUAR_USO_01 || ZT_CONTINUAR_USO_02 || ZT_CONTINUAR_USO_03)
+describe    __ZT_CONTINUAR_USO      Diversas formas sobre mantener su cuenta
+
+# TODO: Estoy casi seguro que este no va en este lugar
+body        ZT_EVITAR_SUSPENSION_01 /evitar\s(?:la|que)(?:\sse)?\s(?:cancele|suspen(?:da|sión))\s(?:d)?el\s(?:centro\sde\sasistencia|servicio)/i
+describe    ZT_EVITAR_SUSPENSION_01 Evitar que se suspenda del centro de servicio
+score       ZT_EVITAR_SUSPENSION_01 0.4
+
+body        ZT_EVITAR_SUSPENSION_02 /para\s(?:preveni|evita)r\sser\s(?:cancela|suspendi)do/i
+describe    ZT_EVITAR_SUSPENSION_02 Para evitar ser suspendido
+score       ZT_EVITAR_SUSPENSION_02 0.3
+
+meta        __ZT_EVITAR_SUSPENSION  (ZT_EVITAR_SUSPENSION_01 || ZT_EVITAR_SUSPENSION_02)
+describe    __ZT_EVITAR_SUSPENSION  Varias formas para referirse a "Evitar suspensión o cancelación de la cuenta"
+
+body 		ZT_VERIFICAR_CUENTA		/verifi(?:quen?|car)\sla\spropiedad\sde\sla\s(?:cuenta|buz(?:o|ó)n)/i
+describe	ZT_VERIFICAR_CUENTA		Verificar la propiedad de la cuenta
+score		ZT_VERIFICAR_CUENTA		0.3
+
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || __ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD || __ZT_MEJORAR_CUENTA || __ZT_EVITAR_SUSPENSION || ZT_VERIFICAR_CUENTA)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

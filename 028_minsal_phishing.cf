@@ -24,7 +24,7 @@ meta        ZT_RAZON_04             (__ZT_CUENTA_INACTIVA && ZT_RECIBIDO_SPAM)
 describe    ZT_RAZON_04             Cuenta inactiva por correo spam recibido
 score       ZT_RAZON_04             0.9
 
-meta        ZT_RAZON_05             ((ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || __ZT_CUENTA_INACTIVA) && ZT_RAZONES_SEGURIDAD)
+meta        ZT_RAZON_05             ((__ZT_REQUIERE_VALIDAR || ZT_NO_ACTUALIZABLE || __ZT_POR_ACTUALIZACION || __ZT_CUENTA_INACTIVA) && __ZT_SEGURIDAD)
 describe    ZT_RAZON_05             Por motivos de seguridad, requiere validar
 score       ZT_RAZON_05             0.9
 
@@ -38,8 +38,12 @@ describe    ZT_RAZON_07             Actualizaremos a nuestros sistema nuevos sis
 score       ZT_RAZON_07             0.9
 
 meta        ZT_MOTIVA_ACCION        (__ZT_OBJETIVOS && __ZT_ACCIONES)
-describe    ZT_MOTIVA_ACCION        Actualizar cuenta por medio de un clic
+describe    ZT_MOTIVA_ACCION        Le dice que haga una accion por medio de un premio
 score       ZT_MOTIVA_ACCION        0.9
+
+meta        ZT_SUGIERE_ACCION        (__ZT_LLAMAR_ATENCION && __ZT_ACCIONES)
+describe    ZT_SUGIERE_ACCION        Le dice que haga una accion por medio de un premio
+score       ZT_SUGIERE_ACCION        0.2
 
 meta        ZT_AMOR_BIBLICO_01      (__ZT_OBJETIVOS && __ZT_PERDIDA_CUENTA)
 describe    ZT_AMOR_BIBLICO_01      Actualice su cuenta, o perderá su cuenta
@@ -103,7 +107,11 @@ score       ZT_PREFIRMA_02          0.5
 
 meta        ZT_PREFIRMA_03          (__ZT_OBJETIVOS && ZT_MOTIVA_ACCION)
 describe    ZT_PREFIRMA_03          Inspirada en \#98
-score       ZT_PREFIRMA_03          0.5
+score       ZT_PREFIRMA_03          0.9
+
+meta		ZT_PREFIRMA_04			(ZT_ACTUALICE_ADV_01 && ZT_EVITAR_CANCELA_08)
+describe	ZT_PREFIRMA_04			Inspirada en \#213 y \#215
+score		ZT_PREFIRMA_04			0.9
 
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
@@ -117,7 +125,7 @@ meta        ZT_FIRMA_03             (__ZTD_HIT_GRACIAS && ZT_AVISO_FINAL && __ZT
 describe    ZT_FIRMA_03             Firma inspirada en \#83
 score       ZT_FIRMA_03             2.0
 
-meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && ZT_ACTUALIZAR_CUENTA &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
+meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && __ZT_ACTUALIZAR_CUENTA &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
 describe    ZT_FIRMA_04             Firma inspirada en \#86
 score       ZT_FIRMA_04             4.0
 
@@ -146,7 +154,36 @@ meta        ZT_FIRMA_10             (ZT_ACTUALIZAR_13 && ZT_AUMENTAR_CUOTA_03 &&
 describe    ZT_FIRMA_10             Firma inspirada en \#110, 
 score       ZT_FIRMA_10             3.0
 
-meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08 || ZT_FIRMA_09 || ZT_FIRMA_10)
+meta        ZT_FIRMA_11             (ZT_QUERIDO_USUARIO && __ZT_LIMITES && __ZT_HAGA_CLICK && __ZT_AUMENTAR_CUOTA)
+describe    ZT_FIRMA_11             Firma inspirada en \#122, se iba directo a spam, pero mejor si se va directo a su casa
+score       ZT_FIRMA_11             3.0
+
+meta		ZT_FIRMA_12				(ZT_MANTENIMIENTO_05 && __ZT_ACTUALIZAR_16 && ZT_EVITAR_LIMITACION)
+describe	ZT_FIRMA_12				Firma bastante debil basada en \#207
+score		ZT_FIRMA_12				5.0
+
+meta		ZT_FIRMA_13				(ZT_ACTUALICE_ADV_01 && ZT_EVITAR_CANCELA_08 && ZT_MULETILLA_01)
+describe	ZT_FIRMA_13				Firma de casi todo el contenido en \#213
+score		ZT_FIRMA_13				5.0
+
+meta		ZT_FIRMA_14				(ZT_POR_ACTUALIZAC_10 && ZT_SEGURIDAD_01 && ZT_LOS_USUARIOS_01 && ZT_PROTEGER_CUENTA_02)
+describe	ZT_FIRMA_14				Firma de casi todo el contenido en \#218
+score		ZT_FIRMA_14				4.0
+
+meta		ZT_FIRMA_15				(ZT_REQUIERE_VALIDAR_02 && ZT_VERIFICAR_CUENTA && ZT_EVITAR_LIMITE_02)
+describe	ZT_FIRMA_15				Firma de casi todo el contenido en \#221
+score		ZT_FIRMA_15				4.0
+
+# Nunca una firma fue tan necesaria para hacer que uno entrara
+meta		ZT_FIRMA_16				(FROM_SIGNOS_TOO_SHORT && __ZT_SIGA_INSTRUC_06 && ZT_ACTUALIZAR_19)
+describe	ZT_FIRMA_16				Firma de todo el contenido posible en \#222
+score		ZT_FIRMA_16				5.0
+
+meta		ZT_FIRMA_17				(ZT_CUENTA_INACTIVA_03 && ZT_EVITAR_CANCELA_08 && ZT_ACTUALIZAR_20 && ZT_CUENTA_CERRARA)
+describe	ZT_FIRMA_17				Firma para contenido de \#224
+score		ZT_FIRMA_17				4.0
+
+meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08 || ZT_FIRMA_09 || ZT_FIRMA_10 || ZT_FIRMA_11 || ZT_FIRMA_12 || ZT_FIRMA_13 || ZT_FIRMA_14 || ZT_FIRMA_15 || ZT_FIRMA_16 || ZT_FIRMA_17)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 
 # Esta es una de mis mejores ideas, sin duda

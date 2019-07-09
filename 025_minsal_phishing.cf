@@ -8,9 +8,16 @@ describe    ZT_ACCION_OBLIGATORIA   Esto es obligatorio para todos los usuarios
 score       ZT_ACCION_OBLIGATORIA   0.1
 
 # TODO: Verificar que estos siempre trabajen sin solaparse
-body        ZT_PERDERAN_CUENTA      /(?:perd|suspend)(?:i|e)(?:r(?:á|a|.)n*|d(?:a|o))\s(?:su|tu|la)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
-describe    ZT_PERDERAN_CUENTA      Perderán la cuenta. Suspendido tu cuenta
-score       ZT_PERDERAN_CUENTA      0.6
+body        ZT_PERDERAN_CUENTA_01  	/(?:perd|suspend)(?:i|e)(?:r(?:á|a|.)n*|d(?:a|o))\s(?:su|tu|la)\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
+describe    ZT_PERDERAN_CUENTA_01   Perderán la cuenta. Suspendido tu cuenta
+score       ZT_PERDERAN_CUENTA_01   0.6
+
+body		ZT_PERDERAN_CUENTA_02	/perder(?:á|a)\spermanentemente\s(?:su|la)\s(?:cuenta|buz(?:ó|o)n)/i
+describe	ZT_PERDERAN_CUENTA_02	Perderán su cuenta
+score		ZT_PERDERAN_CUENTA_02	0.4
+
+META       	__ZT_PERDERAN_CUENTA	(ZT_PERDERAN_CUENTA_01 || ZT_PERDERAN_CUENTA_02)
+describe	__ZT_PERDERAN_CUENTA	Distintas formas de referirse a perder la cuenta
 
 body        ZT_CANCELACION_CUENTA   /(?:descone|cancela)(?:r|(?:c|x)i(?:ó|o|.)n)(?:\s\w+){0,3}\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)/i
 describe    ZT_CANCELACION_CUENTA   Cancelación de la cuenta
@@ -95,7 +102,7 @@ body        ZT_ACCESO_LIMITADO      /acceso\slimitad(?:o|a)/i
 describe    ZT_ACCESO_LIMITADO      Acceso limitado
 score       ZT_ACCESO_LIMITADO      0.1
 
-body        ZT_NO_INICIO_SESION     /no(?:\spodr(?:a|á|í|i|.)a*)*\siniciar(?:á|(?:í|i|.)a)*\ssesi(ó|o|.)n/i
+body        ZT_NO_INICIO_SESION     /no(?:\sse)?(?:\spodr(?:a|á|í|i|.)a*)*\siniciar(?:á|(?:í|i|.)a)*\ssesi(?:ó|o|.)n/i
 describe    ZT_NO_INICIO_SESION     No podría iniciar sesión
 score       ZT_NO_INICIO_SESION     0.2
 
@@ -169,6 +176,8 @@ body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|
 describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
 score       ZT_MANTENER_CONTACTOS   0.4
 
+## TODO: Muchos de estos podrían ser razones y todo estaría bien, excepto por el hecho que habría que revisar como algo así funcionaría
+
 body        ZT_EVITAR_CANCELA_04    /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singresar\sal\snuevo\ssistema\sde\scorreo/i
 describe    ZT_EVITAR_CANCELA_04    Dónde ingresar al nuevo sistema de correo
 score       ZT_EVITAR_CANCELA_04    0.4
@@ -197,24 +206,47 @@ body        ZT_EVITAR_CANCELA_07    /cancele\s(?:su|la)\ssolicitud\spara/i
 describe    ZT_EVITAR_CANCELA_07    Cancele la solicitud
 score       ZT_EVITAR_CANCELA_07    0.4
 
-meta        __ZT_EVITAR_CANCELA     (ZT_EVITAR_CANCELA_01 || ZT_EVITAR_CANCELA_02 || ZT_EVITAR_CANCELA_03 || ZT_EVITAR_CANCELA_04 || ZT_EVITAR_CANCELA_05 || ZT_EVITAR_CANCELA_06 || ZT_EVITAR_CANCELA_07)
+body 		ZT_EVITAR_CANCELA_08	/para\sevitar(?:\s\w+)?\s(?:cancela|suspen|interrup)(?:ci(?:ó|o)n)(?:es)?/i
+describe	ZT_EVITAR_CANCELA_08	Para evitar interrupción
+score		ZT_EVITAR_CANCELA_08	0.4
+
+meta        __ZT_EVITAR_CANCELA     (ZT_EVITAR_CANCELA_01 || ZT_EVITAR_CANCELA_02 || ZT_EVITAR_CANCELA_03 || ZT_EVITAR_CANCELA_04 || ZT_EVITAR_CANCELA_05 || ZT_EVITAR_CANCELA_06 || ZT_EVITAR_CANCELA_07 || ZT_EVITAR_CANCELA_08)
 describe    __ZT_EVITAR_CANCELA     Distintas formas de referirse a Evitar cancelación
 
-meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION || ZT_ACCION_OBLIGATORIA)
+body		ZT_EVITAR_LIMITE_01		/evitar\slimitaci.n(?:es)?(?:\s\w+){1,3}?\scuenta/i
+describe	ZT_EVITAR_LIMITE_01		Evitar limitaciones de su cuenta
+score		ZT_EVITAR_LIMITE_01		0.5
+
+body		ZT_EVITAR_LIMITE_02		/evitar\sfuncionalidades\sreducidas/i
+describe	ZT_EVITAR_LIMITE_02		Evitar limitaciones de su cuenta
+score		ZT_EVITAR_LIMITE_02		0.4
+
+meta		__ZT_EVITAR_LIMITACION	(ZT_EVITAR_LIMITE_01 || ZT_EVITAR_LIMITE_02)
+describe	__ZT_EVITAR_LIMITACION	Distintas formas de referirse a "Evitar limitaciones de la cuenta"
+# Este podría ser un gran peligro, así que tendré que supervisarle
+# Básicamente, buscamos RAZONES (Ya que acá hablamos de "razones para enviar este correo") que a su vez implican una amenaza
+# Luego, veamos que tenga otras condiciones
+# Esta no debería contar en la suma de amenazas, no creo que debería ser necesario sumarle cuando ya hay otras amenazas más explícitas
+# Y si, exactamente: Esta es una amenaza pasivo-agrevisa. Básicamente, el mejor ejemplo de ello
+# TODO: ¿Es probable que este razonamiento sea muy recursivo
+meta        __ZT_IMPLICITA          (__ZT_SE_CANCELARA  && __ZT_ACCIONES)
+describe    __ZT_IMPLICITA          Retomamos muchas RAZONES que además son amenazas implícitas. En realidad, casi que todas lo son
+
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION || ZT_ACCION_OBLIGATORIA || __ZT_IMPLICITA || __ZT_EVITAR_LIMITACION)
 describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || __ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_CUENTA_RESTRICTIRA || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA_01 || ZT_CUENTA_BLOQUEADA_02)
 describe    __ZT_RESTRIC_CUENTA     Formas leves de referirse a distintas restricciones de cuenta
 
-meta        __ZT_PERDIDA_CUENTA     (__ZT_EVITAR_CANCELA || ZT_MANTENER_CONTACTOS || ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || __ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN  || ZT_NO_ENVIO_01 || ZT_NO_ENVIO_02 || ZT_NO_ENVIO_03 || ZT_NO_ENVIO_04 || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
+meta        __ZT_PERDIDA_CUENTA     (__ZT_EVITAR_CANCELA || ZT_MANTENER_CONTACTOS || __ZT_PERDERAN_CUENTA || ZT_CANCELACION_CUENTA || __ZT_CERRAREMOS_CUENTA || ZT_CUENTA_CERRARA || ZT_CUENTAS_CERRARAN  || ZT_NO_ENVIO_01 || ZT_NO_ENVIO_02 || ZT_NO_ENVIO_03 || ZT_NO_ENVIO_04 || ZT_APAGAR_CUENTAS || ZT_CUENTAS_EXPIRARAN || ZT_SUSPENSION_ENVIO)
 describe    __ZT_PERDIDA_CUENTA     Distintas formas de referirse a la cancelación futura de la cuenta
 
-meta        ZT_VARIAS_AMENAZAS_01   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_02 + ZT_EVITAR_CANCELA_03 + ZT_EVITAR_CANCELA_04 + ZT_EVITAR_CANCELA_05 + ZT_EVITAR_CANCELA_06 + ZT_MANTENER_CONTACTOS + ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 1)
+meta        ZT_VARIAS_AMENAZAS_01   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_02 + ZT_EVITAR_CANCELA_03 + ZT_EVITAR_CANCELA_04 + ZT_EVITAR_CANCELA_05 + ZT_EVITAR_CANCELA_06 + ZT_MANTENER_CONTACTOS + __ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO + __ZT_EVITAR_LIMITACION) > 1)
 describe    ZT_VARIAS_AMENAZAS_01   Hay al menos dos amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_01   0.3
 
 # Sólo basta con sumar 0.6 del otro que agregamos
-meta        ZT_VARIAS_AMENAZAS_02   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_02 + ZT_EVITAR_CANCELA_03 + ZT_EVITAR_CANCELA_04 + ZT_EVITAR_CANCELA_05 + ZT_EVITAR_CANCELA_06 + ZT_MANTENER_CONTACTOS + ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO) > 2)
+meta        ZT_VARIAS_AMENAZAS_02   ((ZT_EVITAR_CANCELA_01 + ZT_EVITAR_CANCELA_02 + ZT_EVITAR_CANCELA_03 + ZT_EVITAR_CANCELA_04 + ZT_EVITAR_CANCELA_05 + ZT_EVITAR_CANCELA_06 + ZT_MANTENER_CONTACTOS + __ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_SUSPENSION_ENVIO + __ZT_EVITAR_LIMITACION) > 2) 
 describe    ZT_VARIAS_AMENAZAS_02   Hay al menos tres amenazas bastante serias
 score       ZT_VARIAS_AMENAZAS_02   0.6
 
@@ -222,7 +254,7 @@ meta        ZT_VARIAS_RESTRIC_01    ((ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXC
 describe    ZT_VARIAS_RESTRIC_01    Varias restricciones se ciernen sobre su cuenta
 score       ZT_VARIAS_RESTRIC_01    0.2
 
-meta        ZT_DEMASIADA_ADVERT     ((ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA_01 + ZT_CUENTA_BLOQUEADA_02 + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + __ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_CUENTA_RESTRICTIRA + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
+meta        ZT_DEMASIADA_ADVERT     ((__ZT_PERDERAN_CUENTA + ZT_CANCELACION_CUENTA + __ZT_CERRAREMOS_CUENTA + ZT_CUENTA_CERRARA + ZT_CUENTAS_CERRARAN + ZT_NO_ENVIO_01 + ZT_NO_ENVIO_02 + ZT_NO_ENVIO_03 + ZT_NO_ENVIO_04 + ZT_APAGAR_CUENTAS + ZT_CUENTAS_EXPIRARAN + ZT_CUENTA_BLOQUEADA_01 + ZT_CUENTA_BLOQUEADA_02 + ZT_EXCLUSION_01 + ZT_EXCLUSION_02 + ZT_EXCLUSION_03 + ZT_ACCESO_LIMITADO + ZT_NO_INICIO_SESION + __ZT_NO_ENVIO_RECEP + ZT_MENSAJES_PERDERAN + ZT_TERMINAR_CUENTAS + ZT_CUENTA_RESTRICTIRA + ZT_SUSPENSION_ENVIO + ZT_RETRASO_FUTURO) > 2)
 describe    ZT_DEMASIADA_ADVERT     Hay demasiadas advertencias a diferentes niveles
 score       ZT_DEMASIADA_ADVERT     0.6
 # Fin de AMENAZA
