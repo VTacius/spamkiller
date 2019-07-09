@@ -26,11 +26,12 @@ sub check_for_from_minsal_invalido {
         my $direccion = $msg->get( 'From:addr' );
 
         my $remitente = $msg->get('From:name') ;
-
+        
         Mail::SpamAssassin::Plugin::dbg( "FromMinsalInvalido: From $direccion" );
         Mail::SpamAssassin::Plugin::dbg( "FromMinsalInvalido: Nombre $remitente" );
+        
         # Todo: una cuenta tipo "Info" debería devolver algún puntaje        
-        if (( $remitente =~ m/(ADMIN|POSTMASTER|IT\sOFFICE|WEBMASTER|WEBMAIL|ZIMBRA|HELP|AYUDA|CORREO|MAIL|DESK|MINSAL|SISTEMA|MINISTERIO\sDE\sSALUD|SEGURIDAD|SOPORTE)/i ) && ($direccion !~ m/^[a-z]+[0-9]*\@salud\.gob\.sv/) ){
+        if (( $remitente =~ m/(ADMIN|POSTMASTER|IT\sOFFICE|WEBMASTER|WEBMAIL|ZIMBRA|HELP|AYUDA|CORREO|MAIL|DESK|MINSAL|SISTEMA|MINISTERIO\sDE\sSALUD|SEGURIDAD|SOPORTE|gob\ssv)/i ) && ($direccion !~ m/^[a-z]+[0-9]*\@salud\.gob\.sv/) ){
             Mail::SpamAssassin::Plugin::dbg( "FromMinsalInvalida: Somos alguna especie de spammer" );
             return 1
         }

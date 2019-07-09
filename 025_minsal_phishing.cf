@@ -169,6 +169,9 @@ body        ZT_MANTENER_CONTACTOS   /para\s(?:preservar|mantener|guardar)\s(?:s|
 describe    ZT_MANTENER_CONTACTOS   Para mantener su lista de contactos
 score       ZT_MANTENER_CONTACTOS   0.4
 
+
+## TODO: Muchos de estos podrían ser razones y todo estaría bien, excepto por el hecho que habría que revisar como algo así funcionaría
+
 body        ZT_EVITAR_CANCELA_04    /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singresar\sal\snuevo\ssistema\sde\scorreo/i
 describe    ZT_EVITAR_CANCELA_04    Dónde ingresar al nuevo sistema de correo
 score       ZT_EVITAR_CANCELA_04    0.4
@@ -197,10 +200,19 @@ body        ZT_EVITAR_CANCELA_07    /cancele\s(?:su|la)\ssolicitud\spara/i
 describe    ZT_EVITAR_CANCELA_07    Cancele la solicitud
 score       ZT_EVITAR_CANCELA_07    0.4
 
+# Este podría ser un gran peligro, así que tendré que supervisarle
+# Básicamente, buscamos RAZONES (Ya que acá hablamos de "razones para enviar este correo") que a su vez implican una amenaza
+# Luego, veamos que tenga otras condiciones
+# Esta no debería contar en la suma de amenazas, no creo que debería ser necesario sumarle cuando ya hay otras amenazas más explícitas
+# Y si, exactamente: Esta es una amenaza pasivo-agrevisa. Básicamente, el mejor ejemplo de ello
+# TODO: ¿Es probable que este razonamiento sea muy recursivo
+meta        __ZT_IMPLICITA          (__ZT_SE_CANCELARA  && __ZT_ACCIONES)
+describe    __ZT_IMPLICITA          Retomamos muchas RAZONES que además son amenazas implícitas. En realidad, casi que todas lo son
+
 meta        __ZT_EVITAR_CANCELA     (ZT_EVITAR_CANCELA_01 || ZT_EVITAR_CANCELA_02 || ZT_EVITAR_CANCELA_03 || ZT_EVITAR_CANCELA_04 || ZT_EVITAR_CANCELA_05 || ZT_EVITAR_CANCELA_06 || ZT_EVITAR_CANCELA_07)
 describe    __ZT_EVITAR_CANCELA     Distintas formas de referirse a Evitar cancelación
 
-meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION || ZT_ACCION_OBLIGATORIA)
+meta        __ZT_AMENAZA_PAS_AGRE   (ZT_MANTENER_CONTACTOS || __ZT_EVITAR_CANCELA || __ZT_SUSPENSION || ZT_ACCION_OBLIGATORIA || __ZT_IMPLICITA)
 describe    __ZT_AMENAZA_PAS_AGRE   Distintas forma de amenazas pasivo-agresivo
 
 meta        __ZT_RESTRIC_CUENTA     (ZT_EXCLUSION_01 || ZT_EXCLUSION_02 || ZT_EXCLUSION_03 || ZT_ACCESO_LIMITADO || ZT_NO_INICIO_SESION || __ZT_NO_ENVIO_RECEP || ZT_MENSAJES_PERDERAN || ZT_TERMINAR_CUENTAS || ZT_CUENTA_RESTRICTIRA || ZT_RETRASO_FUTURO || ZT_CUENTA_BLOQUEADA_01 || ZT_CUENTA_BLOQUEADA_02)

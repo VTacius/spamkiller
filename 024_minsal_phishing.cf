@@ -144,9 +144,17 @@ body        ZT_MEJORAR_CUENTA       /se\s(?:añadi|agrega|adiciona)rán\snuevas\
 describe    ZT_MEJORAR_CUENTA       Se agregarán nuevas funciones
 score       ZT_MEJORAR_CUENTA       0.2
 
-body        ZT_EVITAR_SUSPENSION    /evitar\s(?:la|que)(?:\sse)?\s(?:cancele|suspen(?:da|sión))\s(?:d)?el\s(?:centro\sde\sasistencia|servicio)/i
-describe    ZT_EVITAR_SUSPENSION    Evitar que se suspenda del centro de servicio
+body        ZT_EVITAR_SUSPENSION_01 /evitar\s(?:la|que)(?:\sse)?\s(?:cancele|suspen(?:da|sión))\s(?:d)?el\s(?:centro\sde\sasistencia|servicio)/i
+describe    ZT_EVITAR_SUSPENSION_01 Evitar que se suspenda del centro de servicio
+score       ZT_EVITAR_SUSPENSION_01 0.4
 
-meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD || ZT_MEJORAR_CUENTA || ZT_EVITAR_SUSPENSION)
+body        ZT_EVITAR_SUSPENSION_02 /para\s(?:preveni|evita)r\sser\s(?:cancela|suspendi)do/i
+describe    ZT_EVITAR_SUSPENSION_02 Para evitar ser suspendido
+score       ZT_EVITAR_SUSPENSION_02 0.3
+
+meta        __ZT_EVITAR_SUSPENSION  (ZT_EVITAR_SUSPENSION_01 || ZT_EVITAR_SUSPENSION_02)
+describe    __ZT_EVITAR_SUSPENSION  Varias formas para referirse a "Evitar suspensión o cancelación de la cuenta"
+
+meta        __ZT_OBJETIVOS          (__ZT_ACTUALIZAR || ZT_RENOVAR_CUENTA || __ZT_AUMENTAR_CUOTA || __ZT_CONTINUAR_USO || ZT_RENOVAR_CERTS ||  ZT_DESBLOQUEO_CUENTA || ZT_DESBLOQUEO_CUENTA_02 || __ZT_DESBLOQUEO_CUENTA_04 || ZT_DESBLOQUEO_CUENTA_03 || ZT_DESBLOQUEO_CUENTA_05 || __ZT_EVITAR_CANCELA || ZT_PROTEGER_CUENTA || ZT_RESOLVER_PROBLEMA || ZT_MOTIVOS_SEGURIDAD || ZT_MEJORAR_CUENTA || __ZT_EVITAR_SUSPENSION)
 describe    __ZT_OBJETIVOS          Distintos tipos de objetivos, que suelen usarse para motivar al usuario a hacer algo
 # Fin de OBJETIVOS

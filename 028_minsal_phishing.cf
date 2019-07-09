@@ -103,7 +103,7 @@ score       ZT_PREFIRMA_02          0.5
 
 meta        ZT_PREFIRMA_03          (__ZT_OBJETIVOS && ZT_MOTIVA_ACCION)
 describe    ZT_PREFIRMA_03          Inspirada en \#98
-score       ZT_PREFIRMA_03          0.5
+score       ZT_PREFIRMA_03          0.9
 
 meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_ACTUALICE_ADV_02)
 describe    ZT_FIRMA_01             Firma inspirada en \#18
@@ -117,7 +117,7 @@ meta        ZT_FIRMA_03             (__ZTD_HIT_GRACIAS && ZT_AVISO_FINAL && __ZT
 describe    ZT_FIRMA_03             Firma inspirada en \#83
 score       ZT_FIRMA_03             2.0
 
-meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && ZT_ACTUALIZAR_CUENTA &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
+meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && __ZT_ACTUALIZAR_CUENTA &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
 describe    ZT_FIRMA_04             Firma inspirada en \#86
 score       ZT_FIRMA_04             4.0
 
@@ -146,7 +146,11 @@ meta        ZT_FIRMA_10             (ZT_ACTUALIZAR_13 && ZT_AUMENTAR_CUOTA_03 &&
 describe    ZT_FIRMA_10             Firma inspirada en \#110, 
 score       ZT_FIRMA_10             3.0
 
-meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08 || ZT_FIRMA_09 || ZT_FIRMA_10)
+meta        ZT_FIRMA_11             (ZT_QUERIDO_USUARIO && __ZT_LIMITES && __ZT_HAGA_CLICK && __ZT_AUMENTAR_CUOTA)
+describe    ZT_FIRMA_11             Firma inspirada en \#122, se iba directo a spam, pero mejor si se va directo a su casa
+score       ZT_FIRMA_11             3.0
+
+meta        __ZT_FIRMA              (ZT_FIRMA_01 || ZT_FIRMA_02 || ZT_FIRMA_03 || ZT_FIRMA_04 || ZT_FIRMA_05 || ZT_FIRMA_06 || ZT_FIRMA_07 || ZT_FIRMA_08 || ZT_FIRMA_09 || ZT_FIRMA_10 || ZT_FIRMA_11)
 describe    __ZT_FIRMA              Distintas firmas hasta el día de hoy
 
 # Esta es una de mis mejores ideas, sin duda

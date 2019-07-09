@@ -15,6 +15,18 @@ header      FROM_TOO_SHORT_SENDER       eval:check_for_from_too_short_sender()
 describe    FROM_TOO_SHORT_SENDER       El valor de sender es demasiado corto para ser un nombre de usuario o username real
 score       FROM_TOO_SHORT_SENDER       0.4
 
+loadplugin  ReturnPathMismatch          plugins/ReturnPathMismatch.pm
+header      RETURN_PATH_MISMATCH        eval:check_for_return_path_mismatch()
+describe    RETURN_PATH_MISMATCH        Return-Patch no coincide con el From:
+score       RETURN_PATH_MISMATCH        4.4
+
+# Puntuación de reglas en la instalación estándar que no lo han hecho
+score       BAYES_95                   0.1
+score       BAYES_99                   0.1
+score       BAYES_999                  0.1
+score       BAYES_50                   0.1
+score       BAYES_00                   0.1
+
 # Ciertas reglas de pruebas. En algún momento podría ser necesario forzar la calificación de spam, así que usamos estos
 
 body        TEST_PRUEBA_01              /fitzcarrald\w/
