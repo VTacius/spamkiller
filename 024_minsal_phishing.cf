@@ -67,7 +67,7 @@ describe	__ZT_ACTUALIZAR_16		Actualizar su perfil
 body		__ZT_ACTUALIZAR_17		/actualizar\saqu(?:i|í)/i
 describe	__ZT_ACTUALIZAR_17		Actualizar aquí
 
-body		ZT_ACTUALIZAR_18		/para\sla\sactualizaci(?:ó|o)n\smanual/i
+body		ZT_ACTUALIZAR_18		/para\sla\sactualizaci(?:ó|o|.)n\smanual/i
 describe	ZT_ACTUALIZAR_18		Actualización manual
 score		ZT_ACTUALIZAR_18		0.2
 
@@ -122,7 +122,7 @@ describe    ZT_PROTEGER_CUENTA_01  	Para asegurar y proteger su cuenta
 score       ZT_PROTEGER_CUENTA_01  	0.4
 
 # Parece que no, pero tiene todo el sentido necesario
-body		ZT_PROtEGER_CUENTA_02	/favor\sproteja\ssu\scuenta/i
+body		ZT_PROTEGER_CUENTA_02	/favor\sproteja\ssu\scuenta/i
 describe	ZT_PROTEGER_CUENTA_02	Favor proteja su cuenta
 score		ZT_PROTEGER_CUENTA_02	0.4
 

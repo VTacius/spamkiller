@@ -31,7 +31,7 @@ body		ZT_LOS_USUARIOS_01		/todos\slos\susuarios\sactivos/i
 describe	ZT_LOS_USUARIOS_01		Todos los usuarios activos
 score		ZT_LOS_USUARIOS_01		0.2
 
-body		ZT_LOS_USUARIOS_02		/los\susuarios\sen\sl(?:í|i)nea/i
+body		ZT_LOS_USUARIOS_02		/los\susuarios\sen\sl(?:í|i|.)nea/i
 describe	ZT_LOS_USUARIOS_02		Los usuarios en línea
 score		ZT_LOS_USUARIOS_02		0.2
 

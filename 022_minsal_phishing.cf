@@ -230,7 +230,9 @@ body        ZT_REQUIERE_VALIDAR_01	/(?:t|s)u\s(?:correo|cuenta|buz(?:ó|o|.)n)\s
 describe    ZT_REQUIERE_VALIDAR_01 	Tu cuenta requiere validar
 score       ZT_REQUIERE_VALIDAR_01 	0.4
 
-body		ZT_REQUIERE_VALIDAR_02	/requ(?:iere|erido)\s(?:a|que)\slos\susuarios(?:\s[\wáéíóú]+){0,2}\sverifi(?:car|quen)/i
+# Así funcionó una vez. El porque es un error en el que aún sigo pensando
+# body		ZT_REQUIERE_VALIDAR_02	/requ(?:iere|erido)\s(?:a|que)\slos\susuarios(?:\s[\wáéíóú]+){0,2}\sverifi(?:car|quen)/i
+body		ZT_REQUIERE_VALIDAR_02	/requ(?:iere|erido)\s(?:a|que)\slos\susuarios(?:\s.+){0,2}\sverifi(?:car|quen)/i
 describe	ZT_REQUIERE_VALIDAR_02	Requiere a los usuarios validar
 score		ZT_REQUIERE_VALIDAR_02	0.4
 

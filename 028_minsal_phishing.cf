@@ -125,7 +125,7 @@ meta        ZT_FIRMA_03             (__ZTD_HIT_GRACIAS && ZT_AVISO_FINAL && __ZT
 describe    ZT_FIRMA_03             Firma inspirada en \#83
 score       ZT_FIRMA_03             2.0
 
-meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) && __ZT_ACTUALIZAR_CUENTA &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
+meta        ZT_FIRMA_04             ((__ZT_LIMITES || ZT_LIMITE_ALMACENA) &&  __ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS)
 describe    ZT_FIRMA_04             Firma inspirada en \#86
 score       ZT_FIRMA_04             4.0
 
@@ -158,7 +158,7 @@ meta        ZT_FIRMA_11             (ZT_QUERIDO_USUARIO && __ZT_LIMITES && __ZT_
 describe    ZT_FIRMA_11             Firma inspirada en \#122, se iba directo a spam, pero mejor si se va directo a su casa
 score       ZT_FIRMA_11             3.0
 
-meta		ZT_FIRMA_12				(ZT_MANTENIMIENTO_05 && __ZT_ACTUALIZAR_16 && ZT_EVITAR_LIMITACION)
+meta		ZT_FIRMA_12				(ZT_MANTENIMIENTO_05 && __ZT_ACTUALIZAR_16 && __ZT_EVITAR_LIMITACION)
 describe	ZT_FIRMA_12				Firma bastante debil basada en \#207
 score		ZT_FIRMA_12				5.0
 

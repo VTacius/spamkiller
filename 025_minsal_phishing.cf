@@ -178,18 +178,6 @@ score       ZT_MANTENER_CONTACTOS   0.4
 
 ## TODO: Muchos de estos podrían ser razones y todo estaría bien, excepto por el hecho que habría que revisar como algo así funcionaría
 
-body        ZT_EVITAR_CANCELA_04    /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singresar\sal\snuevo\ssistema\sde\scorreo/i
-describe    ZT_EVITAR_CANCELA_04    Dónde ingresar al nuevo sistema de correo
-score       ZT_EVITAR_CANCELA_04    0.4
-
-body        ZT_EVITAR_CANCELA_05    /evitar\s(?:la\sp(?:é|e|.)rdida\sde|perder)\ssu\s(?:buz(?:o|ó|.)n|bandeja|casilla)\sde\s(?:entrada|correo)/i
-describe    ZT_EVITAR_CANCELA_05    Evitar perder su bandeja de entrada
-score       ZT_EVITAR_CANCELA_05    0.4
-
-body        ZT_EVITAR_CANCELA_06    /para\sevitar\sque\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail).+?(?:deshabilit|desconect)(?:e|ad(?:a|o))/i
-describe    ZT_EVITAR_CANCELA_06    Evitar que su cuenta se desconecte
-score       ZT_EVITAR_CANCELA_06    0.5
-
 body        ZT_EVITAR_CANCELA_01    /(?:evitar|prevenir|impedir)\sque\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sse\s(?:deshabilite|desactive|cancele)/i
 describe    ZT_EVITAR_CANCELA_01    Evitar que su cuenta se desactive
 score       ZT_EVITAR_CANCELA_01    0.5
@@ -202,11 +190,23 @@ body        ZT_EVITAR_CANCELA_03    /para\s(?:evitar|impedir|revertir)(?:\s\w+)*
 describe    ZT_EVITAR_CANCELA_03    "Para evitar la suspensión de la cuenta". Es increíble el contexto que esto tiene. 
 score       ZT_EVITAR_CANCELA_03    0.9    
 
+body        ZT_EVITAR_CANCELA_04    /(?:c|d)(?:o|ó|.)(?:nde|mo)(?:\s\w+)?\singresar\sal\snuevo\ssistema\sde\scorreo/i
+describe    ZT_EVITAR_CANCELA_04    Dónde ingresar al nuevo sistema de correo
+score       ZT_EVITAR_CANCELA_04    0.4
+
+body        ZT_EVITAR_CANCELA_05    /evitar\s(?:la\sp(?:é|e|.)rdida\sde|perder)\ssu\s(?:buz(?:o|ó|.)n|bandeja|casilla)\sde\s(?:entrada|correo)/i
+describe    ZT_EVITAR_CANCELA_05    Evitar perder su bandeja de entrada
+score       ZT_EVITAR_CANCELA_05    0.4
+
+body        ZT_EVITAR_CANCELA_06    /para\sevitar\sque\ssu\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail).+?(?:deshabilit|desconect)(?:e|ad(?:a|o))/i
+describe    ZT_EVITAR_CANCELA_06    Evitar que su cuenta se desconecte
+score       ZT_EVITAR_CANCELA_06    0.5
+
 body        ZT_EVITAR_CANCELA_07    /cancele\s(?:su|la)\ssolicitud\spara/i
 describe    ZT_EVITAR_CANCELA_07    Cancele la solicitud
 score       ZT_EVITAR_CANCELA_07    0.4
 
-body 		ZT_EVITAR_CANCELA_08	/para\sevitar(?:\s\w+)?\s(?:cancela|suspen|interrup)(?:ci(?:ó|o)n)(?:es)?/i
+body 		ZT_EVITAR_CANCELA_08	/para\sevitar(?:\s\w+)?\s(?:cancela|suspen|interrup)(?:ci(?:ó|o|.)n)(?:es)?/i
 describe	ZT_EVITAR_CANCELA_08	Para evitar interrupción
 score		ZT_EVITAR_CANCELA_08	0.4
 
