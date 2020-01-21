@@ -80,6 +80,17 @@ body		ZT_ACTUALIZAR_20		/actuali(?:ce|zar)\ssu\sacceso/i
 describe	ZT_ACTUALIZAR_20		Actualice su acceso
 score		ZT_ACTUALIZAR_20		0.2
 
+body		ZT_ACTUALIZAR_21		/actualicen\s(?:su|el)\scorreo/i
+describe	ZT_ACTUALIZAR_21		Actualicen el correo
+score		ZT_ACTUALIZAR_21		0.2
+
+body		ZT_ACTUALIZAR_22		/participar\sen\se(?:ste|l)\sproceso\sde\s(?:verific|actualiz)aci(?:ó|o)n/i
+describe	ZT_ACTUALIZAR_22		Participar en el proceso de verificación
+score		ZT_ACTUALIZAR_22		0.4
+
+meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14 || ZT_ACTUALIZAR_15 || __ZT_ACTUALIZAR_16 || __ZT_ACTUALIZAR_17 || ZT_ACTUALIZAR_18 || ZT_ACTUALIZAR_19 || ZT_ACTUALIZAR_20 || ZT_ACTUALIZAR_21 || ZT_ACTUALIZAR_22)
+describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
+
 body		ZT_MEJORAR_CUENTA_01	/(?:disfrute|goce)\sde\s(?:nueva|reciente)s.*?(?:funcione|caracter.stica)s/i
 describe 	ZT_MEJORAR_CUENTA_01	disfrute de nuevas y emocionates funciones
 score		ZT_MEJORAR_CUENTA_01	0.3
@@ -91,16 +102,13 @@ score       ZT_MEJORAR_CUENTA_02   	0.2
 meta 		__ZT_MEJORAR_CUENTA		(ZT_MEJORAR_CUENTA_01 || ZT_MEJORAR_CUENTA_02)
 describe	__ZT_MEJORAR_CUENTA		Distintas maneras de referirse a mejorar la cuenta
 
-meta        __ZT_ACTUALIZAR         (ZT_ACTUALIZAR_01 || ZT_ACTUALIZAR_02 ||  ZT_ACTUALIZAR_03 || ZT_ACTUALIZAR_04 || ZT_ACTUALIZAR_05 || ZT_ACTUALIZAR_06 || ZT_ACTUALIZAR_07 || __ZT_ACTUALIZAR_08 || ZT_ACTUALIZAR_09 || __ZT_ACTUALIZAR_10 || ZT_ACTUALIZAR_11 || __ZT_ACTUALIZAR_12 || ZT_ACTUALIZAR_13 || ZT_ACTUALIZAR_14 || ZT_ACTUALIZAR_15 || __ZT_ACTUALIZAR_16 || __ZT_ACTUALIZAR_17 || ZT_ACTUALIZAR_18 || ZT_ACTUALIZAR_19 || ZT_ACTUALIZAR_20)
-describe    __ZT_ACTUALIZAR         Distintas formas de referirse a actualizar su cuenta
-
 body        ZT_RENOVAR_CUENTA       /(?:(?:re-*)*valid|renov|actuali(?:c|z)|verifi(?:c|qu)|confirm|activ)(?:e|a)(?:r|ción|do)?(?:\sde)?(?:\s(?:tu|su|la|el))?\s(?:cuenta|correo|buz(?:ó|o|.)n|(?:e-*)*mail)\sde\scorreo/i
 describe    ZT_RENOVAR_CUENTA       Para actualizar su cuenta de correo, una forma muy especifíca y mortal
 score       ZT_RENOVAR_CUENTA       0.4
 
-body        ZT_AUMENTAR_CUOTA       /(?:aument|increment|actualiz)(?:ar|e)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
-describe    ZT_AUMENTAR_CUOTA       Aumentar cuota
-score       ZT_AUMENTAR_CUOTA       0.4
+body        ZT_AUMENTAR_CUOTA_01  	/(?:aument|increment|actualiz)(?:ar|e)(?:\s(?:\w|&|;)+){0,3}\s(?:cuota|l(?:í|i|.)mite|memoria)/i
+describe    ZT_AUMENTAR_CUOTA_01    Aumentar cuota
+score       ZT_AUMENTAR_CUOTA_01    0.4
 
 body        ZT_AUMENTAR_CUOTA_02    /a(?:umen|ctuali)(?:ce|te|(?:t|z)ar)\s(?:el|la)\s(?:tamaño|capacidad|limite)(?:\sde)(?:\ssu)?\s(?:cuenta|buz(?:ó|o|.)n|almacenamiento)/i
 describe    ZT_AUMENTAR_CUOTA_02    Aumentar su capacidad de almacenamiento
@@ -114,7 +122,7 @@ body        ZT_AUMENTAR_CUOTA_04    /obtener\sm(?:á|a)s\sespacio/i
 describe    ZT_AUMENTAR_CUOTA_04    Obtener más espacio
 score       ZT_AUMENTAR_CUOTA_04    0.4
 
-meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03 || ZT_AUMENTAR_CUOTA_04)
+meta        __ZT_AUMENTAR_CUOTA     (ZT_AUMENTAR_CUOTA_01 || ZT_AUMENTAR_CUOTA_02 || ZT_AUMENTAR_CUOTA_03 || ZT_AUMENTAR_CUOTA_04)
 describe    __ZT_AUMENTAR_CUOTA     Distintas formas de referirse a Aumentar cuota
 
 body        ZT_PROTEGER_CUENTA_01	/para\s(?:asegurar|proteger)\s(?:tu|la|su)\s(?:cuenta|buz(?:o|ó)n|webmail)/i

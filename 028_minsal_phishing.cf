@@ -89,7 +89,7 @@ describe    ZT_AMOR_BIBLICO_03      Actualice su cuenta, o le dan formas avanzad
 score       ZT_AMOR_BIBLICO_03      0.6
 
 # Este será otro tipo sobre consecuencia
-meta        ZT_AUMENTADA_CUOTA      (__ZT_LIMITES && ZT_AUMENTAR_CUOTA)
+meta        ZT_AUMENTADA_CUOTA      (__ZT_LIMITES && __ZT_AUMENTAR_CUOTA)
 describe    ZT_AUMENTADA_CUOTA      Sobrepaso los límites, aumente la cuota
 score       ZT_AUMENTADA_CUOTA      0.3
 
@@ -117,7 +117,7 @@ meta        ZT_FIRMA_01             (ZT_ESTE_PDF && ZT_HAGA_FORMULARIO_03 && ZT_
 describe    ZT_FIRMA_01             Firma inspirada en \#18
 score       ZT_FIRMA_01             0.9
 
-meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_01 && ZT_AUMENTAR_CUOTA && ZT_LIMIT_01)
+meta        ZT_FIRMA_02             (__ZTD_HIT_MICROSOFT && __ZTD_HIT_GRACIAS && ZT_ACTUALIZAR_01 && __ZT_AUMENTAR_CUOTA && ZT_LIMIT_01)
 describe    ZT_FIRMA_02             Firma inspirada en \#69
 score       ZT_FIRMA_02             2.0
 

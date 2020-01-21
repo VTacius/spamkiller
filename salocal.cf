@@ -1,4 +1,5 @@
-# This is the right place to customize your installation of SpamAssassin.
+# Do not modify this file
+# See http://wiki.zimbra.com/wiki/SpamAssassin_Customizations
 #
 # See 'perldoc Mail::SpamAssassin::Conf' for details of what can be
 # tweaked.
@@ -18,12 +19,11 @@ header DSPAM_HAM X-DSPAM-Result =~ /^Innocent$/
 describe DSPAM_HAM DSPAM claims it is ham
 score DSPAM_HAM -0.5
 
-trusted_networks 127.0.0.0/8 10.10.20.0/29 10.10.20.81/32 [::1]/128 [fe80::]/64
+trusted_networks 127.0.0.0/8 10.10.20.0/29
 lock_method flock
 
-# accept email from zimbra support and forumns
-def_whitelist_from_rcvd noreply@zimbra.com zimbra.com
-def_whitelist_from_rcvd support@zimbra.com zimbra.com
+# accept email from zimbra support and forums
+whitelist_auth *@zimbra.com
 
 rewrite_header Subject *SPAM* _STARS(*)_
 bayes_auto_learn 1
@@ -31,10 +31,10 @@ bayes_min_spam_num 60
 bayes_min_ham_num 60
 
 
-bayes_store_module              Mail::SpamAssassin::BayesStore::MySQL
-bayes_sql_dsn                   DBI:mysql:zimbra_antispam:host=127.0.0.1:port=7308
-bayes_sql_username              zimbra
-bayes_sql_password              Lg6X3ZUPIphcjzXxKSLFbiulIUc6
+#bayes_store_module              Mail::SpamAssassin::BayesStore::MySQL
+#bayes_sql_dsn                   DBI:mysql:zimbra_antispam:host=127.0.0.1:port=7308
+#bayes_sql_username              zimbra
+#bayes_sql_password              HjjJF112vIz1zK.H8PG8jMW_YcT
 
 clear_headers
 add_header spam Flag _YESNOCAPS_
@@ -49,25 +49,64 @@ score FORGED_FACEBOOK 5 5 5 5
 
 use_pyzor 1
 pyzor_path /usr/bin/pyzor
-pyzor_options --homedir /opt/zimbra/amavisd/.pyzor
+pyzor_options --homedir /opt/zimbra/data/amavisd/.pyzor/
 
-loadplugin Mail::SpamAssassin::Plugin::SPF
+razor_config /opt/zimbra/data/amavisd/.razor/razor-agent.conf
 
-score   URIBL_BLACK             3.250
-score   URIBL_DBL_SPAM          3.250
-score   RCVD_IN_SBL             1.500
-score   RCVD_IN_BL_SPAMCOP_NET  1.500
-score   RCVD_IN_SORBS_SPAM      1.500
-score   RAZOR2_CHECK            3.250
-score   PYZOR_CHECK             3.250
-score   BAYES_999               1.650
-score   BAYES_99                1.350
-score   BAYES_60                1.150
-score   BAYES_50                1.050
-score   BAYES_00                -0.5
-score   RDNS_NONE               1.5
-score   RP_MATCHES_RCVD         -1.8
-score   DNS_FROM_AHBL_RHSBL     0 
-score   SPF_FAIL                2.000
-score   SPF_HELO_FAIL           0.900
-score   SPF_SOFTFAIL            0.900
+ifplugin Mail::SpamAssassin::Plugin::MIMEEval
+  if can(Mail::SpamAssassin::Plugin::MIMEEval::has_check_for_ascii_text_illegal)
+    body     PP_MIME_FAKE_ASCII_TEXT      eval:check_for_ascii_text_illegal()
+    describe PP_MIME_FAKE_ASCII_TEXT  MIME text/plain claims to be ASCII but isn't
+    score    PP_MIME_FAKE_ASCII_TEXT  1.0
+  endif
+
+  if can(Mail::SpamAssassin::Plugin::MIMEEval::has_check_abundant_unicode_ratio)
+    body     PP_TOO_MUCH_UNICODE05      eval:check_abundant_unicode_ratio(0.05)
+    describe PP_TOO_MUCH_UNICODE05      Is text/plain but has many unicode escapes
+    score    PP_TOO_MUCH_UNICODE05      1.0
+
+    body     PP_TOO_MUCH_UNICODE02      eval:check_abundant_unicode_ratio(0.02)
+    describe PP_TOO_MUCH_UNICODE02      Is text/plain but has many unicode escapes
+    score    PP_TOO_MUCH_UNICODE02      0.5
+  endif
+endif
+
+use_dcc 0
+
+ifplugin Mail::SpamAssassin::Plugin::AskDNS
+
+  askdns   __DMARC_POLICY_NONE   _dmarc._AUTHORDOMAIN_ TXT /^v\s*=DMARC1 (?=\s*;) .* ;\s* p\s*=\s*none       \s*(?:;|\z)/x
+  askdns   __DMARC_POLICY_QUAR   _dmarc._AUTHORDOMAIN_ TXT /^v\s*=DMARC1 (?=\s*;) .* ;\s* p\s*=\s*quarantine \s*(?:;|\z)/x
+  askdns   __DMARC_POLICY_REJECT _dmarc._AUTHORDOMAIN_ TXT /^v\s*=DMARC1 (?=\s*;) .* ;\s* p\s*=\s*reject     \s*(?:;|\z)/x
+  
+  meta     DMARC_FAIL_REJECT !(DKIM_VALID_AU || SPF_PASS) && __DMARC_POLICY_REJECT
+  describe DMARC_FAIL_REJECT DMARC validation failed and policy is to reject
+  score    DMARC_FAIL_REJECT 9.0
+  
+  meta     DMARC_FAIL_QUAR   !(DKIM_VALID_AU || SPF_PASS) && __DMARC_POLICY_QUAR
+  describe DMARC_FAIL_QUAR   DMARC validation failed and policy is quarantine
+  score    DMARC_FAIL_QUAR   6.0
+  
+  meta     DMARC_FAIL_NONE   !(DKIM_VALID_AU || SPF_PASS) && __DMARC_POLICY_NONE
+  describe DMARC_FAIL_NONE   DMARC validation failed and policy is none
+  score    DMARC_FAIL_NONE   1.2
+  
+  meta     DMARC_PASS_REJECT DKIM_VALID_AU && SPF_PASS && __DMARC_POLICY_REJECT
+  describe DMARC_PASS_REJECT DMARC validation passed and policy is to reject
+  tflags   DMARC_PASS_REJECT nice
+  score    DMARC_PASS_REJECT -1.2
+  
+  meta     DMARC_PASS_QUAR   DKIM_VALID_AU && SPF_PASS && __DMARC_POLICY_QUAR
+  describe DMARC_PASS_QUAR   DMARC validation passed and policy is quarantine
+  tflags   DMARC_PASS_QUAR   nice
+  score    DMARC_PASS_QUAR   -1.0
+  
+  meta     DMARC_PASS_NONE   DKIM_VALID_AU && SPF_PASS && __DMARC_POLICY_NONE
+  describe DMARC_PASS_NONE   DMARC validation passed and policy is none
+  tflags   DMARC_PASS_NONE   nice
+  score    DMARC_PASS_NONE   -0.6
+
+endif
+
+# See https://bz.apache.org/SpamAssassin/show_bug.cgi?id=7133
+normalize_charset 1

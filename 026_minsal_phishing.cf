@@ -48,9 +48,9 @@ score       ZT_HAGA_CLICK_11        0.3
 body		__ZT_HAGA_CLICK_12		/a\s(?:mediante|(?:trav(?:e|é)(?:s|z)))\sd?el\senlace/i
 describe	__ZT_HAGA_CLICK_12		A travéz del enlace
 
-body		ZT_HAGA_CLICK_13		/siga(?:\s\w+)?\sel\ssiguiente\senlace/i
+body		ZT_HAGA_CLICK_13		/siga(?:\s\w+)?\s(?:la|el)\ssiguiente\s(?:url|enlace)/i
 describe	ZT_HAGA_CLICK_13		Siga el siguiente mensaje
-score		ZT_HAGA_CLICK_13		0.3
+score		ZT_HAGA_CLICK_13		0.4
 
 body		__ZT_HAGA_CLICK_14		/verificar\saqu(?:í|i)/i
 describe	__ZT_HAGA_CLICK_14		Verificar aquí (Es un enlace)
